@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bdaystudio — Tiny corners of the internet</title>
+  <title>bdaystudio - Tiny corners of the internet</title>
   <meta name="description" content="Personalized birthday websites made for someone special.">
   <style>:root{
   --bg:#f7f8fc; --surface:#ffffff; --ink:#202331; --muted:#73778a;
@@ -12,7 +12,7 @@
 }
 *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
 a{text-decoration:none;color:inherit}.nav{height:78px;padding:0 6vw;display:flex;align-items:center;justify-content:space-between;background:rgba(247,248,252,.86);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(230,232,240,.7)}
-.brand{font-weight:800;font-size:1.15rem;letter-spacing:-.04em}.brand span{color:var(--accent);margin-left:4px}.nav-links{display:flex;gap:28px;align-items:center;font-size:.92rem;color:var(--muted)}.nav-links a:hover{color:var(--ink)}
+.brand{display:flex;align-items:center;gap:8px}.brand-logo{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#dfeaff;border:1px solid #cbd8ef;font-size:17px;box-shadow:0 5px 16px rgba(60,90,140,.12)}.brand-name{font-weight:800;font-size:1.15rem;letter-spacing:-.04em}.brand-star{color:var(--accent)}.nav-links{display:flex;gap:28px;align-items:center;font-size:.92rem;color:var(--muted)}.nav-links a:hover{color:var(--ink)}
 .nav-cta,.button{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:12px 19px;font-weight:700;border:1px solid var(--line);transition:.2s}.nav-cta{background:var(--dark);color:white;border-color:var(--dark)}.button:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.button.primary{background:var(--dark);color:white;border-color:var(--dark)}.button.secondary{background:white}
 main{overflow:hidden}.hero{padding:130px 7vw 105px;max-width:1050px;margin:auto;text-align:center}.eyebrow{font-size:.72rem;letter-spacing:.16em;font-weight:800;color:#7f879b;margin-bottom:18px}.hero h1,.order-hero h1{font-size:clamp(3rem,7vw,6.7rem);line-height:.95;letter-spacing:-.07em;margin:0}.hero h1 em,.order-hero h1 em{font-family:Georgia,serif;font-weight:400}.hero-copy{max-width:650px;margin:30px auto;color:var(--muted);font-size:1.08rem}.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.trust-row{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;margin-top:32px;font-size:.82rem;color:#8b90a0}
 .section{padding:105px 7vw;max-width:1250px;margin:auto}.section-heading{display:flex;justify-content:space-between;gap:50px;align-items:end;margin-bottom:45px}.section-heading h2,.section h2{font-size:clamp(2.3rem,4vw,4.2rem);line-height:.98;letter-spacing:-.055em;margin:0}.section-heading>p{max-width:390px;color:var(--muted)}
@@ -151,16 +151,19 @@ body{
 
 .top-checkout{max-width:1180px;margin:14px auto 22px;padding:18px 20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(120deg,#f7f9ff,#fff);display:flex;align-items:center;justify-content:space-between;gap:22px}.top-checkout-copy{max-width:520px}.top-checkout-copy h3{margin:5px 0;font-size:1.05rem}.top-checkout-copy p{margin:0;color:var(--muted);font-size:.75rem;line-height:1.5}.top-checkout-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pay-chip{display:inline-flex;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:inherit;text-decoration:none;font-size:.72rem;font-weight:700}.pay-chip.primary-pay{background:#252838;color:#fff;border-color:#252838}.top-pay-link{font-weight:800!important}
 @media(max-width:800px){.top-checkout{display:block}.top-checkout-actions{justify-content:flex-start;margin-top:12px}}
+.content-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:22px}.content-form{display:grid;gap:12px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#fff}.content-form label{display:grid;gap:7px}.content-form label>span{font-size:.76rem;font-weight:800}.content-form input,.content-form textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font:inherit;background:#fafbfe}.content-form textarea{resize:vertical}.content-form small{font-size:.68rem;color:var(--muted)}.content-note{padding:22px;border:1px solid var(--line);border-radius:22px;background:#f7f9ff;height:max-content}.content-note b{font-size:1rem}.content-note p{font-size:.76rem;color:var(--muted);line-height:1.55}.content-status{margin-top:14px;padding:10px 12px;border-radius:11px;background:#fff;border:1px dashed #cbd8ef;font-size:.72rem;font-weight:700}@media(max-width:800px){.content-grid{grid-template-columns:1fr}}
+.payment-status{margin:12px 0;padding:11px 13px;border-radius:13px;background:#f6f8fc;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.post-payment-upload{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#f8fbff}.post-payment-upload p{font-size:.78rem;color:var(--muted);margin:6px 0 12px}.post-payment-upload input{width:100%;margin:8px 0 10px}.upload-after-payment-note{border:1px dashed var(--line);border-radius:16px;padding:14px;background:#fafbff;display:grid;gap:5px}.upload-after-payment-note span{font-weight:700;font-size:.82rem}.upload-after-payment-note small{color:var(--muted);font-size:.75rem}
 </style>
 </head>
 <body>
   <nav class="nav">
-    <a class="brand" href="index.html">bdaystudio<span>✦</span></a>
+    <a class="brand" href="index.html" aria-label="bdaystudio home"><span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 40 40" width="22" height="22" role="img"><path d="M10 18h20v11a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3V18Z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 18c0-3 3-5 6-3 1.4-3 4.6-3 6 0 1.4-3 4.6-3 6 0 3-2 6 0 6 3v1H8v-1Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 23v5m6-5v5m6-5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-name">bdaystudio</span><span class="brand-star">✦</span></a>
     <div class="nav-links">
       <a href="#templates">Templates</a>
       <a href="#pricing">Pricing</a>
       <a href="#how">How it works</a>
-      <a class="nav-cta" href="order.html">Make one</a>
+      <a class="nav-cta" href="#make-one">Make one</a>
     </div>
   </nav>
 
@@ -170,7 +173,7 @@ body{
       <h1>Tiny corners of the internet,<br><em>made for someone's birthday.</em></h1>
       <p class="hero-copy">Photos. Memories. Music. Inside jokes. Little surprises. We turn them into an interactive birthday experience they can actually keep.</p>
       <div class="hero-actions">
-        <a class="button primary" href="order.html">Make one →</a>
+        <a class="button primary" href="#make-one">Make one →</a>
         <a class="button secondary" href="#templates">Explore templates</a>
       </div>
       <div class="trust-row">
@@ -302,7 +305,7 @@ body{
 <section id="festivals" class="section festival-section">
   <div class="section-heading">
     <div><div class="eyebrow">SEASONAL EXPERIENCES</div><h2>Birthdays aren’t the only reason to celebrate.</h2></div>
-    <p>Seasonal greeting websites for major festivals — featured for a limited time.</p>
+    <p>Seasonal greeting websites for major festivals - featured for a limited time.</p>
   </div>
   <div class="festival-grid">
     <div class="festival-card"><span>FESTIVAL THEME</span><h3>Diwali Wishes</h3><p>A shareable greeting page with lights, wishes, photos and a festive reveal.</p><button class="button secondary festival-demo">Preview theme →</button></div>
@@ -322,9 +325,9 @@ body{
   </div>
 
   <div class="price-grid">
-    <article class="price-card package-selectable" data-package-name="Mini" data-package-price="6">
+    <article class="price-card package-selectable" data-package-name="Mini" data-package-price="5">
       <h3>Mini</h3>
-      <div class="price">$6</div>
+      <div class="price" >$5</div>
       <p>A compact birthday experience.</p>
       <ul>
         <li>1 template</li>
@@ -333,13 +336,13 @@ body{
         <li>1 revision</li>
         <li><b>7-day deployment included</b></li>
       </ul>
-      <button class="button secondary package-btn" data-package="Mini" data-price="6">Choose Mini →</button>
+      <button class="button secondary package-btn" data-package="Mini" data-price="5">Choose Mini →</button>
     </article>
 
-    <article class="price-card featured package-selectable" data-package-name="Classic" data-package-price="12">
+    <article class="price-card featured package-selectable" data-package-name="Classic" data-package-price="9">
       <div class="badge">MOST FLEXIBLE</div>
       <h3>Classic</h3>
-      <div class="price">$12</div>
+      <div class="price" >$9</div>
       <p>The full template experience.</p>
       <ul>
         <li>Multiple sections</li>
@@ -348,12 +351,12 @@ body{
         <li>2 revisions</li>
         <li><b>30-day deployment included</b></li>
       </ul>
-      <button class="button primary package-btn" data-package="Classic" data-price="12">Choose Classic →</button>
+      <button class="button primary package-btn" data-package="Classic" data-price="9">Choose Classic →</button>
     </article>
 
-    <article class="price-card package-selectable" data-package-name="Deluxe" data-package-price="22">
+    <article class="price-card package-selectable" data-package-name="Deluxe" data-package-price="15">
       <h3>Deluxe</h3>
-      <div class="price">$22</div>
+      <div class="price" >$15</div>
       <p>More personalization and surprises.</p>
       <ul>
         <li>Up to 30 photos</li>
@@ -362,12 +365,12 @@ body{
         <li>3 revisions</li>
         <li><b>3-month deployment included</b></li>
       </ul>
-      <button class="button secondary package-btn" data-package="Deluxe" data-price="22">Choose Deluxe →</button>
+      <button class="button secondary package-btn" data-package="Deluxe" data-price="15">Choose Deluxe →</button>
     </article>
 
-    <article class="price-card package-selectable" data-package-name="Custom" data-package-price="30">
+    <article class="price-card package-selectable" data-package-name="Custom" data-package-price="0">
       <h3>Custom</h3>
-      <div class="price">$30+</div>
+      <div class="price" >Custom</div>
       <p>A mixed or fully custom experience.</p>
       <ul>
         <li>Custom sections</li>
@@ -376,7 +379,7 @@ body{
         <li>Revisions by scope</li>
         <li><b>1-year deployment included</b></li>
       </ul>
-      <button class="button secondary package-btn" data-package="Custom" data-price="30">Start Custom →</button>
+      <a class="button secondary" href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Discuss on Instagram →</a>
     </article>
   </div>
 
@@ -388,16 +391,16 @@ body{
     </div>
     <div class="deployment-options">
       <label class="choice-card">
-        <input type="radio" name="deployment" value="30-day extension" data-price="3">
-        <span><b>+30 days</b><small>+$3</small></span>
+        <input type="radio" name="deployment" value="30-day extension" data-price="2">
+        <span><b>+30 days</b><small> +$2</small></span>
       </label>
       <label class="choice-card">
-        <input type="radio" name="deployment" value="90-day extension" data-price="7">
-        <span><b>+90 days</b><small>+$7</small></span>
+        <input type="radio" name="deployment" value="90-day extension" data-price="5">
+        <span><b>+90 days</b><small> +$5</small></span>
       </label>
       <label class="choice-card">
-        <input type="radio" name="deployment" value="1-year extension" data-price="15">
-        <span><b>+1 year</b><small>+$15</small></span>
+        <input type="radio" name="deployment" value="1-year extension" data-price="10">
+        <span><b>+1 year</b><small> +$10</small></span>
       </label>
     </div>
   </div>
@@ -407,24 +410,24 @@ body{
     <h3>Add exactly what you need.</h3>
     <div class="addon-grid">
       <label class="addon selectable-addon">
-        <input type="checkbox" data-addon="Extra 10 photos" data-price="2">
-        <span><b>Extra 10 photos</b><small>+$2</small></span>
+        <input type="checkbox" data-addon="Extra 10 photos" data-price="1">
+        <span><b>Extra 10 photos</b><small>+$1</small></span>
       </label>
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Extra revision" data-price="2">
         <span><b>Extra revision</b><small>+$2</small></span>
       </label>
       <label class="addon selectable-addon">
-        <input type="checkbox" data-addon="Custom section" data-price="4">
-        <span><b>Custom section</b><small>+$4+</small></span>
+        <input type="checkbox" data-addon="Custom section" data-price="3">
+        <span><b>Custom section</b><small>+$3+</small></span>
       </label>
       <label class="addon selectable-addon">
-        <input type="checkbox" data-addon="Custom interaction" data-price="5">
-        <span><b>Custom interaction</b><small>+$5+</small></span>
+        <input type="checkbox" data-addon="Custom interaction" data-price="4">
+        <span><b>Custom interaction</b><small>+$4+</small></span>
       </label>
       <label class="addon selectable-addon">
-        <input type="checkbox" data-addon="Rush delivery" data-price="5">
-        <span><b>Rush delivery</b><small>+$5+</small></span>
+        <input type="checkbox" data-addon="Rush delivery" data-price="4">
+        <span><b>Rush delivery</b><small>+$4+</small></span>
       </label>
     </div>
     <p class="pricing-note">Add-ons can be selected before checkout. Items marked “+” may vary depending on the requested scope.</p>
@@ -475,7 +478,7 @@ body{
         <a href="#checkout" class="top-pay-link">Pay on bdaystudio →</a>
 <a href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Ko-fi ↗</a>
         <a href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Instagram ↗</a>
-        <a href="order.html">Order a website →</a>
+        <a href="#make-one">Order a website →</a>
       </div>
     </section>
   
@@ -498,35 +501,59 @@ body{
   </div>
 </div>
 
+<section id="content-details" class="section content-section">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">YOUR CONTENT</div>
+      <h2>Tell us what goes on the website.</h2>
+      <p>Before payment, give us the details needed to create the order. After payment, you will upload the actual photos, audio and videos into the private order folder.</p>
+    </div>
+  </div>
+  <div class="content-grid">
+    <div class="content-form">
+      <label><span>Your email *</span><input id="customerEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
+      <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name"></label>
+      <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?"></textarea></label>
+      <div class="upload-after-payment-note"><span>Photos / videos / audio</span><small>Upload these after PayPal payment. You can select multiple files in the checkout step.</small></div>
+      
+      <label><span>Extra notes</span><textarea id="orderNotes" rows="4" placeholder="Colours, inside jokes, sections, anything else..."></textarea></label>
+    </div>
+    <aside class="content-note">
+      <b>What happens to your files?</b>
+      <p>Order details are saved in Supabase. After payment, uploaded media goes into a private order-specific Storage folder.</p>
+      <p>Customers do not receive source files. The finished birthday website is delivered as its own Vercel link.</p>
+      <div class="content-status" id="contentStatus">Nothing uploaded yet</div>
+    </aside>
+  </div>
+</section>
+
 <div class="payment-modal" id="paymentModal" aria-hidden="true">
   <div class="theme-backdrop" data-close-payment></div>
   <div class="payment-window">
-    <button class="modal-close" data-close-payment>×</button>
+    <button class="modal-close" data-close-payment aria-label="Close checkout">×</button>
     <div class="eyebrow">CHECKOUT</div>
     <h2>Make it theirs.</h2>
     <p id="paymentSummary">Choose a package and theme to continue.</p>
-    <div class="payment-region">
-      <button class="region-btn selected" data-region="international">🌎 International</button>
-      <button class="region-btn" data-region="india">🇮🇳 India</button>
-    </div>
     <div class="payment-methods" id="internationalMethods">
-      <button class="payment-method selected" id="paypalPay">
+      <button class="payment-method selected" id="paypalPay" type="button">
         <b>Pay with PayPal</b>
-        <small>International payments</small>
+        <small>Secure website checkout in USD</small>
       </button>
-      <a class="payment-method" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">
+      <a class="payment-method" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener" id="kofiCheckoutLink">
         <b>Pay with Ko-fi</b>
-        <small>Continue to bdaystudio on Ko-fi</small>
+        <small>Alternative payment route</small>
       </a>
     </div>
-    <div class="payment-methods" id="indiaMethods" style="display:none">
-      <button class="payment-method selected" id="razorpayPay">
-        <b>Pay with UPI / Card / Netbanking</b>
-        <small>Indian checkout via Razorpay</small>
-      </button>
+    <div id="paypalStatus" class="payment-status" aria-live="polite">PayPal is ready for sandbox testing.</div>
+    <button class="button primary full-btn" id="paypalStartBtn" type="button">Continue with PayPal →</button>
+    <div id="postPaymentUpload" class="post-payment-upload" hidden>
+      <b>Payment received. Upload your media.</b>
+      <p>Your photos, audio and videos are stored in a private folder for this order.</p>
+      <input id="postPaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple>
+      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected files</button>
+      <div id="uploadStatus" class="payment-status" aria-live="polite"></div>
     </div>
-    <button class="button primary full-btn" id="demoCheckout">Continue to payment →</button>
-    <small class="payment-note">This prototype does not collect card/payment details. The production checkout will open the configured payment gateway securely.</small>
+    <small class="payment-note">Your card/payment details are handled by PayPal. bdaystudio never asks you to paste card details into this site.</small>
   </div>
 </div>
 
@@ -535,6 +562,8 @@ body{
     <span>made for the people worth celebrating.</span>
   </footer>
 
+<script async src="https://www.sandbox.paypal.com/web-sdk/v6/core" onload="window.dispatchEvent(new Event('paypal-sdk-ready'))"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
   const modal = document.getElementById('themeModal');
@@ -546,31 +575,30 @@ body{
   const selectedPackage = document.getElementById('selectedPackage');
   const paymentModal = document.getElementById('paymentModal');
   const paymentSummary = document.getElementById('paymentSummary');
+  const paymentStatus = document.getElementById('paypalStatus');
+  const paypalStartBtn = document.getElementById('paypalStartBtn');
+  const uploadBox = document.getElementById('postPaymentUpload');
+  const uploadInput = document.getElementById('postPaymentFiles');
+  const uploadButton = document.getElementById('uploadAfterPayment');
+  const uploadStatus = document.getElementById('uploadStatus');
 
   let currentTheme = '';
+  let currentOrder = null;
+  let paypalSdk = null;
+  let paypalSession = null;
+  let supabaseClient = null;
 
   const previews = {
-    neon: fullPreview("NEON MEMORIES","neon","A glowing birthday story","This demo shows the full flow: intro → memories → photo wall → message → surprise → closing.",["Intro / animated reveal","Memory cards","Photo gallery","Birthday letter","Music controls","Surprise reveal"]),
-    terminal: fullPreview("TERMINAL BIRTHDAY","terminal","$ birthday --init","A playful command-line experience with commands, hidden files, memories and a final message.",["Terminal intro","Interactive commands","Hidden /secret folder","Memory log","Photo reveal","Final message"]),
-    os: fullPreview("BIRTHDAY OS","os","Welcome back.","A mini desktop experience where every window opens another part of the birthday story.",["Desktop home","About / profile window","Photo viewer","Playlist window","Memory notes","Secret app"]),
-    royal: fullPreview("ROYAL STAGE","royal","The celebration begins.","A cinematic birthday presentation with curtains, chapters, a letter and a final reveal.",["Curtain opening","Title reveal","Timeline / chapters","Photo gallery","Birthday letter","Final surprise"]),
-    piano: fullPreview("PIANO RECITAL","piano","For you, with love.","A musical scrapbook where the visitor explores memories, notes and a final dedication.",["Musical intro","Interactive piano","Memory cards","Photo scrapbook","Dedication letter","Closing scene"]),
-    custom: fullPreview("CUSTOM / MIX","custom","Your idea, your way.","A starting canvas showing the kinds of sections and interactions that can be mixed into a custom build.",["Choose base theme","Custom sections","Custom interaction","Photos / media","Special request","Final reveal"])
+    neon: fullPreview('NEON MEMORIES','neon','A glowing birthday story','This demo shows the full flow: intro → memories → photo wall → message → surprise → closing.', ['Intro / animated reveal','Memory cards','Photo gallery','Birthday letter','Music controls','Surprise reveal']),
+    terminal: fullPreview('TERMINAL BIRTHDAY','terminal','$ birthday --init','A playful command-line experience with commands, hidden files, memories and a final message.', ['Terminal intro','Interactive commands','Hidden /secret folder','Memory log','Photo reveal','Final message']),
+    os: fullPreview('BIRTHDAY OS','os','Welcome back.','A mini desktop experience where every window opens another part of the birthday story.', ['Desktop home','About / profile window','Photo viewer','Playlist window','Memory notes','Secret app']),
+    royal: fullPreview('ROYAL STAGE','royal','The celebration begins.','A cinematic birthday presentation with curtains, chapters, a letter and a final reveal.', ['Curtain opening','Title reveal','Timeline / chapters','Photo gallery','Birthday letter','Final surprise']),
+    piano: fullPreview('PIANO RECITAL','piano','For you, with love.','A musical scrapbook where the visitor explores memories, notes and a final dedication.', ['Musical intro','Interactive piano','Memory cards','Photo scrapbook','Dedication letter','Closing scene']),
+    custom: fullPreview('CUSTOM / MIX','custom','Your idea, your way.','A starting canvas showing the kinds of sections and interactions that can be mixed into a custom build.', ['Choose base theme','Custom sections','Custom interaction','Photos / media','Special request','Final reveal'])
   };
 
   function fullPreview(label, type, title, description, sections) {
-    return `<div class="full-preview">
-      <div class="fake-browser">
-        <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="browser-url">bdaystudio.demo/${type}</span></div>
-        <div class="demo-site ${type}">
-          <div class="demo-nav"><b>${label}</b><span>memories</span><span>photos</span><span>message</span></div>
-          <div class="demo-hero"><small>MADE FOR SOMEONE SPECIAL</small><h4>${title}</h4><p>${description}</p><button class="demo-btn">Begin the experience →</button></div>
-          <div class="demo-section"><small>WHAT'S INSIDE</small><div class="demo-grid">${sections.map((x,i)=>`<div class="demo-tile"><span>0${i+1}</span><b>${x}</b><p>Interactive demo section</p></div>`).join("")}</div></div>
-          <div class="demo-message"><small>A LITTLE MESSAGE</small><h5>“Some people deserve an entire website.”</h5><p>Generic placeholder content — your real order replaces this with the recipient's memories, photos and message.</p></div>
-          <div class="demo-footer">made with bdaystudio · demo experience</div>
-        </div>
-      </div>
-    </div>`;
+    return `<div class="full-preview"><div class="fake-browser"><div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="browser-url">bdaystudio.demo/${type}</span></div><div class="demo-site ${type}"><div class="demo-nav"><b>${label}</b><span>memories</span><span>photos</span><span>message</span></div><div class="demo-hero"><small>MADE FOR SOMEONE SPECIAL</small><h4>${title}</h4><p>${description}</p><button class="demo-btn" type="button">Begin the experience →</button></div><div class="demo-section"><small>WHAT'S INSIDE</small><div class="demo-grid">${sections.map((x,i)=>`<div class="demo-tile"><span>0${i+1}</span><b>${x}</b><p>Interactive demo section</p></div>`).join('')}</div></div><div class="demo-message"><small>A LITTLE MESSAGE</small><h5>“Some people deserve an entire website.”</h5><p>Generic placeholder content - your real order replaces this with the recipient's memories, photos and message.</p></div><div class="demo-footer">made with bdaystudio · demo experience</div></div></div></div>`;
   }
 
   function openTheme(card) {
@@ -589,138 +617,268 @@ body{
     document.body.style.overflow = '';
   }
 
-  document.querySelectorAll('.template-card').forEach(card => {
-    card.addEventListener('click', () => openTheme(card));
-  });
+  document.querySelectorAll('.template-card').forEach(card => card.addEventListener('click', () => openTheme(card)));
   document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeTheme));
 
   chooseThemeBtn.addEventListener('click', () => {
     selectedTheme.textContent = previewTitle.textContent;
     closeTheme();
-    document.getElementById('make-one').scrollIntoView({behavior:'smooth'});
-  });
-
-  let packagePrice = 0;
-  let deploymentPrice = 0;
-
-  function updateOrder() {
-    // Always derive prices from the actual selected DOM controls.
-    // This prevents stale totals when package/deployment/add-ons are changed.
-    const selectedPkgCard = document.querySelector('.package-selectable.selected');
-    packagePrice = selectedPkgCard
-      ? Number(selectedPkgCard.dataset.packagePrice || 0)
-      : 0;
-
-    const deployment = document.querySelector('input[name="deployment"]:checked');
-    deploymentPrice = deployment ? Number(deployment.dataset.price || 0) : 0;
-
-    const deploymentText = deployment
-      ? `${deployment.value} · +$${deploymentPrice}`
-      : 'None';
-    const deploymentEl = document.getElementById('selectedDeployment');
-    if (deploymentEl) deploymentEl.textContent = deploymentText;
-
-    const checked = [...document.querySelectorAll('.selectable-addon input:checked')];
-    const addonTotal = checked.reduce(
-      (sum, input) => sum + Number(input.dataset.price || 0),
-      0
-    );
-
-    const addonText = checked.length
-      ? checked.map(input => `${input.dataset.addon} (+$${Number(input.dataset.price || 0)})`).join(', ')
-      : 'None';
-    const addonEl = document.getElementById('selectedAddons');
-    if (addonEl) addonEl.textContent = addonText;
-
-    const total = packagePrice + deploymentPrice + addonTotal;
-    const totalEl = document.getElementById('orderTotal');
-    if (totalEl) {
-      totalEl.textContent = packagePrice ? `$${total.toFixed(2)}` : '$0.00';
-    }
-
-    // Keep the selected package text synchronized too.
-    if (selectedPkgCard && selectedPackage) {
-      selectedPackage.textContent =
-        `${selectedPkgCard.dataset.packageName} · $${packagePrice.toFixed(2)}`;
-    }
-
-    // Keep card highlighting synchronized.
-    document.querySelectorAll('.package-selectable').forEach(card => {
-      card.classList.toggle('selected', card === selectedPkgCard);
-    });
-
-    return total;
-  }
-
-  document.querySelectorAll('.package-btn').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      event.preventDefault();
-      document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
-      btn.closest('.package-selectable').classList.add('selected');
-      updateOrder();
-      document.getElementById('make-one').scrollIntoView({behavior:'smooth'});
-    });
-  });
-
-  document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => {
-    input.addEventListener('change', () => updateOrder());
-  });
-
-  // Initialize the order summary on first load.
-  updateOrder();
-
-  document.getElementById('sitePaymentBtn').addEventListener('click', () => {
-    const theme = selectedTheme.textContent;
-    const pkg = selectedPackage.textContent;
-    if (!packagePrice || theme === 'Choose a demo above') {
-      alert('Please choose a theme and a package first.');
-      return;
-    }
-    paymentSummary.textContent = `${theme} · ${pkg} · ${document.getElementById('orderTotal').textContent}. Choose how you'd like to pay.`;
-    paymentModal.classList.add('open');
-    paymentModal.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-  });
-
-  document.querySelectorAll('[data-close-payment]').forEach(el => {
-    el.addEventListener('click', () => {
-      paymentModal.classList.remove('open');
-      paymentModal.setAttribute('aria-hidden','true');
-      document.body.style.overflow = '';
-    });
-  });
-
-  document.getElementById('demoCheckout').addEventListener('click', () => {
-    alert('Direct payment checkout is ready for gateway integration. In production, this button will open the configured payment gateway and create the bdaystudio order after successful payment.');
-  });
-
-
-
-  document.querySelectorAll('.region-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.region-btn').forEach(x => x.classList.remove('selected'));
-      btn.classList.add('selected');
-      const india = btn.dataset.region === 'india';
-      document.getElementById('internationalMethods').style.display = india ? 'none' : 'grid';
-      document.getElementById('indiaMethods').style.display = india ? 'grid' : 'none';
-    });
-  });
-
-
-  // Order-builder fallback: any theme chooser updates the order immediately.
-  document.addEventListener('click', (event) => {
-    const chooser = event.target.closest('[data-theme], .theme-card, .theme-option, [data-theme-name]');
-    if (!chooser) return;
-    const name = chooser.dataset.themeName || chooser.dataset.theme || chooser.querySelector('h3,h4,b')?.textContent?.trim();
-    if (!name || !document.getElementById('selectedTheme')) return;
-    document.getElementById('selectedTheme').textContent = name;
+    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
     updateOrder();
   });
 
+  function getSelectedPackage() {
+    return document.querySelector('.package-selectable.selected');
+  }
 
+  function getSelectedAddons() {
+    return [...document.querySelectorAll('.selectable-addon input:checked')].map(input => input.dataset.addon);
+  }
+
+  function getTotal() {
+    const pkg = getSelectedPackage();
+    const packagePrice = pkg ? Number(pkg.dataset.packagePrice || 0) : 0;
+    const deployment = document.querySelector('input[name="deployment"]:checked');
+    const deploymentPrice = deployment ? Number(deployment.dataset.price || 0) : 0;
+    const addonTotal = [...document.querySelectorAll('.selectable-addon input:checked')]
+      .reduce((sum, input) => sum + Number(input.dataset.price || 0), 0);
+    return Number((packagePrice + deploymentPrice + addonTotal).toFixed(2));
+  }
+
+  function updateOrder() {
+    const pkg = getSelectedPackage();
+    const deployment = document.querySelector('input[name="deployment"]:checked');
+    const addons = [...document.querySelectorAll('.selectable-addon input:checked')];
+    const packagePrice = pkg ? Number(pkg.dataset.packagePrice || 0) : 0;
+    const deploymentPrice = deployment ? Number(deployment.dataset.price || 0) : 0;
+    const addonTotal = addons.reduce((sum, input) => sum + Number(input.dataset.price || 0), 0);
+    const total = Number((packagePrice + deploymentPrice + addonTotal).toFixed(2));
+
+    document.getElementById('selectedDeployment').textContent = deployment
+      ? `${deployment.value} - +$${deploymentPrice.toFixed(2)}` : 'None';
+    document.getElementById('selectedAddons').textContent = addons.length
+      ? addons.map(input => `${input.dataset.addon} (+$${Number(input.dataset.price).toFixed(2)})`).join(', ')
+      : 'None';
+    document.getElementById('orderTotal').textContent = `$${total.toFixed(2)}`;
+
+    if (pkg) {
+      selectedPackage.textContent = `${pkg.dataset.packageName} - $${packagePrice.toFixed(2)}`;
+    } else {
+      selectedPackage.textContent = 'Choose a package';
+    }
+
+    document.querySelectorAll('.package-selectable').forEach(card => card.classList.toggle('selected', card === pkg));
+    return total;
+  }
+
+  // Make the entire package card clickable, while keeping the CTA usable.
+  document.querySelectorAll('.package-selectable').forEach(card => {
+    card.addEventListener('click', event => {
+      if (event.target.closest('a')) return;
+      if (card.dataset.packageName === 'Custom') {
+        window.open('https://instagram.com/creative_bdays.website', '_blank', 'noopener');
+        return;
+      }
+      document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
+      card.classList.add('selected');
+      updateOrder();
+      document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  document.querySelectorAll('.package-btn').forEach(btn => btn.addEventListener('click', event => {
+    event.preventDefault();
+    const card = btn.closest('.package-selectable');
+    if (!card || card.dataset.packageName === 'Custom') return;
+    document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
+    card.classList.add('selected');
+    updateOrder();
+    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+
+  document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => input.addEventListener('change', updateOrder));
+  updateOrder();
+
+  async function getConfig() {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error('Could not load checkout configuration');
+    return res.json();
+  }
+
+  async function ensureSupabase() {
+    if (supabaseClient) return supabaseClient;
+    const config = await getConfig();
+    supabaseClient = window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey);
+    return supabaseClient;
+  }
+
+  async function ensurePayPal() {
+    if (paypalSdk) return paypalSdk;
+    if (!window.paypal) throw new Error('PayPal SDK has not loaded yet. Please wait a moment and try again.');
+    const config = await getConfig();
+    paypalSdk = await window.paypal.createInstance({
+      clientId: config.paypalClientId,
+      components: ['paypal-payments'],
+      pageType: 'checkout'
+    });
+    const methods = await paypalSdk.findEligibleMethods({currencyCode: 'USD'});
+    if (!methods.isEligible('paypal')) throw new Error('PayPal is not eligible for this browser/account.');
+
+    paypalSession = paypalSdk.createPayPalOneTimePaymentSession({
+      onApprove: async ({orderId}) => {
+        paymentStatus.textContent = 'Payment approved. Verifying payment...';
+        const res = await fetch('/api/orders/capture', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({paypalOrderId: orderId, localOrderId: currentOrder.localOrderId})
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Payment capture failed');
+        paymentStatus.textContent = 'Payment received. Your order is saved.';
+        uploadBox.hidden = false;
+        paypalStartBtn.hidden = true;
+        await preparePostPaymentUpload();
+      },
+      onCancel: () => { paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.'; },
+      onError: error => { console.error(error); paymentStatus.textContent = 'PayPal checkout encountered an error. Please try again.'; }
+    });
+    return paypalSdk;
+  }
+
+  async function createLocalAndPayPalOrder() {
+    const pkg = getSelectedPackage();
+    if (!pkg) throw new Error('Choose a package first.');
+    const theme = selectedTheme.textContent.trim();
+    if (!theme || theme === 'Choose a demo above') throw new Error('Choose a theme first.');
+
+    const customerEmail = document.getElementById('customerEmail').value.trim();
+    const recipientName = document.getElementById('recipientName').value.trim();
+    const birthdayMessage = document.getElementById('birthdayMessage').value.trim();
+    const notes = document.getElementById('orderNotes').value.trim();
+    if (!customerEmail || !recipientName || !birthdayMessage) throw new Error('Fill in your email, recipient name and birthday message first.');
+
+    const deployment = document.querySelector('input[name="deployment"]:checked')?.value || '';
+    const addons = getSelectedAddons();
+    const res = await fetch('/api/orders/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({customerEmail, recipientName, birthdayMessage, notes, theme, packageName: pkg.dataset.packageName, deployment, addons})
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not create order');
+    currentOrder = data;
+    return {orderId: data.id};
+  }
+
+  paypalStartBtn.addEventListener('click', async () => {
+    try {
+      paypalStartBtn.disabled = true;
+      paymentStatus.textContent = 'Opening PayPal...';
+      await ensurePayPal();
+      await paypalSession.start({presentationMode: 'auto'}, createLocalAndPayPalOrder());
+    } catch (error) {
+      console.error(error);
+      paymentStatus.textContent = error.message || 'Could not start PayPal checkout.';
+      paypalStartBtn.disabled = false;
+    }
+  });
+
+  async function preparePostPaymentUpload() {
+    uploadStatus.textContent = 'Select your photos, videos or audio, then upload them here.';
+  }
+
+  uploadButton.addEventListener('click', async () => {
+    try {
+      if (!currentOrder?.localOrderId) throw new Error('Order is not available.');
+      const files = [...uploadInput.files];
+      if (!files.length) throw new Error('Choose at least one file.');
+      if (files.some(file => file.size > 50 * 1024 * 1024)) throw new Error('Each file must be 50 MB or smaller.');
+      uploadButton.disabled = true;
+      uploadStatus.textContent = 'Preparing secure upload...';
+
+      const res = await fetch('/api/uploads/create', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({orderId: currentOrder.localOrderId, files: files.map(file => ({name:file.name,type:file.type,size:file.size}))})
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not prepare uploads');
+
+      const client = await ensureSupabase();
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const target = data.uploads[i];
+        uploadStatus.textContent = `Uploading ${i + 1} of ${files.length}...`;
+        const {error} = await client.storage.from('order-media').uploadToSignedUrl(target.path, target.token, file, {contentType: file.type});
+        if (error) throw error;
+      }
+
+      const done = await fetch('/api/uploads/complete', {
+        method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({orderId: currentOrder.localOrderId})
+      });
+      if (!done.ok) throw new Error('Files uploaded, but the order could not be marked complete.');
+      uploadStatus.textContent = 'All files uploaded. Your bdaystudio order is ready for us to build.';
+      document.getElementById('contentStatus').textContent = `${files.length} file${files.length === 1 ? '' : 's'} uploaded successfully`;
+    } catch (error) {
+      console.error(error);
+      uploadStatus.textContent = error.message || 'Upload failed. Please try again.';
+    } finally {
+      uploadButton.disabled = false;
+    }
+  });
+
+  document.getElementById('sitePaymentBtn').addEventListener('click', () => {
+    try {
+      const total = updateOrder();
+      const pkg = getSelectedPackage();
+      if (!pkg) throw new Error('Please choose a package.');
+      if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') throw new Error('Please choose a theme.');
+      const email = document.getElementById('customerEmail').value.trim();
+      const recipient = document.getElementById('recipientName').value.trim();
+      const message = document.getElementById('birthdayMessage').value.trim();
+      if (!email || !recipient || !message) {
+        document.getElementById('content-details').scrollIntoView({behavior:'smooth'});
+        throw new Error('Please fill in your email, recipient name and birthday message first.');
+      }
+      paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
+      paymentStatus.textContent = 'Preparing secure PayPal checkout...';
+      paypalStartBtn.hidden = false;
+      paypalStartBtn.disabled = false;
+      uploadBox.hidden = true;
+      paymentModal.classList.add('open');
+      paymentModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      ensurePayPal().catch(error => {
+        paymentStatus.textContent = error.message || 'PayPal could not be initialized yet.';
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+
+  document.querySelectorAll('[data-close-payment]').forEach(el => el.addEventListener('click', () => {
+    paymentModal.classList.remove('open');
+    paymentModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }));
+
+  const kofiCheckoutLink = document.getElementById('kofiCheckoutLink');
+  kofiCheckoutLink.addEventListener('click', () => {
+    const pkg = getSelectedPackage()?.dataset.packageName || 'bdaystudio';
+    const links = {Mini:'https://ko-fi.com/bdaystudio', Classic:'https://ko-fi.com/bdaystudio', Deluxe:'https://ko-fi.com/bdaystudio'};
+    kofiCheckoutLink.href = links[pkg] || 'https://ko-fi.com/bdaystudio';
+  });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeTheme(); paymentModal.classList.remove('open'); document.body.style.overflow=''; }
+    if (e.key === 'Escape') {
+      closeTheme();
+      paymentModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  window.addEventListener('paypal-sdk-ready', () => {
+    paymentStatus.textContent = 'PayPal checkout is loaded.';
   });
 })();
 </script>

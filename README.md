@@ -1,43 +1,51 @@
-# bdaystudio production starter
+# bdaystudio - v1 production build
 
-This is the starting backend structure for the bdaystudio storefront.
+## Current flow
 
-## What is already prepared
+Website -> choose theme -> choose package -> deployment extension -> add-ons -> customer details -> PayPal sandbox -> payment verified -> private media upload -> order ready for build.
 
-- Current bdaystudio showcase as `index.html`
-- Supabase database schema
-- Private Supabase Storage bucket for order media
-- Server-side PayPal create/capture routes
-- Server-side Razorpay order creation + signed webhook route
-- Server-side order creation route
-- Environment-variable template
-- Vercel-compatible `/api` structure
+Ko-fi remains a separate alternative route.
+Custom orders go to Instagram.
+Razorpay is intentionally not wired in yet.
 
-## What you need to do
+## Supabase
 
-1. Create the Supabase project.
-2. Run `supabase/schema.sql` in Supabase SQL Editor.
-3. Create PayPal developer/sandbox credentials.
-4. Create Razorpay credentials.
-5. Create/connect the Vercel project.
-6. Add the variables from `.env.example` to Vercel.
-7. Test payments in sandbox/test mode before production.
-8. Add production credentials only after the checkout flow is tested.
+Run `supabase/schema.sql` in Supabase SQL Editor. It is safe to re-run because it uses `if not exists` and `add column if not exists` for the new fields.
 
-## Security
+Storage bucket:
+- `order-media` (private)
 
-Never commit `.env`, PayPal secrets, Razorpay secrets, or the Supabase secret key.
+## Vercel environment variables
 
-The Supabase secret key bypasses Row Level Security and must stay server-side.
-The PayPal client secret must stay server-side.
-The Razorpay key secret must stay server-side.
+```text
+SUPABASE_URL=
+SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+PAYPAL_ENV=sandbox
+APP_URL=https://your-project.vercel.app
+```
 
-## Current business flow
+Never commit `.env` or any secret key.
 
-Standard order:
-theme -> package -> deployment -> add-ons -> checkout -> payment -> order -> independent deployment.
+## PayPal
 
-Custom order:
-Instagram DM -> discuss scope -> custom quote -> payment -> order.
+The frontend uses the PayPal JavaScript SDK v6 sandbox. The backend creates and captures Orders API orders. The server calculates the price from the package/deployment/add-on catalog; it does not trust a browser-supplied total.
 
-Customers do not receive source files.
+Before production:
+- switch the SDK environment from sandbox to production
+- use live PayPal credentials
+- test approve/cancel/error flows
+- configure/verify webhooks as needed
+- test on desktop and mobile
+
+## Customer media
+
+No customer media is uploaded before payment. After successful payment, the site asks for the media and creates short-lived signed upload URLs for the private Supabase bucket.
+
+The order keeps metadata in `order_media`; the actual files remain in Storage.
+
+## Source files
+
+Customers receive the finished Vercel URL, not the source repository.
