@@ -602,11 +602,18 @@ body{
 
   let packagePrice = 0;
   let deploymentPrice = 0;
-  const addonPrices = new Map();
 
   function updateOrder() {
+    // Always derive prices from the actual selected DOM controls.
+    // This prevents stale totals when package/deployment/add-ons are changed.
+    const selectedPkgCard = document.querySelector('.package-selectable.selected');
+    packagePrice = selectedPkgCard
+      ? Number(selectedPkgCard.dataset.packagePrice || 0)
+      : 0;
+
     const deployment = document.querySelector('input[name="deployment"]:checked');
     deploymentPrice = deployment ? Number(deployment.dataset.price || 0) : 0;
+
     const deploymentText = deployment
       ? `${deployment.value} · +$${deploymentPrice}`
       : 'None';
@@ -614,38 +621,53 @@ body{
     if (deploymentEl) deploymentEl.textContent = deploymentText;
 
     const checked = [...document.querySelectorAll('.selectable-addon input:checked')];
-    const addonTotal = checked.reduce((sum, x) => sum + Number(x.dataset.price || 0), 0);
+    const addonTotal = checked.reduce(
+      (sum, input) => sum + Number(input.dataset.price || 0),
+      0
+    );
+
     const addonText = checked.length
-      ? checked.map(x => `${x.dataset.addon} (+$${x.dataset.price})`).join(', ')
+      ? checked.map(input => `${input.dataset.addon} (+$${Number(input.dataset.price || 0)})`).join(', ')
       : 'None';
     const addonEl = document.getElementById('selectedAddons');
     if (addonEl) addonEl.textContent = addonText;
 
     const total = packagePrice + deploymentPrice + addonTotal;
     const totalEl = document.getElementById('orderTotal');
-    if (totalEl) totalEl.textContent = packagePrice ? `$${total.toFixed(0)}` : '$0';
+    if (totalEl) {
+      totalEl.textContent = packagePrice ? `$${total.toFixed(2)}` : '$0.00';
+    }
 
-    // Keep the order builder visibly in sync with every selection.
+    // Keep the selected package text synchronized too.
+    if (selectedPkgCard && selectedPackage) {
+      selectedPackage.textContent =
+        `${selectedPkgCard.dataset.packageName} · $${packagePrice.toFixed(2)}`;
+    }
+
+    // Keep card highlighting synchronized.
     document.querySelectorAll('.package-selectable').forEach(card => {
-      const name = card.dataset.packageName;
-      card.classList.toggle('selected', name === selectedPackage.textContent.split(' · ')[0]);
+      card.classList.toggle('selected', card === selectedPkgCard);
     });
+
+    return total;
   }
 
   document.querySelectorAll('.package-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      packagePrice = Number(btn.dataset.price);
+    btn.addEventListener('click', (event) => {
+      event.preventDefault();
       document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
       btn.closest('.package-selectable').classList.add('selected');
-      selectedPackage.textContent = `${btn.dataset.package} · $${btn.dataset.price}`;
       updateOrder();
       document.getElementById('make-one').scrollIntoView({behavior:'smooth'});
     });
   });
 
   document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => {
-    input.addEventListener('change', updateOrder);
+    input.addEventListener('change', () => updateOrder());
   });
+
+  // Initialize the order summary on first load.
+  updateOrder();
 
   document.getElementById('sitePaymentBtn').addEventListener('click', () => {
     const theme = selectedTheme.textContent;
