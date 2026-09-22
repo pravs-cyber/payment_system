@@ -1,0 +1,16 @@
+{
+  "name": "bdaystudio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "check": "node --check api/paypal/create-order.js && node --check api/paypal/capture-order.js && node --check api/razorpay/create-order.js && node --check api/razorpay/webhook.js && node --check api/orders/create.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^48.0.0"
+  }
+}
