@@ -713,16 +713,26 @@ body{
   }
 
   async function ensurePayPal() {
-    if (paypalSdk) return paypalSdk;
+    if (paypalSdk && paypalSession) return paypalSdk;
     if (!window.paypal) throw new Error('PayPal SDK has not loaded yet. Please wait a moment and try again.');
-    const config = await getConfig();
+
+    // PayPal v6: generate a browser-safe client token on our server.
+    const tokenRes = await fetch('/api/paypal/client-token');
+    const tokenData = await tokenRes.json();
+    if (!tokenRes.ok || !tokenData.clientToken) {
+      throw new Error(tokenData.error || 'Could not initialize PayPal securely.');
+    }
+
     paypalSdk = await window.paypal.createInstance({
-      clientId: config.paypalClientId,
+      clientToken: tokenData.clientToken,
       components: ['paypal-payments'],
       pageType: 'checkout'
     });
+
     const methods = await paypalSdk.findEligibleMethods({currencyCode: 'USD'});
-    if (!methods.isEligible('paypal')) throw new Error('PayPal is not eligible for this browser/account.');
+    if (!methods.isEligible('paypal')) {
+      throw new Error('PayPal is not eligible for this browser/account.');
+    }
 
     paypalSession = paypalSdk.createPayPalOneTimePaymentSession({
       onApprove: async ({orderId}) => {
@@ -739,9 +749,18 @@ body{
         paypalStartBtn.hidden = true;
         await preparePostPaymentUpload();
       },
-      onCancel: () => { paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.'; },
-      onError: error => { console.error(error); paymentStatus.textContent = 'PayPal checkout encountered an error. Please try again.'; }
+      onCancel: () => {
+        paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.';
+      },
+      onError: error => {
+        console.error(error);
+        paymentStatus.textContent = error?.message || 'PayPal checkout encountered an error. Please try again.';
+      }
     });
+
+    if (!paypalSession || typeof paypalSession.start !== 'function') {
+      throw new Error('PayPal payment session could not be created.');
+    }
     return paypalSdk;
   }
 
@@ -775,6 +794,9 @@ body{
       paypalStartBtn.disabled = true;
       paymentStatus.textContent = 'Opening PayPal...';
       await ensurePayPal();
+      if (!paypalSession || typeof paypalSession.start !== 'function') {
+        throw new Error('PayPal checkout is not ready. Please try again.');
+      }
       await paypalSession.start({presentationMode: 'auto'}, createLocalAndPayPalOrder());
     } catch (error) {
       console.error(error);
