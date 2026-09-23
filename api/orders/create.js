@@ -6,6 +6,14 @@ import { calculateOrder } from '../../lib/catalog.js';
 const ordersTable = () => supabaseAdmin.schema('public').from('orders');
 
 export default async function handler(req, res) {
+  console.log("PAYPAL ENV CHECK", {
+  paypalEnv: process.env.PAYPAL_ENV,
+  hasClientId: !!process.env.PAYPAL_CLIENT_ID,
+  clientIdLength: process.env.PAYPAL_CLIENT_ID?.trim().length,
+  hasClientSecret: !!process.env.PAYPAL_CLIENT_SECRET,
+  clientSecretLength: process.env.PAYPAL_CLIENT_SECRET?.trim().length,
+  clientIdPrefix: process.env.PAYPAL_CLIENT_ID?.trim().slice(0, 8),
+});
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
