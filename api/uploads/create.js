@@ -1,58 +1,54 @@
 import { randomUUID } from 'node:crypto';
 import { supabaseAdmin } from '../../lib/supabaseAdmin.js';
 
+const ordersTable = () => supabaseAdmin.schema('public').from('orders');
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
-const ALLOWED = new Set([
-  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
-  'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/ogg', 'audio/mp4',
-  'video/mp4', 'video/webm', 'video/quicktime'
-]);
+const MAX_FILES = 30;
+const ALLOWED_TYPES = /^(image\/|audio\/|video\/)/i;
+
+function safeName(name) {
+  return String(name || 'file').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120);
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
     const { orderId, files = [] } = req.body || {};
-    if (!orderId || !Array.isArray(files) || files.length > 25) {
-      return res.status(400).json({ error: 'Invalid upload request' });
+    if (!orderId) return res.status(400).json({ error: 'Order ID is required' });
+    if (!Array.isArray(files) || files.length < 1 || files.length > MAX_FILES) {
+      return res.status(400).json({ error: `Choose between 1 and ${MAX_FILES} files` });
     }
 
-    const { data: order, error: orderError } = await supabaseAdmin
-      .from('orders').select('id,payment_status').eq('id', orderId).single();
-    if (orderError || !order || order.payment_status !== 'paid') {
-      return res.status(403).json({ error: 'Payment must be completed before uploads' });
+    const { data: order, error: orderError } = await ordersTable()
+      .select('id,payment_status')
+      .eq('id', orderId)
+      .maybeSingle();
+    if (orderError) throw orderError;
+    if (!order) return res.status(404).json({ error: 'Order was not found' });
+    if (order.payment_status !== 'paid') return res.status(402).json({ error: 'Payment must be completed before uploading media' });
+
+    for (const file of files) {
+      if (!file?.name || !file?.type || !ALLOWED_TYPES.test(file.type)) {
+        return res.status(400).json({ error: 'Only image, audio and video files are allowed' });
+      }
+      if (!Number.isFinite(Number(file.size)) || Number(file.size) <= 0 || Number(file.size) > MAX_FILE_SIZE) {
+        return res.status(400).json({ error: 'Each file must be 50 MB or smaller' });
+      }
     }
 
+    const bucket = supabaseAdmin.storage.from('order-media');
     const uploads = [];
     for (const file of files) {
-      const safeName = String(file.name || 'file').replace(/[^a-zA-Z0-9._-]/g, '_').slice(-120);
-      const contentType = String(file.type || 'application/octet-stream');
-      const size = Number(file.size || 0);
-      if (!safeName || !ALLOWED.has(contentType) || size <= 0 || size > MAX_FILE_SIZE) {
-        return res.status(400).json({ error: `Unsupported or oversized file: ${safeName}` });
-      }
-
-      const path = `${orderId}/${randomUUID()}-${safeName}`;
-      const { data, error } = await supabaseAdmin.storage
-        .from('order-media')
-        .createSignedUploadUrl(path, { upsert: false });
+      const path = `orders/${orderId}/${randomUUID()}-${safeName(file.name)}`;
+      const { data, error } = await bucket.createSignedUploadUrl(path);
       if (error) throw error;
-
-      const { error: rowError } = await supabaseAdmin.from('order_media').insert({
-        order_id: orderId,
-        storage_path: path,
-        original_name: safeName,
-        media_type: contentType,
-        file_size: size
-      });
-      if (rowError) throw rowError;
-
-      uploads.push({ path, token: data.token, name: safeName, type: contentType });
+      uploads.push({ path, token: data.token });
     }
 
     return res.status(200).json({ uploads });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Could not prepare uploads' });
+    console.error('Upload preparation failed:', error);
+    return res.status(500).json({ error: error?.message || 'Could not prepare uploads' });
   }
 }

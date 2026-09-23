@@ -19,7 +19,7 @@ main{overflow:hidden}.hero{padding:130px 7vw 105px;max-width:1050px;margin:auto;
 .template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.template-card{min-height:255px;padding:30px;border-radius:var(--radius);background:white;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}.template-card:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-65px;top:-65px;background:var(--glow,#eaf0ff)}.template-card>*{position:relative}.template-card .card-icon{position:absolute;top:27px;left:30px;font-size:1.6rem}.template-card h3{font-size:1.35rem;margin:0 0 7px;letter-spacing:-.03em}.template-card p{margin:0 0 16px;color:var(--muted);font-size:.92rem;max-width:280px}.template-card span:last-child{font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#858b9d}.neon{--glow:#dff5ff}.terminal{--glow:#ddf3e5}.os{--glow:#efe5ff}.royal{--glow:#fff0dc}.piano{--glow:#ffe4ed}.custom{--glow:#e8eaf1}
 .process-section{background:var(--dark);color:white;max-width:none;padding-left:7vw;padding-right:7vw}.process-section .eyebrow{color:#aeb4c8}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#414558;margin-top:50px}.steps>div{padding:30px;background:var(--dark)}.steps b{font-size:.75rem;color:#aeb4c8}.steps h3{margin:25px 0 8px}.steps p{color:#b6bac9;font-size:.88rem;margin:0}
 .price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:45px}.price-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative}.price-card.featured{border:2px solid #9cb9eb}.badge{position:absolute;top:17px;right:17px;background:var(--accent2);font-size:.63rem;font-weight:800;padding:5px 8px;border-radius:99px}.price-card h3{margin:0;font-size:1.15rem}.price{font-size:2.3rem;font-weight:800;letter-spacing:-.05em;margin:12px 0}.price-card p{color:var(--muted);font-size:.85rem;min-height:42px}.price-card ul{padding:0;margin:22px 0 0;list-style:none;font-size:.85rem}.price-card li{padding:7px 0;border-top:1px solid var(--line)}.pricing-note{font-size:.8rem;color:var(--muted);margin-top:20px}
-.discover{display:flex;justify-content:space-between;gap:50px;align-items:center}.discover p{color:var(--muted);max-width:600px}.discover-links{display:flex;flex-direction:column;gap:10px;min-width:220px}.discover-links a{padding:14px 18px;background:white;border:1px solid var(--line);border-radius:14px;font-weight:700}.discover-links a:hover{border-color:var(--accent)}
+.discover{position:fixed;top:92px;right:22px;z-index:35;width:300px;display:flex;flex-direction:column;gap:14px;padding:18px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(39,47,76,.16)}.discover h2{font-size:1.35rem;line-height:1.05;letter-spacing:-.045em;margin:0}.discover p{color:var(--muted);font-size:.73rem;margin:0}.discover-links{display:flex;flex-direction:column;gap:7px;min-width:0}.discover-links a{padding:11px 13px;background:white;border:1px solid var(--line);border-radius:12px;font-weight:700;font-size:.72rem}.discover-links a:hover{border-color:var(--accent)}
 footer{padding:35px 7vw;display:flex;justify-content:space-between;color:#8b90a0;font-size:.78rem;border-top:1px solid var(--line)}
 .order-page{max-width:950px;margin:auto;padding:85px 7vw}.order-hero{text-align:center;margin-bottom:70px}.order-hero p{color:var(--muted);max-width:650px;margin:25px auto}.form-section{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:35px;margin-bottom:18px;box-shadow:var(--shadow)}.form-title{display:flex;align-items:center;gap:15px;margin-bottom:28px}.form-title span{font-size:.75rem;font-weight:800;color:#9aa0b1}.form-title h2{font-size:1.5rem;margin:0;letter-spacing:-.03em}.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.choice{display:block;cursor:pointer}.choice input{position:absolute;opacity:0}.choice span{display:block;border:1px solid var(--line);border-radius:16px;padding:17px;transition:.18s}.choice:hover span{border-color:#aebbd5}.choice input:checked+span{border:2px solid #9cb9eb;background:#f6f9ff;padding:16px}.choice b,.choice small{display:block}.choice small{color:var(--muted);font-size:.78rem;margin-top:3px}.choice-grid.three{grid-template-columns:repeat(2,1fr)}.hint{color:var(--muted);font-size:.88rem;margin-top:-10px;margin-bottom:22px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.fields label{font-size:.8rem;font-weight:700}.fields input,.fields textarea{display:block;width:100%;margin-top:7px;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit;background:#fbfbfd;outline:none}.fields input:focus,.fields textarea:focus{border-color:#9cb9eb;background:white}.fields .full{grid-column:1/-1}.summary-box{background:var(--dark);color:white;border-radius:var(--radius);padding:30px;display:flex;align-items:center;justify-content:space-between;gap:30px}.summary-box span{display:block;color:#b7bdcf;font-size:.8rem}.summary-box strong{font-size:1.8rem}.summary-box p{color:#b7bdcf;font-size:.78rem;max-width:380px}.summary-box .button{white-space:nowrap}
 @media(max-width:850px){.nav-links a:not(.nav-cta){display:none}.template-grid,.price-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.section-heading,.discover{display:block}.discover-links{margin-top:25px}.summary-box{display:block}.summary-box .button{margin-top:15px}}
@@ -131,9 +131,8 @@ body{
 @media(max-width:560px){.how-grid,.admin-grid{grid-template-columns:1fr}.help-banner{display:block}.help-banner .button{margin-top:12px;width:100%}}
 
 .top-contact-strip{margin:18px auto 0;max-width:1180px;padding:14px 20px;border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:18px}.top-contact-strip div:first-child{display:flex;flex-direction:column;gap:3px}.top-contact-strip span{font-size:.76rem;color:var(--muted)}.top-contact-actions{display:flex;gap:8px}.top-contact-actions .button{padding:9px 13px;font-size:.72rem}
-.festival-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.festival-card{padding:25px;border:1px solid var(--line);border-radius:23px;background:#fff}.festival-card span{font-size:.62rem;letter-spacing:.14em;color:#8994a7}.festival-card h3{font-size:1.45rem;margin:20px 0 8px}.festival-card p{font-size:.78rem;line-height:1.55;color:var(--muted);min-height:62px}.festival-note{margin-top:15px;padding:15px 18px;border-radius:16px;background:#fff7e8;border:1px solid #f1dfbd;font-size:.76rem}
 .custom-request-status{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;padding:13px 15px;border:1px dashed rgba(255,255,255,.25);border-radius:14px;color:#d9dcea;font-size:.72rem}.custom-request-status b{color:#fff}.custom-request-status.visible{border-style:solid;background:rgba(130,170,255,.08)}
-@media(max-width:800px){.top-contact-strip{display:block}.top-contact-actions{margin-top:10px}.festival-grid{grid-template-columns:1fr}}
+@media(max-width:800px){.top-contact-strip{display:block}.top-contact-actions{margin-top:10px}.discover{top:auto;right:12px;bottom:12px;width:min(300px,calc(100vw - 24px));padding:14px}.discover-links{display:grid;grid-template-columns:1fr 1fr}.discover-links a{padding:9px 10px}}
 
 .custom-instagram-flow{display:flex;align-items:center;justify-content:center}.ig-window{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(25,32,48,.08)}.ig-head{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:.75rem}.ig-head span{color:#8b94a6}.ig-chat{padding:18px;background:#fafbfc;min-height:260px;display:flex;flex-direction:column;gap:12px}.ig-bubble{max-width:78%;padding:11px 13px;border-radius:16px;font-size:.73rem;line-height:1.45}.ig-bubble.customer{align-self:flex-end;background:#eaf1ff}.ig-bubble.studio{align-self:flex-start;background:#fff;border:1px solid var(--line)}.ig-compose{margin:12px;border:1px solid var(--line);border-radius:99px;padding:11px 14px;color:#a0a6b1;font-size:.72rem;display:flex;justify-content:space-between}.custom-steps{display:grid;gap:8px;margin:18px 0}.custom-steps span{font-size:.76rem;padding:9px 11px;border-radius:11px;background:#fff;border:1px solid var(--line)}.custom-steps b{margin-right:8px;color:#8995aa}.launch-note{margin:0 auto 45px;max-width:1180px;padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff;display:flex;gap:20px;align-items:center;font-size:.76rem}.launch-note span{color:var(--muted)}.launch-note a{color:inherit}
 
@@ -149,13 +148,15 @@ body{
 .ig-compose{border-color:#36383e;background:#1d1e22;color:#8f949f}
 @media(max-width:800px){.how-grid-3{grid-template-columns:1fr}.compact-custom{display:block}.compact-custom .button{margin-top:12px}}
 
-.top-checkout{max-width:1180px;margin:14px auto 22px;padding:18px 20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(120deg,#f7f9ff,#fff);display:flex;align-items:center;justify-content:space-between;gap:22px}.top-checkout-copy{max-width:520px}.top-checkout-copy h3{margin:5px 0;font-size:1.05rem}.top-checkout-copy p{margin:0;color:var(--muted);font-size:.75rem;line-height:1.5}.top-checkout-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pay-chip{display:inline-flex;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:inherit;text-decoration:none;font-size:.72rem;font-weight:700}.pay-chip.primary-pay{background:#252838;color:#fff;border-color:#252838}.top-pay-link{font-weight:800!important}
-@media(max-width:800px){.top-checkout{display:block}.top-checkout-actions{justify-content:flex-start;margin-top:12px}}
-.theme-modal-top{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff}.theme-modal-top .eyebrow{margin:0}.theme-modal-actions{display:flex;align-items:center;gap:10px}.theme-modal-actions .button{padding:10px 15px;font-size:.78rem}.theme-next-hint{font-size:.76rem;color:var(--muted)}
-
 .content-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:22px}.content-form{display:grid;gap:12px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#fff}.content-form label{display:grid;gap:7px}.content-form label>span{font-size:.76rem;font-weight:800}.content-form input,.content-form textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font:inherit;background:#fafbfe}.content-form textarea{resize:vertical}.content-form small{font-size:.68rem;color:var(--muted)}.content-note{padding:22px;border:1px solid var(--line);border-radius:22px;background:#f7f9ff;height:max-content}.content-note b{font-size:1rem}.content-note p{font-size:.76rem;color:var(--muted);line-height:1.55}.content-status{margin-top:14px;padding:10px 12px;border-radius:11px;background:#fff;border:1px dashed #cbd8ef;font-size:.72rem;font-weight:700}@media(max-width:800px){.content-grid{grid-template-columns:1fr}}
 .payment-status{margin:12px 0;padding:11px 13px;border-radius:13px;background:#f6f8fc;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}
 .post-payment-upload{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#f8fbff}.post-payment-upload p{font-size:.78rem;color:var(--muted);margin:6px 0 12px}.post-payment-upload input{width:100%;margin:8px 0 10px}.upload-after-payment-note{border:1px dashed var(--line);border-radius:16px;padding:14px;background:#fafbff;display:grid;gap:5px}.upload-after-payment-note span{font-weight:700;font-size:.82rem}.upload-after-payment-note small{color:var(--muted);font-size:.75rem}
+
+<style>
+.content-next{display:flex;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap}
+.content-next small{color:var(--muted)}
+.content-form input:invalid:not(:placeholder-shown){border-color:#e58b8b;background:#fffafa}
+</style>
 </style>
 </head>
 <body>
@@ -227,17 +228,6 @@ body{
 </section>
 
 
-<section id="checkout-top" class="top-checkout">
-  <div class="top-checkout-copy">
-    <div class="eyebrow">PAY ON BDAYSTUDIO</div>
-    <h3>Choose your payment route at checkout.</h3>
-    <p>Our storefront prices stay in USD. PayPal is available for international checkout. Ko-fi is also available as an alternative payment route.</p>
-  </div>
-  <div class="top-checkout-actions">
-    <a class="pay-chip primary-pay" href="#make-one">🌎 Pay with PayPal</a>
-    <a class="pay-chip" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Ko-fi</a>
-  </div>
-</section>
 <section id="how" class="section process-section">
       <div class="eyebrow">HOW IT WORKS</div>
       <h2>From idea to birthday link.</h2>
@@ -249,6 +239,10 @@ body{
         <div><b>05</b><h3>Share</h3><p>Send the final link to the birthday person.</p></div>
       </div>
     </section>
+
+    
+
+
 
 <section id="templates" class="section">
       <div class="section-heading">
@@ -298,25 +292,6 @@ body{
         </article>
       </div>
     </section>
-
-    
-
-    
-
-
-
-<section id="festivals" class="section festival-section">
-  <div class="section-heading">
-    <div><div class="eyebrow">SEASONAL EXPERIENCES</div><h2>Birthdays aren’t the only reason to celebrate.</h2></div>
-    <p>Seasonal greeting websites for major festivals - featured for a limited time.</p>
-  </div>
-  <div class="festival-grid">
-    <div class="festival-card"><span>FESTIVAL THEME</span><h3>Diwali Wishes</h3><p>A shareable greeting page with lights, wishes, photos and a festive reveal.</p><button class="button secondary festival-demo">Preview theme →</button></div>
-    <div class="festival-card"><span>FESTIVAL THEME</span><h3>Christmas Wishes</h3><p>A warm festive greeting experience with a message, memories and a shareable link.</p><button class="button secondary festival-demo">Preview theme →</button></div>
-    <div class="festival-card"><span>FESTIVAL THEME</span><h3>New Year Wishes</h3><p>A countdown-style greeting page designed for sending wishes to friends and family.</p><button class="button secondary festival-demo">Preview theme →</button></div>
-  </div>
-  <div class="festival-note"><b>Seasonal promo:</b> These themes can be featured during the festival period as a separate limited-time bdaystudio promotion.</div>
-</section>
 
 <section id="pricing" class="section pricing-section">
   <div class="section-heading">
@@ -386,7 +361,7 @@ body{
     </article>
   </div>
 
-  <div class="deployment-extra">
+  <div class="deployment-extra" id="deployment-step">
     <div>
       <div class="eyebrow">EXTRA DEPLOYMENT</div>
       <h3>Want to keep the website longer?</h3>
@@ -408,7 +383,7 @@ body{
     </div>
   </div>
 
-  <div class="addons">
+  <div class="addons" id="addons-step">
     <div class="eyebrow">OPTIONAL ADD-ONS</div>
     <h3>Add exactly what you need.</h3>
     <div class="addon-grid">
@@ -433,7 +408,7 @@ body{
         <span><b>Rush delivery</b><small>+$4+</small></span>
       </label>
     </div>
-    <p class="pricing-note">Add-ons can be selected before checkout. Items marked “+” may vary depending on the requested scope.</p>
+    <p class="pricing-note">Select anything extra you want. Items marked "+" may vary by scope.</p>
   </div>
 </section>
 
@@ -459,21 +434,20 @@ body{
       </div>
     </div>
     <div class="make-form-demo">
-      <div class="mini-field"><span>Payment</span><b>Choose one of two payment routes</b></div>
+      <div class="mini-field"><span>CHECKOUT</span><b>Review your order, then choose how to pay.</b></div>
       <button class="button primary" id="sitePaymentBtn">Continue to your details →</button>
       <a class="button secondary" id="kofiPaymentBtn" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Pay with Ko-fi ↗</a>
-      <small>Your payment options appear after you complete your order details.</small>
     </div>
   </div>
 </section>
-<section class="section discover">
+<section class="discover">
       <div>
         <div class="eyebrow">FIND US YOUR WAY</div>
         <h2>Seen us somewhere else?</h2>
         <p>bdaystudio can be discovered through our website, Instagram, Ko-fi, referrals, QR codes and links from finished birthday websites.</p>
       </div>
       <div class="discover-links">
-        <a href="#checkout" class="top-pay-link">Pay on bdaystudio →</a>
+        <a href="#content-details" class="top-pay-link">Order on bdaystudio →</a>
 <a href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Ko-fi ↗</a>
         <a href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Instagram ↗</a>
         <a href="#make-one">Order a website →</a>
@@ -486,13 +460,7 @@ body{
 <div class="theme-modal" id="themeModal" aria-hidden="true">
   <div class="theme-backdrop" data-close-modal></div>
   <div class="theme-window">
-    <div class="theme-modal-top">
-      <div class="eyebrow">LIVE PREVIEW</div>
-      <div class="theme-modal-actions">
-        <button class="button primary" id="chooseThemeBtnTop" type="button">Choose this theme →</button>
-        <button class="modal-close" data-close-modal aria-label="Close preview">×</button>
-      </div>
-    </div>
+    <button class="modal-close" data-close-modal>×</button>
     <div class="theme-preview" id="themePreview"></div>
     <div class="theme-modal-bottom">
       <div>
@@ -500,7 +468,7 @@ body{
         <h3 id="previewTitle">Template</h3>
         <p id="previewDescription">Try the demo, then choose it for your own website.</p>
       </div>
-      <span class="theme-next-hint">Choose the theme above, then continue to packages.</span>
+      <button class="button primary" id="chooseThemeBtn">Choose this theme →</button>
     </div>
   </div>
 </div>
@@ -508,29 +476,30 @@ body{
 <section id="content-details" class="section content-section">
   <div class="section-head">
     <div>
-      <div class="eyebrow">YOUR DETAILS</div>
+      <div class="eyebrow">YOUR CONTENT</div>
       <h2>Tell us what goes on the website.</h2>
-      <p>Complete your details and select the media you want us to use before moving to payment.</p>
+      <p>Give us the basic details now. After payment, you'll upload your photos, audio and videos.</p>
     </div>
   </div>
   <div class="content-grid">
     <div class="content-form">
       <label><span>Your email *</span><input id="customerEmail" type="email" placeholder="you@example.com" autocomplete="email" required></label>
-      <label><span>Confirm email *</span><input id="customerEmailConfirm" type="email" placeholder="Repeat your email" autocomplete="email" required></label>
-      <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name" required></label>
-      <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?" required></textarea></label>
-      <label><span>Photos, videos or audio</span><input id="prePaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple></label>
-      <div class="upload-after-payment-note"><span>Media stays with this order</span><small>Your selected files stay in this page until payment. After payment, we upload them to the private order folder.</small></div>
+      <label><span>Confirm email *</span><input id="customerEmailConfirm" type="email" placeholder="re-enter your email" autocomplete="email" required></label>
+      <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name"></label>
+      <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?"></textarea></label>
+      <div class="upload-after-payment-note"><span>Media comes after payment</span><small>You'll get the private upload step after checkout.</small></div>
+      
       <label><span>Extra notes</span><textarea id="orderNotes" rows="4" placeholder="Colours, inside jokes, sections, anything else..."></textarea></label>
-      <button class="button primary full-btn" id="openPaymentBtn" type="button">Review & pay →</button>
-      <div class="payment-status" id="detailsStatus" aria-live="polite"></div>
     </div>
     <aside class="content-note">
-      <b>Before you pay</b>
-      <p>You'll see the final total and payment options after these details are complete.</p>
-      <p>Customers do not receive source files. The finished birthday website is delivered as its own Vercel link.</p>
-      <div class="content-status" id="contentStatus">No media selected yet</div>
+      <b>After payment</b>
+      <p>Your media goes into a private order folder. We build and deliver the finished site as its own Vercel link.</p>
+      <div class="content-status" id="contentStatus">Nothing uploaded yet</div>
     </aside>
+  </div>
+  <div class="content-next">
+    <button class="button primary" id="contentPaymentBtn" type="button">Continue to payment →</button>
+    <small>Your details are collected before checkout. Photos, audio and videos are uploaded after payment.</small>
   </div>
 </section>
 
@@ -551,12 +520,13 @@ body{
         <small>Alternative payment route</small>
       </a>
     </div>
-    <div id="paypalStatus" class="payment-status" aria-live="polite">PayPal is ready for sandbox testing.</div>
+    <div id="paypalStatus" class="payment-status" aria-live="polite">PayPal checkout will open securely after your details are complete.</div>
     <button class="button primary full-btn" id="paypalStartBtn" type="button">Continue with PayPal →</button>
     <div id="postPaymentUpload" class="post-payment-upload" hidden>
-      <b>Payment received.</b>
-      <p>Your selected media can now be uploaded to the private order folder.</p>
-      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected media</button>
+      <b>Payment received. Upload your media.</b>
+      <p>Your photos, audio and videos are stored in a private folder for this order.</p>
+      <input id="postPaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple>
+      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected files</button>
       <div id="uploadStatus" class="payment-status" aria-live="polite"></div>
     </div>
     <small class="payment-note">Your card/payment details are handled by PayPal. bdaystudio never asks you to paste card details into this site.</small>
@@ -576,7 +546,7 @@ body{
   const preview = document.getElementById('themePreview');
   const previewTitle = document.getElementById('previewTitle');
   const previewDesc = document.getElementById('previewDescription');
-  const chooseThemeBtn = document.getElementById('chooseThemeBtnTop');
+  const chooseThemeBtn = document.getElementById('chooseThemeBtn');
   const selectedTheme = document.getElementById('selectedTheme');
   const selectedPackage = document.getElementById('selectedPackage');
   const paymentModal = document.getElementById('paymentModal');
@@ -584,9 +554,7 @@ body{
   const paymentStatus = document.getElementById('paypalStatus');
   const paypalStartBtn = document.getElementById('paypalStartBtn');
   const uploadBox = document.getElementById('postPaymentUpload');
-  const uploadInput = document.getElementById('prePaymentFiles');
-  const openPaymentBtn = document.getElementById('openPaymentBtn');
-  const detailsStatus = document.getElementById('detailsStatus');
+  const uploadInput = document.getElementById('postPaymentFiles');
   const uploadButton = document.getElementById('uploadAfterPayment');
   const uploadStatus = document.getElementById('uploadStatus');
 
@@ -690,7 +658,7 @@ body{
       document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
       card.classList.add('selected');
       updateOrder();
-      document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+      document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 
@@ -701,16 +669,18 @@ body{
     document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
     card.classList.add('selected');
     updateOrder();
-    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
   }));
 
-  document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => input.addEventListener('change', updateOrder));
-  uploadInput.addEventListener('change', () => {
-    const count = uploadInput.files.length;
-    document.getElementById('contentStatus').textContent = count
-      ? `${count} media file${count === 1 ? '' : 's'} selected`
-      : 'No media selected yet';
-  });
+  document.querySelectorAll('input[name="deployment"]').forEach(input => input.addEventListener('change', () => {
+    updateOrder();
+    document.getElementById('addons-step').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+
+  document.querySelectorAll('.selectable-addon input').forEach(input => input.addEventListener('change', () => {
+    updateOrder();
+    document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
   updateOrder();
 
   async function getConfig() {
@@ -727,16 +697,21 @@ body{
   }
 
   async function ensurePayPal() {
-    if (paypalSdk) return paypalSdk;
+    if (paypalSdk && paypalSession) return paypalSdk;
     if (!window.paypal) throw new Error('PayPal SDK has not loaded yet. Please wait a moment and try again.');
+
+    // PayPal v6: client ID authentication is the recommended path for standard one-time checkout.
     const config = await getConfig();
     paypalSdk = await window.paypal.createInstance({
       clientId: config.paypalClientId,
       components: ['paypal-payments'],
       pageType: 'checkout'
     });
+
     const methods = await paypalSdk.findEligibleMethods({currencyCode: 'USD'});
-    if (!methods.isEligible('paypal')) throw new Error('PayPal is not available for this browser/account in sandbox.');
+    if (!methods.isEligible('paypal')) {
+      throw new Error('PayPal is not eligible for this browser/account.');
+    }
 
     paypalSession = paypalSdk.createPayPalOneTimePaymentSession({
       onApprove: async ({orderId}) => {
@@ -751,11 +726,20 @@ body{
         paymentStatus.textContent = 'Payment received. Your order is saved.';
         uploadBox.hidden = false;
         paypalStartBtn.hidden = true;
-        uploadStatus.textContent = uploadInput.files.length ? `${uploadInput.files.length} file${uploadInput.files.length === 1 ? '' : 's'} ready to upload.` : 'No media was selected.';
+        await preparePostPaymentUpload();
       },
-      onCancel: () => { paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.'; },
-      onError: error => { console.error(error); paymentStatus.textContent = 'PayPal checkout encountered an error. Please try again.'; }
+      onCancel: () => {
+        paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.';
+      },
+      onError: error => {
+        console.error(error);
+        paymentStatus.textContent = error?.message || 'PayPal checkout encountered an error. Please try again.';
+      }
     });
+
+    if (!paypalSession || typeof paypalSession.start !== 'function') {
+      throw new Error('PayPal payment session could not be created.');
+    }
     return paypalSdk;
   }
 
@@ -775,13 +759,11 @@ body{
     const addons = getSelectedAddons();
     const res = await fetch('/api/orders/create', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({customerEmail, recipientName, birthdayMessage, notes, theme, packageName: pkg.dataset.packageName, deployment, addons})
     });
-    const raw = await res.text();
-    let data;
-    try { data = JSON.parse(raw); } catch { throw new Error(raw.slice(0, 300) || `Checkout order failed (${res.status})`); }
-    if (!res.ok) throw new Error(data.error || `Could not create order (${res.status})`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not create order');
     currentOrder = data;
     return {orderId: data.id};
   }
@@ -791,7 +773,10 @@ body{
       paypalStartBtn.disabled = true;
       paymentStatus.textContent = 'Opening PayPal...';
       await ensurePayPal();
-      await paypalSession.start({presentationMode: 'redirect'}, createLocalAndPayPalOrder());
+      if (!paypalSession || typeof paypalSession.start !== 'function') {
+        throw new Error('PayPal checkout is not ready. Please try again.');
+      }
+      await paypalSession.start({presentationMode: 'auto'}, createLocalAndPayPalOrder());
     } catch (error) {
       console.error(error);
       paymentStatus.textContent = error.message || 'Could not start PayPal checkout.';
@@ -799,6 +784,9 @@ body{
     }
   });
 
+  async function preparePostPaymentUpload() {
+    uploadStatus.textContent = 'Select your photos, videos or audio, then upload them here.';
+  }
 
   uploadButton.addEventListener('click', async () => {
     try {
@@ -811,13 +799,11 @@ body{
 
       const res = await fetch('/api/uploads/create', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({orderId: currentOrder.localOrderId, files: files.map(file => ({name:file.name,type:file.type,size:file.size}))})
       });
-      const raw = await res.text();
-      let data;
-      try { data = JSON.parse(raw); } catch { throw new Error(raw.slice(0, 300) || `Upload preparation failed (${res.status})`); }
-      if (!res.ok) throw new Error(data.error || `Could not prepare uploads (${res.status})`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not prepare uploads');
 
       const client = await ensureSupabase();
       for (let i = 0; i < files.length; i++) {
@@ -842,57 +828,92 @@ body{
     }
   });
 
-  function validEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
-  }
-
   function validateDetails() {
-    const email = document.getElementById('customerEmail').value.trim();
-    const confirm = document.getElementById('customerEmailConfirm').value.trim();
+    const emailInput = document.getElementById('customerEmail');
+    const confirmInput = document.getElementById('customerEmailConfirm');
+    const email = emailInput.value.trim();
+    const confirm = confirmInput.value.trim();
     const recipient = document.getElementById('recipientName').value.trim();
     const message = document.getElementById('birthdayMessage').value.trim();
-    const pkg = getSelectedPackage();
-    const theme = selectedTheme.textContent.trim();
 
-    if (!pkg) throw new Error('Please choose a package first.');
-    if (!theme || theme === 'Choose a demo above') throw new Error('Please choose a theme first.');
-    if (!validEmail(email)) throw new Error('Please enter a valid email address.');
+    if (!email || !emailInput.checkValidity()) throw new Error('Please enter a valid email address.');
+    if (!confirm || !confirmInput.checkValidity()) throw new Error('Please confirm your email address.');
     if (email.toLowerCase() !== confirm.toLowerCase()) throw new Error('Your email addresses do not match.');
     if (!recipient) throw new Error('Please enter the recipient name.');
     if (!message) throw new Error('Please enter the birthday message.');
-    return {email, recipient, message};
+    return { email, recipient, message };
   }
+
+  function openPaymentCheckout() {
+    const total = updateOrder();
+    const pkg = getSelectedPackage();
+    if (!pkg) throw new Error('Please choose a package.');
+    if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') {
+      throw new Error('Please choose a theme.');
+    }
+
+    const emailInput = document.getElementById('customerEmail');
+    const email = emailInput.value.trim();
+    const recipient = document.getElementById('recipientName').value.trim();
+    const message = document.getElementById('birthdayMessage').value.trim();
+
+    if (!email || !emailInput.checkValidity()) {
+      emailInput.focus();
+      emailInput.setCustomValidity('Enter a valid email address.');
+      emailInput.reportValidity();
+      emailInput.setCustomValidity('');
+      throw new Error('Please enter a valid email address.');
+    }
+    if (!recipient || !message) {
+      document.getElementById('content-details').scrollIntoView({behavior:'smooth'});
+      throw new Error('Please complete the required details below.');
+    }
+
+    paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
+    paymentStatus.textContent = 'Preparing secure PayPal checkout...';
+    paypalStartBtn.hidden = false;
+    paypalStartBtn.disabled = false;
+    uploadBox.hidden = true;
+    paymentModal.classList.add('open');
+    paymentModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+
+    ensurePayPal().catch(error => {
+      console.error('PayPal initialization failed:', error);
+      paymentStatus.textContent = error.message || 'PayPal could not be initialized yet.';
+    });
+  }
+
+  const customerEmailInput = document.getElementById('customerEmail');
+  customerEmailInput.addEventListener('blur', () => {
+    if (customerEmailInput.value.trim() && !customerEmailInput.checkValidity()) {
+      customerEmailInput.setCustomValidity('Enter a valid email address, for example you@example.com.');
+      customerEmailInput.reportValidity();
+    } else {
+      customerEmailInput.setCustomValidity('');
+    }
+  });
+  customerEmailInput.addEventListener('input', () => customerEmailInput.setCustomValidity(''));
 
   document.getElementById('sitePaymentBtn').addEventListener('click', () => {
     try {
-      updateOrder();
-      validateDetails();
-      detailsStatus.textContent = 'Details look good. You can review and pay below.';
+      const pkg = getSelectedPackage();
+      if (!pkg) throw new Error('Please choose a package.');
+      if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') {
+        throw new Error('Please choose a theme.');
+      }
       document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(() => document.getElementById('customerEmail').focus(), 450);
     } catch (error) {
-      document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
-      detailsStatus.textContent = error.message;
+      alert(error.message);
     }
   });
 
-  openPaymentBtn.addEventListener('click', async () => {
+  document.getElementById('contentPaymentBtn').addEventListener('click', () => {
     try {
-      validateDetails();
-      const total = updateOrder();
-      const pkg = getSelectedPackage();
-      paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
-      paymentStatus.textContent = 'Preparing secure PayPal checkout...';
-      paypalStartBtn.hidden = false;
-      paypalStartBtn.disabled = false;
-      uploadBox.hidden = true;
-      paymentModal.classList.add('open');
-      paymentModal.setAttribute('aria-hidden','false');
-      document.body.style.overflow = 'hidden';
-      await ensurePayPal();
-      paymentStatus.textContent = 'PayPal checkout is ready.';
+      openPaymentCheckout();
     } catch (error) {
-      console.error(error);
-      detailsStatus.textContent = error.message || 'Please complete your details first.';
+      alert(error.message);
     }
   });
 
