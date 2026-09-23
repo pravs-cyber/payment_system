@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       addons = []
     } = body;
 
-    if (!customerEmail || !/^\S+@\S+\.\S+$/.test(customerEmail)) {
+    if (!customerEmail || !/^\S+@\S+\.\S{2,}$/.test(customerEmail.trim())) {
       return res.status(400).json({ error: 'A valid email is required' });
     }
     if (!recipientName || !birthdayMessage || !theme) {
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
       total: pricing.total
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Could not create checkout order' });
+    console.error('Order creation failed:', error);
+    return res.status(500).json({ error: error?.message || 'Could not create checkout order' });
   }
 }

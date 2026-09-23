@@ -154,12 +154,6 @@ body{
 .content-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:22px}.content-form{display:grid;gap:12px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#fff}.content-form label{display:grid;gap:7px}.content-form label>span{font-size:.76rem;font-weight:800}.content-form input,.content-form textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;font:inherit;background:#fafbfe}.content-form textarea{resize:vertical}.content-form small{font-size:.68rem;color:var(--muted)}.content-note{padding:22px;border:1px solid var(--line);border-radius:22px;background:#f7f9ff;height:max-content}.content-note b{font-size:1rem}.content-note p{font-size:.76rem;color:var(--muted);line-height:1.55}.content-status{margin-top:14px;padding:10px 12px;border-radius:11px;background:#fff;border:1px dashed #cbd8ef;font-size:.72rem;font-weight:700}@media(max-width:800px){.content-grid{grid-template-columns:1fr}}
 .payment-status{margin:12px 0;padding:11px 13px;border-radius:13px;background:#f6f8fc;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}
 .post-payment-upload{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#f8fbff}.post-payment-upload p{font-size:.78rem;color:var(--muted);margin:6px 0 12px}.post-payment-upload input{width:100%;margin:8px 0 10px}.upload-after-payment-note{border:1px dashed var(--line);border-radius:16px;padding:14px;background:#fafbff;display:grid;gap:5px}.upload-after-payment-note span{font-weight:700;font-size:.82rem}.upload-after-payment-note small{color:var(--muted);font-size:.75rem}
-
-<style>
-.content-next{display:flex;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap}
-.content-next small{color:var(--muted)}
-.content-form input:invalid:not(:placeholder-shown){border-color:#e58b8b;background:#fffafa}
-</style>
 </style>
 </head>
 <body>
@@ -255,10 +249,6 @@ body{
       </div>
     </section>
 
-    
-
-
-
 <section id="templates" class="section">
       <div class="section-heading">
         <div>
@@ -308,7 +298,13 @@ body{
       </div>
     </section>
 
-    <section id="festivals" class="section festival-section">
+    
+
+    
+
+
+
+<section id="festivals" class="section festival-section">
   <div class="section-heading">
     <div><div class="eyebrow">SEASONAL EXPERIENCES</div><h2>Birthdays aren’t the only reason to celebrate.</h2></div>
     <p>Seasonal greeting websites for major festivals - featured for a limited time.</p>
@@ -389,7 +385,7 @@ body{
     </article>
   </div>
 
-  <div class="deployment-extra" id="deployment-step">
+  <div class="deployment-extra">
     <div>
       <div class="eyebrow">EXTRA DEPLOYMENT</div>
       <h3>Want to keep the website longer?</h3>
@@ -411,7 +407,7 @@ body{
     </div>
   </div>
 
-  <div class="addons" id="addons-step">
+  <div class="addons">
     <div class="eyebrow">OPTIONAL ADD-ONS</div>
     <h3>Add exactly what you need.</h3>
     <div class="addon-grid">
@@ -436,7 +432,7 @@ body{
         <span><b>Rush delivery</b><small>+$4+</small></span>
       </label>
     </div>
-    <p class="pricing-note">Select anything extra you want. Items marked "+" may vary by scope.</p>
+    <p class="pricing-note">Add-ons can be selected before checkout. Items marked “+” may vary depending on the requested scope.</p>
   </div>
 </section>
 
@@ -462,9 +458,10 @@ body{
       </div>
     </div>
     <div class="make-form-demo">
-      <div class="mini-field"><span>CHECKOUT</span><b>Review your order, then choose how to pay.</b></div>
+      <div class="mini-field"><span>Payment</span><b>Choose one of two payment routes</b></div>
       <button class="button primary" id="sitePaymentBtn">Continue to your details →</button>
       <a class="button secondary" id="kofiPaymentBtn" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Pay with Ko-fi ↗</a>
+      <small>Your payment options appear after you complete your order details.</small>
     </div>
   </div>
 </section>
@@ -504,29 +501,29 @@ body{
 <section id="content-details" class="section content-section">
   <div class="section-head">
     <div>
-      <div class="eyebrow">YOUR CONTENT</div>
+      <div class="eyebrow">YOUR DETAILS</div>
       <h2>Tell us what goes on the website.</h2>
-      <p>Give us the basic details now. After payment, you'll upload your photos, audio and videos.</p>
+      <p>Complete your details and select the media you want us to use before moving to payment.</p>
     </div>
   </div>
   <div class="content-grid">
     <div class="content-form">
-      <label><span>Your email *</span><input id="customerEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
-      <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name"></label>
-      <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?"></textarea></label>
-      <div class="upload-after-payment-note"><span>Media comes after payment</span><small>You'll get the private upload step after checkout.</small></div>
-      
+      <label><span>Your email *</span><input id="customerEmail" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+      <label><span>Confirm email *</span><input id="customerEmailConfirm" type="email" placeholder="Repeat your email" autocomplete="email" required></label>
+      <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name" required></label>
+      <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?" required></textarea></label>
+      <label><span>Photos, videos or audio</span><input id="prePaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple></label>
+      <div class="upload-after-payment-note"><span>Media stays with this order</span><small>Your selected files stay in this page until payment. After payment, we upload them to the private order folder.</small></div>
       <label><span>Extra notes</span><textarea id="orderNotes" rows="4" placeholder="Colours, inside jokes, sections, anything else..."></textarea></label>
+      <button class="button primary full-btn" id="openPaymentBtn" type="button">Review & pay →</button>
+      <div class="payment-status" id="detailsStatus" aria-live="polite"></div>
     </div>
     <aside class="content-note">
-      <b>After payment</b>
-      <p>Your media goes into a private order folder. We build and deliver the finished site as its own Vercel link.</p>
-      <div class="content-status" id="contentStatus">Nothing uploaded yet</div>
+      <b>Before you pay</b>
+      <p>You'll see the final total and payment options after these details are complete.</p>
+      <p>Customers do not receive source files. The finished birthday website is delivered as its own Vercel link.</p>
+      <div class="content-status" id="contentStatus">No media selected yet</div>
     </aside>
-  </div>
-  <div class="content-next">
-    <button class="button primary" id="contentPaymentBtn" type="button">Continue to payment →</button>
-    <small>Your details are collected before checkout. Photos, audio and videos are uploaded after payment.</small>
   </div>
 </section>
 
@@ -547,13 +544,12 @@ body{
         <small>Alternative payment route</small>
       </a>
     </div>
-    <div id="paypalStatus" class="payment-status" aria-live="polite">PayPal checkout will open securely after your details are complete.</div>
+    <div id="paypalStatus" class="payment-status" aria-live="polite">PayPal is ready for sandbox testing.</div>
     <button class="button primary full-btn" id="paypalStartBtn" type="button">Continue with PayPal →</button>
     <div id="postPaymentUpload" class="post-payment-upload" hidden>
-      <b>Payment received. Upload your media.</b>
-      <p>Your photos, audio and videos are stored in a private folder for this order.</p>
-      <input id="postPaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple>
-      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected files</button>
+      <b>Payment received.</b>
+      <p>Your selected media can now be uploaded to the private order folder.</p>
+      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected media</button>
       <div id="uploadStatus" class="payment-status" aria-live="polite"></div>
     </div>
     <small class="payment-note">Your card/payment details are handled by PayPal. bdaystudio never asks you to paste card details into this site.</small>
@@ -581,7 +577,9 @@ body{
   const paymentStatus = document.getElementById('paypalStatus');
   const paypalStartBtn = document.getElementById('paypalStartBtn');
   const uploadBox = document.getElementById('postPaymentUpload');
-  const uploadInput = document.getElementById('postPaymentFiles');
+  const uploadInput = document.getElementById('prePaymentFiles');
+  const openPaymentBtn = document.getElementById('openPaymentBtn');
+  const detailsStatus = document.getElementById('detailsStatus');
   const uploadButton = document.getElementById('uploadAfterPayment');
   const uploadStatus = document.getElementById('uploadStatus');
 
@@ -626,7 +624,7 @@ body{
   chooseThemeBtn.addEventListener('click', () => {
     selectedTheme.textContent = previewTitle.textContent;
     closeTheme();
-    document.getElementById('pricing').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
     updateOrder();
   });
 
@@ -685,7 +683,7 @@ body{
       document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
       card.classList.add('selected');
       updateOrder();
-      document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
+      document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 
@@ -696,18 +694,16 @@ body{
     document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
     card.classList.add('selected');
     updateOrder();
-    document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
-  }));
-
-  document.querySelectorAll('input[name="deployment"]').forEach(input => input.addEventListener('change', () => {
-    updateOrder();
-    document.getElementById('addons-step').scrollIntoView({behavior:'smooth', block:'start'});
-  }));
-
-  document.querySelectorAll('.selectable-addon input').forEach(input => input.addEventListener('change', () => {
-    updateOrder();
     document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
   }));
+
+  document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => input.addEventListener('change', updateOrder));
+  uploadInput.addEventListener('change', () => {
+    const count = uploadInput.files.length;
+    document.getElementById('contentStatus').textContent = count
+      ? `${count} media file${count === 1 ? '' : 's'} selected`
+      : 'No media selected yet';
+  });
   updateOrder();
 
   async function getConfig() {
@@ -724,26 +720,16 @@ body{
   }
 
   async function ensurePayPal() {
-    if (paypalSdk && paypalSession) return paypalSdk;
+    if (paypalSdk) return paypalSdk;
     if (!window.paypal) throw new Error('PayPal SDK has not loaded yet. Please wait a moment and try again.');
-
-    // PayPal v6: generate a browser-safe client token on our server.
-    const tokenRes = await fetch('/api/paypal/client-token');
-    const tokenData = await tokenRes.json();
-    if (!tokenRes.ok || !tokenData.clientToken) {
-      throw new Error(tokenData.error || 'Could not initialize PayPal securely.');
-    }
-
+    const config = await getConfig();
     paypalSdk = await window.paypal.createInstance({
-      clientToken: tokenData.clientToken,
+      clientId: config.paypalClientId,
       components: ['paypal-payments'],
       pageType: 'checkout'
     });
-
     const methods = await paypalSdk.findEligibleMethods({currencyCode: 'USD'});
-    if (!methods.isEligible('paypal')) {
-      throw new Error('PayPal is not eligible for this browser/account.');
-    }
+    if (!methods.isEligible('paypal')) throw new Error('PayPal is not available for this browser/account in sandbox.');
 
     paypalSession = paypalSdk.createPayPalOneTimePaymentSession({
       onApprove: async ({orderId}) => {
@@ -758,20 +744,11 @@ body{
         paymentStatus.textContent = 'Payment received. Your order is saved.';
         uploadBox.hidden = false;
         paypalStartBtn.hidden = true;
-        await preparePostPaymentUpload();
+        uploadStatus.textContent = uploadInput.files.length ? `${uploadInput.files.length} file${uploadInput.files.length === 1 ? '' : 's'} ready to upload.` : 'No media was selected.';
       },
-      onCancel: () => {
-        paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.';
-      },
-      onError: error => {
-        console.error(error);
-        paymentStatus.textContent = error?.message || 'PayPal checkout encountered an error. Please try again.';
-      }
+      onCancel: () => { paymentStatus.textContent = 'Payment cancelled. Your draft order is still saved.'; },
+      onError: error => { console.error(error); paymentStatus.textContent = 'PayPal checkout encountered an error. Please try again.'; }
     });
-
-    if (!paypalSession || typeof paypalSession.start !== 'function') {
-      throw new Error('PayPal payment session could not be created.');
-    }
     return paypalSdk;
   }
 
@@ -785,17 +762,19 @@ body{
     const recipientName = document.getElementById('recipientName').value.trim();
     const birthdayMessage = document.getElementById('birthdayMessage').value.trim();
     const notes = document.getElementById('orderNotes').value.trim();
-    if (!customerEmail || !recipientName || !birthdayMessage) throw new Error('Fill in your email, recipient name and birthday message first.');
+    validateDetails();
 
     const deployment = document.querySelector('input[name="deployment"]:checked')?.value || '';
     const addons = getSelectedAddons();
     const res = await fetch('/api/orders/create', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({customerEmail, recipientName, birthdayMessage, notes, theme, packageName: pkg.dataset.packageName, deployment, addons})
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Could not create order');
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); } catch { throw new Error(raw.slice(0, 300) || `Checkout order failed (${res.status})`); }
+    if (!res.ok) throw new Error(data.error || `Could not create order (${res.status})`);
     currentOrder = data;
     return {orderId: data.id};
   }
@@ -805,9 +784,6 @@ body{
       paypalStartBtn.disabled = true;
       paymentStatus.textContent = 'Opening PayPal...';
       await ensurePayPal();
-      if (!paypalSession || typeof paypalSession.start !== 'function') {
-        throw new Error('PayPal checkout is not ready. Please try again.');
-      }
       await paypalSession.start({presentationMode: 'auto'}, createLocalAndPayPalOrder());
     } catch (error) {
       console.error(error);
@@ -816,9 +792,6 @@ body{
     }
   });
 
-  async function preparePostPaymentUpload() {
-    uploadStatus.textContent = 'Select your photos, videos or audio, then upload them here.';
-  }
 
   uploadButton.addEventListener('click', async () => {
     try {
@@ -831,11 +804,13 @@ body{
 
       const res = await fetch('/api/uploads/create', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
         body: JSON.stringify({orderId: currentOrder.localOrderId, files: files.map(file => ({name:file.name,type:file.type,size:file.size}))})
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Could not prepare uploads');
+      const raw = await res.text();
+      let data;
+      try { data = JSON.parse(raw); } catch { throw new Error(raw.slice(0, 300) || `Upload preparation failed (${res.status})`); }
+      if (!res.ok) throw new Error(data.error || `Could not prepare uploads (${res.status})`);
 
       const client = await ensureSupabase();
       for (let i = 0; i < files.length; i++) {
@@ -860,76 +835,57 @@ body{
     }
   });
 
-  function openPaymentCheckout() {
-    const total = updateOrder();
-    const pkg = getSelectedPackage();
-    if (!pkg) throw new Error('Please choose a package.');
-    if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') {
-      throw new Error('Please choose a theme.');
-    }
-
-    const emailInput = document.getElementById('customerEmail');
-    const email = emailInput.value.trim();
-    const recipient = document.getElementById('recipientName').value.trim();
-    const message = document.getElementById('birthdayMessage').value.trim();
-
-    if (!email || !emailInput.checkValidity()) {
-      emailInput.focus();
-      emailInput.setCustomValidity('Enter a valid email address.');
-      emailInput.reportValidity();
-      emailInput.setCustomValidity('');
-      throw new Error('Please enter a valid email address.');
-    }
-    if (!recipient || !message) {
-      document.getElementById('content-details').scrollIntoView({behavior:'smooth'});
-      throw new Error('Please complete the required details below.');
-    }
-
-    paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
-    paymentStatus.textContent = 'Preparing secure PayPal checkout...';
-    paypalStartBtn.hidden = false;
-    paypalStartBtn.disabled = false;
-    uploadBox.hidden = true;
-    paymentModal.classList.add('open');
-    paymentModal.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-
-    ensurePayPal().catch(error => {
-      console.error('PayPal initialization failed:', error);
-      paymentStatus.textContent = error.message || 'PayPal could not be initialized yet.';
-    });
+  function validEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
   }
 
-  const customerEmailInput = document.getElementById('customerEmail');
-  customerEmailInput.addEventListener('blur', () => {
-    if (customerEmailInput.value.trim() && !customerEmailInput.checkValidity()) {
-      customerEmailInput.setCustomValidity('Enter a valid email address, for example you@example.com.');
-      customerEmailInput.reportValidity();
-    } else {
-      customerEmailInput.setCustomValidity('');
-    }
-  });
-  customerEmailInput.addEventListener('input', () => customerEmailInput.setCustomValidity(''));
+  function validateDetails() {
+    const email = document.getElementById('customerEmail').value.trim();
+    const confirm = document.getElementById('customerEmailConfirm').value.trim();
+    const recipient = document.getElementById('recipientName').value.trim();
+    const message = document.getElementById('birthdayMessage').value.trim();
+    const pkg = getSelectedPackage();
+    const theme = selectedTheme.textContent.trim();
+
+    if (!pkg) throw new Error('Please choose a package first.');
+    if (!theme || theme === 'Choose a demo above') throw new Error('Please choose a theme first.');
+    if (!validEmail(email)) throw new Error('Please enter a valid email address.');
+    if (email.toLowerCase() !== confirm.toLowerCase()) throw new Error('Your email addresses do not match.');
+    if (!recipient) throw new Error('Please enter the recipient name.');
+    if (!message) throw new Error('Please enter the birthday message.');
+    return {email, recipient, message};
+  }
 
   document.getElementById('sitePaymentBtn').addEventListener('click', () => {
     try {
-      const pkg = getSelectedPackage();
-      if (!pkg) throw new Error('Please choose a package.');
-      if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') {
-        throw new Error('Please choose a theme.');
-      }
+      updateOrder();
+      validateDetails();
+      detailsStatus.textContent = 'Details look good. You can review and pay below.';
       document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
-      setTimeout(() => document.getElementById('customerEmail').focus(), 450);
     } catch (error) {
-      alert(error.message);
+      document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
+      detailsStatus.textContent = error.message;
     }
   });
 
-  document.getElementById('contentPaymentBtn').addEventListener('click', () => {
+  openPaymentBtn.addEventListener('click', async () => {
     try {
-      openPaymentCheckout();
+      validateDetails();
+      const total = updateOrder();
+      const pkg = getSelectedPackage();
+      paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
+      paymentStatus.textContent = 'Preparing secure PayPal checkout...';
+      paypalStartBtn.hidden = false;
+      paypalStartBtn.disabled = false;
+      uploadBox.hidden = true;
+      paymentModal.classList.add('open');
+      paymentModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      await ensurePayPal();
+      paymentStatus.textContent = 'PayPal checkout is ready.';
     } catch (error) {
-      alert(error.message);
+      console.error(error);
+      detailsStatus.textContent = error.message || 'Please complete your details first.';
     }
   });
 
