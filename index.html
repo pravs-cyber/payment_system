@@ -383,7 +383,7 @@ body{
     </article>
   </div>
 
-  <div class="deployment-extra">
+  <div class="deployment-extra" id="deployment-step">
     <div>
       <div class="eyebrow">EXTRA DEPLOYMENT</div>
       <h3>Want to keep the website longer?</h3>
@@ -405,7 +405,7 @@ body{
     </div>
   </div>
 
-  <div class="addons">
+  <div class="addons" id="addons-step">
     <div class="eyebrow">OPTIONAL ADD-ONS</div>
     <h3>Add exactly what you need.</h3>
     <div class="addon-grid">
@@ -430,7 +430,7 @@ body{
         <span><b>Rush delivery</b><small>+$4+</small></span>
       </label>
     </div>
-    <p class="pricing-note">Add-ons can be selected before checkout. Items marked “+” may vary depending on the requested scope.</p>
+    <p class="pricing-note">Select anything extra you want. Items marked "+" may vary by scope.</p>
   </div>
 </section>
 
@@ -441,17 +441,12 @@ body{
 
 
 
-<div class="compact-custom">
-  <div><span class="eyebrow">CUSTOM?</span><b>Have a different idea?</b><small>Message @creative_bdays.website on Instagram. We'll discuss it, quote it, and then send you the payment option.</small></div>
-  <a class="button secondary" href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Instagram →</a>
-</div>
 <section id="make-one" class="section make-section">
   <div class="make-card">
     <div>
       <div class="eyebrow">MAKE ONE</div>
       <h2>You've found the vibe.<br><em>Now make it theirs.</em></h2>
       <p>Choose a theme, package, deployment extension and add-ons. Your total updates automatically before you choose how to pay.</p>
-      <div id="customRequestStatus" class="custom-request-status"><b>Custom requests</b><span>Need something different? Start a custom brief above and it will become a request for the studio to review.</span></div>
     <div class="order-summary">
         <div><span>Theme</span><b id="selectedTheme">Choose a demo above</b></div>
         <div><span>Package</span><b id="selectedPackage">Choose a package</b></div>
@@ -461,10 +456,9 @@ body{
       </div>
     </div>
     <div class="make-form-demo">
-      <div class="mini-field"><span>Payment</span><b>Choose one of two payment routes</b></div>
-      <button class="button primary" id="sitePaymentBtn">Pay on bdaystudio →</button>
+      <div class="mini-field"><span>CHECKOUT</span><b>Review your order, then choose how to pay.</b></div>
+      <button class="button primary" id="sitePaymentBtn">Continue to checkout →</button>
       <a class="button secondary" id="kofiPaymentBtn" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Pay with Ko-fi ↗</a>
-      <small>Both routes are shown here. The production site will pass the selected order details into the payment/order system.</small>
     </div>
   </div>
 </section>
@@ -506,7 +500,7 @@ body{
     <div>
       <div class="eyebrow">YOUR CONTENT</div>
       <h2>Tell us what goes on the website.</h2>
-      <p>Before payment, give us the details needed to create the order. After payment, you will upload the actual photos, audio and videos into the private order folder.</p>
+      <p>Give us the basic details now. After payment, you'll upload your photos, audio and videos.</p>
     </div>
   </div>
   <div class="content-grid">
@@ -514,14 +508,13 @@ body{
       <label><span>Your email *</span><input id="customerEmail" type="email" placeholder="you@example.com" autocomplete="email"></label>
       <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name"></label>
       <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?"></textarea></label>
-      <div class="upload-after-payment-note"><span>Photos / videos / audio</span><small>Upload these after PayPal payment. You can select multiple files in the checkout step.</small></div>
+      <div class="upload-after-payment-note"><span>Media comes after payment</span><small>You'll get the private upload step after checkout.</small></div>
       
       <label><span>Extra notes</span><textarea id="orderNotes" rows="4" placeholder="Colours, inside jokes, sections, anything else..."></textarea></label>
     </div>
     <aside class="content-note">
-      <b>What happens to your files?</b>
-      <p>Order details are saved in Supabase. After payment, uploaded media goes into a private order-specific Storage folder.</p>
-      <p>Customers do not receive source files. The finished birthday website is delivered as its own Vercel link.</p>
+      <b>After payment</b>
+      <p>Your media goes into a private order folder. We build and deliver the finished site as its own Vercel link.</p>
       <div class="content-status" id="contentStatus">Nothing uploaded yet</div>
     </aside>
   </div>
@@ -623,7 +616,7 @@ body{
   chooseThemeBtn.addEventListener('click', () => {
     selectedTheme.textContent = previewTitle.textContent;
     closeTheme();
-    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('pricing').scrollIntoView({behavior:'smooth', block:'start'});
     updateOrder();
   });
 
@@ -682,7 +675,7 @@ body{
       document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
       card.classList.add('selected');
       updateOrder();
-      document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+      document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 
@@ -693,10 +686,18 @@ body{
     document.querySelectorAll('.package-selectable').forEach(x => x.classList.remove('selected'));
     card.classList.add('selected');
     updateOrder();
-    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('deployment-step').scrollIntoView({behavior:'smooth', block:'start'});
   }));
 
-  document.querySelectorAll('input[name="deployment"], .selectable-addon input').forEach(input => input.addEventListener('change', updateOrder));
+  document.querySelectorAll('input[name="deployment"]').forEach(input => input.addEventListener('change', () => {
+    updateOrder();
+    document.getElementById('addons-step').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+
+  document.querySelectorAll('.selectable-addon input').forEach(input => input.addEventListener('change', () => {
+    updateOrder();
+    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
   updateOrder();
 
   async function getConfig() {
@@ -860,7 +861,7 @@ body{
       const message = document.getElementById('birthdayMessage').value.trim();
       if (!email || !recipient || !message) {
         document.getElementById('content-details').scrollIntoView({behavior:'smooth'});
-        throw new Error('Please fill in your email, recipient name and birthday message first.');
+        throw new Error('Please complete the required details below.');
       }
       paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)}`;
       paymentStatus.textContent = 'Preparing secure PayPal checkout...';
