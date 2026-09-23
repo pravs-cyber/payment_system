@@ -2,30 +2,28 @@ import { paypalClientToken } from '../../lib/paypal.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
-    return res.status(405).json({
-      error: 'Method not allowed'
-    });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const proto = req.headers['x-forwarded-proto'] || 'https';
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const host =
+      req.headers['x-forwarded-host'] ||
+      req.headers.host ||
+      '';
 
-    const origin =
-      process.env.APP_URL ||
-      `${proto}://${host}`;
+    // PayPal expects the root domain, not https:// and not a path.
+    const domain = host
+      .split(':')[0]
+      .replace(/^www\./, '');
 
-    const clientToken = await paypalClientToken(origin);
+    const clientToken = await paypalClientToken(domain);
 
-    return res.status(200).json({
-      clientToken
-    });
-
+    return res.status(200).json({ clientToken });
   } catch (error) {
-    console.error(error);
+    console.error('PayPal client token error:', error);
 
     return res.status(500).json({
-      error: 'Could not initialize PayPal checkout'
+      error: error.message || 'Could not initialize PayPal checkout'
     });
   }
 }
