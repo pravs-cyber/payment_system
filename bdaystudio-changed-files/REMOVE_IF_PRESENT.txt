@@ -1,2 +1,0 @@
-If your project still contains api/paypal/client-token.js from the earlier PayPal setup, delete that file.
-This integration uses the PayPal JavaScript SDK v6 clientId method for normal PayPal checkout; a server-generated client token is for Fastlane/client-token use cases.
