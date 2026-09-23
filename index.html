@@ -791,7 +791,7 @@ body{
       paypalStartBtn.disabled = true;
       paymentStatus.textContent = 'Opening PayPal...';
       await ensurePayPal();
-      await paypalSession.start({presentationMode: 'auto'}, createLocalAndPayPalOrder());
+      await paypalSession.start({presentationMode: 'redirect'}, createLocalAndPayPalOrder());
     } catch (error) {
       console.error(error);
       paymentStatus.textContent = error.message || 'Could not start PayPal checkout.';
