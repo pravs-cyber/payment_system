@@ -65,6 +65,15 @@ body{
 
 .currency-switch{display:flex;gap:8px;margin:18px 0 6px}.currency-btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:9px 15px;font-weight:700;cursor:pointer}.currency-btn.selected{background:#252838;color:#fff;border-color:#252838}.currency-note{display:block;color:var(--muted);font-size:.72rem;margin-bottom:12px}.price-alt{font-size:.78em;color:var(--muted);font-weight:600}.price-dual{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.price-dual .price-inr{font-size:.72em;color:var(--muted);font-weight:700}
 
+
+/* bdaystudio checkout flow fixes */
+.top-contact-strip{position:fixed;top:92px;right:22px;z-index:80;margin:0!important;max-width:none!important;width:max-content;box-shadow:0 14px 35px rgba(37,40,56,.14);background:rgba(255,255,255,.94);backdrop-filter:blur(14px)}
+.top-contact-strip>div{display:flex;align-items:center;gap:10px}.top-contact-strip>div span{font-size:.7rem;color:var(--muted)}
+.theme-window{display:flex;flex-direction:column}.theme-modal-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 30px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);z-index:4}.theme-modal-top .eyebrow{margin:0}.theme-modal-top .button{margin:0;white-space:nowrap}.theme-modal-top .modal-title{font-size:.95rem;font-weight:800;margin-top:3px}.theme-modal-bottom{padding:16px 30px;border-top:1px solid var(--line)}
+.post-payment-section{display:none;margin:0 auto 50px;max-width:950px;padding:0 7vw}.post-payment-section.visible{display:block}.post-payment-upload{margin-top:0}
+.file-picker-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.file-picker-row input{flex:1;min-width:240px}.selected-file-count{font-size:.75rem;color:var(--muted);font-weight:700}.dual-price{display:flex;flex-direction:column;gap:2px}.dual-price small{color:var(--muted);font-size:.72rem}.price-card .price-dual{flex-direction:column;align-items:flex-start;gap:2px}.price-card .price-inr{font-size:.72em}
+@media(max-width:800px){.top-contact-strip{top:78px;right:10px;left:auto;max-width:calc(100vw - 20px)!important}.top-contact-strip>div span{display:none}.top-contact-strip .button{padding:9px 12px}.theme-modal-top{padding:14px 18px}.theme-modal-top .modal-title{font-size:.82rem}.theme-modal-top .button{padding:10px 13px;font-size:.75rem}}
+
 /* Theme gallery + checkout */
 .template-card{cursor:pointer}
 .theme-modal,.payment-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:22px}
@@ -158,11 +167,9 @@ body{
 .payment-status{margin:12px 0;padding:11px 13px;border-radius:13px;background:#f6f8fc;border:1px solid var(--line);font-size:.78rem;color:var(--muted)}
 .post-payment-upload{margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#f8fbff}.post-payment-upload p{font-size:.78rem;color:var(--muted);margin:6px 0 12px}.post-payment-upload input{width:100%;margin:8px 0 10px}.upload-after-payment-note{border:1px dashed var(--line);border-radius:16px;padding:14px;background:#fafbff;display:grid;gap:5px}.upload-after-payment-note span{font-weight:700;font-size:.82rem}.upload-after-payment-note small{color:var(--muted);font-size:.75rem}
 
-<style>
 .content-next{display:flex;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap}
 .content-next small{color:var(--muted)}
 .content-form input:invalid:not(:placeholder-shown){border-color:#e58b8b;background:#fffafa}
-</style>
 </style>
 </head>
 <body>
@@ -191,76 +198,6 @@ body{
         <span>✦ Shareable link</span>
       </div>
     </section>
-
-    
-<section class="section" style="padding-top:30px;padding-bottom:25px">
-  <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch">
-    <div style="background:#252838;color:white;border-radius:30px;padding:38px;min-height:270px;position:relative;overflow:hidden">
-      <div style="font-size:.7rem;letter-spacing:.16em;color:#b7bdcf;font-weight:800">A LITTLE INTERNET MAGIC</div>
-      <div style="font-size:clamp(2rem,4vw,3.5rem);line-height:.95;letter-spacing:-.06em;margin-top:22px;max-width:600px">Not just a birthday message.<br><i style="font-family:Georgia,serif;font-weight:400">A whole little world.</i></div>
-      <div style="position:absolute;right:35px;bottom:25px;font-size:4rem;opacity:.18">✦</div>
-    </div>
-    <div style="background:linear-gradient(145deg,#eef5ff,#fff1f6);border:1px solid #e6e8f0;border-radius:30px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:270px">
-      <div style="font-size:.7rem;letter-spacing:.16em;color:#7f879b;font-weight:800">EVERY WEBSITE IS ITS OWN PROJECT</div>
-      <div>
-        <div style="font-family:monospace;background:rgba(255,255,255,.7);border:1px solid #e0e5ef;border-radius:14px;padding:14px;font-size:.82rem">
-          <span style="color:#8daee8">bdaystudio</span> → <span style="color:#777">order #BDY-0042</span><br>
-          <span style="color:#9a9faf">↳ independent Vercel deployment ✓</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-<div id="contact-top" class="top-contact-strip">
-  <div><b>Need help?</b><span>Custom ideas → Instagram @creative_bdays.website</span></div>
-  <a class="button secondary" href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Message us →</a>
-</div>
-
-<section id="how-it-works" class="section how-section">
-  <div class="section-heading">
-    <div><div class="eyebrow">HOW IT WORKS</div><h2>Pick. Personalize. Share.</h2></div>
-    <p>Browse a complete demo, choose what you want, send your content, and we'll turn it into a private website for your person.</p>
-  </div>
-  <div class="how-grid how-grid-3">
-    <div class="how-step"><span>01</span><b>Choose your experience</b><p>Pick a full website theme and package.</p></div>
-    <div class="how-step"><span>02</span><b>Make it yours</b><p>Add photos, messages, music, deployment and extras.</p></div>
-    <div class="how-step"><span>03</span><b>Get your link</b><p>We build it and deploy your independent website.</p></div>
-  </div>
-</section>
-
-
-<section id="checkout-top" class="top-checkout">
-  <div class="top-checkout-copy">
-    <div class="eyebrow">PAY ON BDAYSTUDIO</div>
-    <h3>Choose your payment route at checkout.</h3>
-    <p>Our storefront prices stay in USD. International customers can use PayPal; Indian customers use the India checkout route.</p>
-  </div>
-  <div class="top-checkout-actions">
-    <a class="pay-chip primary-pay" href="#checkout">🌎 Pay with PayPal</a>
-    <a class="pay-chip" href="#checkout">🇮🇳 Pay with UPI / Card</a>
-    <a class="pay-chip" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Ko-fi</a>
-  </div>
-</section>
-<section id="how" class="section process-section">
-      <div class="eyebrow">HOW IT WORKS</div>
-      <h2>From idea to birthday link.</h2>
-      <div class="steps">
-        <div><b>01</b><h3>Choose</h3><p>Pick a style and package.</p></div>
-        <div><b>02</b><h3>Tell us</h3><p>Share photos, memories, music and the little details.</p></div>
-        <div><b>03</b><h3>We build</h3><p>Your website gets its own independent Vercel project.</p></div>
-        <div><b>04</b><h3>Review</h3><p>See a preview and use your included revisions.</p></div>
-        <div><b>05</b><h3>Share</h3><p>Send the final link to the birthday person.</p></div>
-      </div>
-    </section>
-
-    
-
-
 
 <section id="templates" class="section">
       <div class="section-heading">
@@ -313,13 +250,60 @@ body{
 
     
 
+
+
+
+
+
+<div id="contact-top" class="top-contact-strip" aria-label="bdaystudio quick links">
+  <div><b>Contact us</b><span>Questions or custom ideas?</span></div>
+  <div class="top-contact-actions">
+    <a class="button secondary" href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Instagram ↗</a>
+    <a class="button primary" href="#make-one">Order →</a>
+  </div>
+</div>
+
+<section id="how-it-works" class="section how-section">
+  <div class="section-heading">
+    <div><div class="eyebrow">HOW IT WORKS</div><h2>Pick. Personalize. Share.</h2></div>
+    <p>Browse a complete demo, choose what you want, send your content, and we'll turn it into a private website for your person.</p>
+  </div>
+  <div class="how-grid how-grid-3">
+    <div class="how-step"><span>01</span><b>Choose your experience</b><p>Pick a full website theme and package.</p></div>
+    <div class="how-step"><span>02</span><b>Make it yours</b><p>Add photos, messages, music, deployment and extras.</p></div>
+    <div class="how-step"><span>03</span><b>Get your link</b><p>We build it and deploy your independent website.</p></div>
+  </div>
+</section>
+
+
+
+<section id="how" class="section process-section">
+      <div class="eyebrow">HOW IT WORKS</div>
+      <h2>From idea to birthday link.</h2>
+      <div class="steps">
+        <div><b>01</b><h3>Choose</h3><p>Pick a style and package.</p></div>
+        <div><b>02</b><h3>Tell us</h3><p>Share photos, memories, music and the little details.</p></div>
+        <div><b>03</b><h3>We build</h3><p>Your website gets its own independent Vercel project.</p></div>
+        <div><b>04</b><h3>Review</h3><p>See a preview and use your included revisions.</p></div>
+        <div><b>05</b><h3>Share</h3><p>Send the final link to the birthday person.</p></div>
+      </div>
+    </section>
+
+    
+
+
+
+
+
+    
+
 <section id="pricing" class="section pricing-section">
   <div class="section-heading">
     <div>
       <div class="eyebrow">PACKAGES</div>
       <h2>Pick the experience.<br>Keep it live for as long as you want.</h2>
     </div>
-    <p>All bdaystudio pricing is in USD. Every package includes its own independent Vercel deployment, with extra deployment time available as an add-on.</p>
+    <p>Prices are shown in USD with the equivalent INR amount so you can compare the full order before checkout. Every package includes its own independent Vercel deployment, with extra deployment time available as an add-on.</p>
   </div>
 
   <div class="price-grid">
@@ -390,15 +374,15 @@ body{
     <div class="deployment-options">
       <label class="choice-card">
         <input type="radio" name="deployment" value="30-day extension" data-price="2">
-        <span><b>+30 days</b><small> +$2</small></span>
+        <span><b>+30 days</b><small data-price-usd="2">+$2 / ₹180</small></span>
       </label>
       <label class="choice-card">
         <input type="radio" name="deployment" value="90-day extension" data-price="5">
-        <span><b>+90 days</b><small> +$5</small></span>
+        <span><b>+90 days</b><small data-price-usd="5">+$5 / ₹450</small></span>
       </label>
       <label class="choice-card">
         <input type="radio" name="deployment" value="1-year extension" data-price="10">
-        <span><b>+1 year</b><small> +$10</small></span>
+        <span><b>+1 year</b><small data-price-usd="10">+$10 / ₹900</small></span>
       </label>
     </div>
   </div>
@@ -409,23 +393,23 @@ body{
     <div class="addon-grid">
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Extra 10 photos" data-price="1">
-        <span><b>Extra 10 photos</b><small>+$1</small></span>
+        <span><b>Extra 10 photos</b><small data-price-usd="1"></small></span>
       </label>
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Extra revision" data-price="2">
-        <span><b>Extra revision</b><small>+$2</small></span>
+        <span><b>Extra revision</b><small data-price-usd="2"></small></span>
       </label>
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Custom section" data-price="3">
-        <span><b>Custom section</b><small>+$3+</small></span>
+        <span><b>Custom section</b><small data-price-usd="3"></small></span>
       </label>
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Custom interaction" data-price="4">
-        <span><b>Custom interaction</b><small>+$4+</small></span>
+        <span><b>Custom interaction</b><small data-price-usd="4"></small></span>
       </label>
       <label class="addon selectable-addon">
         <input type="checkbox" data-addon="Rush delivery" data-price="4">
-        <span><b>Rush delivery</b><small>+$4+</small></span>
+        <span><b>Rush delivery</b><small data-price-usd="4"></small></span>
       </label>
     </div>
     <p class="pricing-note">Select anything extra you want. Items marked "+" may vary by scope.</p>
@@ -439,48 +423,17 @@ body{
 
 
 
-<section id="make-one" class="section make-section">
-  <div class="make-card">
-    <div>
-      <div class="eyebrow">MAKE ONE</div>
-      <h2>You've found the vibe.<br><em>Now make it theirs.</em></h2>
-      <p>Choose a theme, package, deployment extension and add-ons. Your total updates automatically before you choose how to pay.</p>
-    <div class="order-summary">
-        <div><span>Theme</span><b id="selectedTheme">Choose a demo above</b></div>
-        <div><span>Package</span><b id="selectedPackage">Choose a package</b></div>
-        <div><span>Deployment add-on</span><b id="selectedDeployment">None</b></div>
-        <div><span>Add-ons</span><b id="selectedAddons">None</b></div>
-        <div class="total-row"><span>Total</span><strong id="orderTotal">$0</strong></div>
-      </div>
-    </div>
-    <div class="make-form-demo">
-      <div class="mini-field"><span>CHECKOUT</span><b>Review your order, then choose how to pay.</b></div>
-      <button class="button primary" id="sitePaymentBtn">Continue to your details →</button>
-      <a class="button secondary" id="kofiPaymentBtn" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Pay with Ko-fi ↗</a>
-    </div>
-  </div>
-</section>
-<section class="section discover">
-      <div>
-        <div class="eyebrow">FIND US YOUR WAY</div>
-        <h2>Seen us somewhere else?</h2>
-        <p>bdaystudio can be discovered through our website, Instagram, Ko-fi, referrals, QR codes and links from finished birthday websites.</p>
-      </div>
-      <div class="discover-links">
-        <a href="#checkout" class="top-pay-link">Pay on bdaystudio →</a>
-<a href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Ko-fi ↗</a>
-        <a href="https://instagram.com/creative_bdays.website" target="_blank" rel="noopener">Instagram ↗</a>
-        <a href="#make-one">Order a website →</a>
-      </div>
-    </section>
-  
-
-</main>
-
 <div class="theme-modal" id="themeModal" aria-hidden="true">
   <div class="theme-backdrop" data-close-modal></div>
   <div class="theme-window">
-    <button class="modal-close" data-close-modal>×</button>
+    <button class="modal-close" data-close-modal aria-label="Close theme preview">×</button>
+    <div class="theme-modal-top">
+      <div>
+        <div class="eyebrow">CHOOSE YOUR THEME</div>
+        <div class="modal-title" id="previewTopTitle">Template</div>
+      </div>
+      <button class="button primary" id="chooseThemeBtn">Choose this theme →</button>
+    </div>
     <div class="theme-preview" id="themePreview"></div>
     <div class="theme-modal-bottom">
       <div>
@@ -488,7 +441,6 @@ body{
         <h3 id="previewTitle">Template</h3>
         <p id="previewDescription">Try the demo, then choose it for your own website.</p>
       </div>
-      <button class="button primary" id="chooseThemeBtn">Choose this theme →</button>
     </div>
   </div>
 </div>
@@ -517,8 +469,30 @@ body{
     </aside>
   </div>
   <div class="content-next">
-    <button class="button primary" id="contentPaymentBtn" type="button">Continue to payment →</button>
+    <button class="button primary" id="contentPaymentBtn" type="button">Continue to order summary →</button>
     <small>Your details are collected before checkout. Photos, audio and videos are uploaded after payment.</small>
+  </div>
+</section>
+
+<section id="make-one" class="section make-section">
+  <div class="make-card">
+    <div>
+      <div class="eyebrow">MAKE ONE</div>
+      <h2>You've found the vibe.<br><em>Now make it theirs.</em></h2>
+      <p>Your details come first. Then review the complete total and choose how to pay.</p>
+    <div class="order-summary">
+        <div><span>Theme</span><b id="selectedTheme">Choose a demo above</b></div>
+        <div><span>Package</span><b id="selectedPackage">Choose a package</b></div>
+        <div><span>Deployment add-on</span><b id="selectedDeployment">None</b></div>
+        <div><span>Add-ons</span><b id="selectedAddons">None</b></div>
+        <div class="total-row"><span>Total</span><strong id="orderTotal">$0</strong></div>
+      </div>
+    </div>
+    <div class="make-form-demo">
+      <div class="mini-field"><span>CHECKOUT</span><b>Review your order, then choose how to pay.</b></div>
+      <button class="button primary" id="sitePaymentBtn">Review total & checkout →</button>
+      <a class="button secondary" id="kofiPaymentBtn" href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener">Pay with Ko-fi ↗</a>
+    </div>
   </div>
 </section>
 
@@ -543,16 +517,25 @@ body{
       <small>Alternative payment route</small>
     </a>
 
-    <div id="postPaymentUpload" class="post-payment-upload" hidden>
-      <b>Payment received. Upload your media.</b>
-      <p>Your photos, audio and videos are stored in a private folder for this order.</p>
-      <input id="postPaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple>
-      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected files</button>
-      <div id="uploadStatus" class="payment-status" aria-live="polite"></div>
-    </div>
     <small class="payment-note">Your card, UPI and other payment details are handled securely by Razorpay. bdaystudio never asks you to paste payment details into this site.</small>
   </div>
 </div>
+
+<section id="postPaymentSection" class="post-payment-section" aria-live="polite">
+  <div class="form-section">
+    <div class="form-title"><span>AFTER PAYMENT</span><h2>Upload your photos, audio & videos.</h2></div>
+    <div id="postPaymentUpload" class="post-payment-upload">
+      <b>Payment received. Upload your media.</b>
+      <p>Select multiple files at once. You can upload up to 30 files, with each file up to 50 MB.</p>
+      <div class="file-picker-row">
+        <input id="postPaymentFiles" type="file" accept="image/*,audio/*,video/*" multiple>
+        <span id="selectedFileCount" class="selected-file-count">No files selected</span>
+      </div>
+      <button class="button primary full-btn" id="uploadAfterPayment" type="button">Upload selected files</button>
+      <div id="uploadStatus" class="payment-status" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
 
   <footer>
     <span>© bdaystudio</span>
@@ -567,6 +550,9 @@ body{
   const preview = document.getElementById('themePreview');
   const previewTitle = document.getElementById('previewTitle');
   const previewDesc = document.getElementById('previewDescription');
+  const previewTopTitle = document.getElementById('previewTopTitle');
+  const postPaymentSection = document.getElementById('postPaymentSection');
+  const selectedFileCount = document.getElementById('selectedFileCount');
   const chooseThemeBtn = document.getElementById('chooseThemeBtn');
   const selectedTheme = document.getElementById('selectedTheme');
   const selectedPackage = document.getElementById('selectedPackage');
@@ -574,7 +560,6 @@ body{
   const paymentSummary = document.getElementById('paymentSummary');
   const paymentStatus = document.getElementById('razorpayStatus');
   const razorpayStartBtn = document.getElementById('razorpayStartBtn');
-  const uploadBox = document.getElementById('postPaymentUpload');
   const uploadInput = document.getElementById('postPaymentFiles');
   const uploadButton = document.getElementById('uploadAfterPayment');
   const uploadStatus = document.getElementById('uploadStatus');
@@ -616,6 +601,7 @@ body{
   function openTheme(card) {
     currentTheme = card.dataset.theme;
     previewTitle.textContent = card.dataset.title;
+    previewTopTitle.textContent = card.dataset.title;
     previewDesc.textContent = card.dataset.description;
     preview.innerHTML = previews[currentTheme];
     modal.classList.add('open');
@@ -664,6 +650,21 @@ body{
       priceEl.innerHTML = `<span class="price-dual"><span>$${usd.toFixed(2)}</span><span class="price-inr">₹${Math.round(usd * usdToInr).toLocaleString('en-IN')}</span></span>`;
     }
   });
+
+  function updateDisplayedPrices() {
+    document.querySelectorAll('[data-price-usd]').forEach(el => {
+      const usd = Number(el.dataset.priceUsd || 0);
+      const suffix = el.closest('.selectable-addon') ? (el.textContent.includes('+') ? '+' : '') : '';
+      el.textContent = `${suffix}$${usd.toFixed(2)} / ₹${Math.round(usd * usdToInr).toLocaleString('en-IN')}`;
+    });
+    document.querySelectorAll('.package-selectable').forEach(card => {
+      const priceEl = card.querySelector('.price');
+      const usd = Number(card.dataset.packagePrice || 0);
+      if (priceEl && usd > 0) {
+        priceEl.innerHTML = `<span class="price-dual"><span>$${usd.toFixed(2)}</span><span class="price-inr">₹${Math.round(usd * usdToInr).toLocaleString('en-IN')}</span></span>`;
+      }
+    });
+  }
 
   function updateOrder() {
     const pkg = getSelectedPackage();
@@ -724,8 +725,9 @@ body{
 
   document.querySelectorAll('.selectable-addon input').forEach(input => input.addEventListener('change', () => {
     updateOrder();
-    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
   }));
+  updateDisplayedPrices();
   updateOrder();
 
   async function getConfig() {
@@ -737,6 +739,7 @@ body{
   getConfig().then(config => {
     if (Number.isFinite(Number(config.displayExchangeRate)) && Number(config.displayExchangeRate) > 0) {
       usdToInr = Number(config.displayExchangeRate);
+      updateDisplayedPrices();
       updateOrder();
     }
   }).catch(error => console.warn('Pricing config could not be loaded yet:', error));
@@ -827,8 +830,10 @@ body{
           try { data = JSON.parse(raw); } catch { throw new Error(raw.slice(0, 300) || 'Payment verification failed'); }
           if (!verifyRes.ok || !data.ok) throw new Error(data.error || 'Payment verification failed');
           paymentStatus.textContent = 'Payment received. Your order is saved.';
-          uploadBox.hidden = false;
           razorpayStartBtn.hidden = true;
+          closePaymentModal();
+          postPaymentSection.classList.add('visible');
+          postPaymentSection.scrollIntoView({behavior:'smooth', block:'start'});
           await preparePostPaymentUpload();
         },
         modal: {
@@ -859,6 +864,11 @@ body{
     uploadStatus.textContent = 'Select your photos, videos or audio, then upload them here.';
   }
 
+  uploadInput.addEventListener('change', () => {
+    const count = uploadInput.files.length;
+    selectedFileCount.textContent = count ? `${count} file${count === 1 ? '' : 's'} selected` : 'No files selected';
+  });
+
   uploadButton.addEventListener('click', async () => {
     try {
       if (!currentOrder?.localOrderId) throw new Error('Order is not available.');
@@ -875,6 +885,7 @@ body{
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Could not prepare uploads');
+      if (!Array.isArray(data.uploads) || data.uploads.length !== files.length) throw new Error('The upload service did not prepare every selected file.');
 
       const client = await ensureSupabase();
       for (let i = 0; i < files.length; i++) {
@@ -890,6 +901,7 @@ body{
       });
       if (!done.ok) throw new Error('Files uploaded, but the order could not be marked complete.');
       uploadStatus.textContent = 'All files uploaded. Your bdaystudio order is ready for us to build.';
+      selectedFileCount.textContent = 'Upload complete';
       document.getElementById('contentStatus').textContent = `${files.length} file${files.length === 1 ? '' : 's'} uploaded successfully`;
     } catch (error) {
       console.error(error);
@@ -898,6 +910,12 @@ body{
       uploadButton.disabled = false;
     }
   });
+
+  function closePaymentModal() {
+    paymentModal.classList.remove('open');
+    paymentModal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
 
   function openPaymentCheckout() {
     const total = updateOrder();
@@ -932,7 +950,7 @@ body{
       : 'Ready for international checkout via Razorpay.';
     razorpayStartBtn.hidden = false;
     razorpayStartBtn.disabled = false;
-    uploadBox.hidden = true;
+    postPaymentSection.classList.remove('visible');
     paymentModal.classList.add('open');
     paymentModal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
@@ -951,24 +969,29 @@ body{
 
   document.getElementById('sitePaymentBtn').addEventListener('click', () => {
     try {
-      const pkg = getSelectedPackage();
-      if (!pkg) throw new Error('Please choose a package.');
-      if (!selectedTheme.textContent || selectedTheme.textContent === 'Choose a demo above') {
-        throw new Error('Please choose a theme.');
-      }
-      document.getElementById('content-details').scrollIntoView({behavior:'smooth', block:'start'});
-      setTimeout(() => document.getElementById('customerEmail').focus(), 450);
+      openPaymentCheckout();
     } catch (error) {
       alert(error.message);
     }
   });
 
   document.getElementById('contentPaymentBtn').addEventListener('click', () => {
-    try {
-      openPaymentCheckout();
-    } catch (error) {
-      alert(error.message);
+    const emailInput = document.getElementById('customerEmail');
+    const email = emailInput.value.trim();
+    const recipient = document.getElementById('recipientName').value.trim();
+    const message = document.getElementById('birthdayMessage').value.trim();
+    if (!email || !emailInput.checkValidity()) {
+      emailInput.focus();
+      emailInput.setCustomValidity('Enter a valid email address.');
+      emailInput.reportValidity();
+      emailInput.setCustomValidity('');
+      return;
     }
+    if (!recipient || !message) {
+      alert('Please complete your recipient name and birthday message.');
+      return;
+    }
+    document.getElementById('make-one').scrollIntoView({behavior:'smooth', block:'start'});
   });
 
   document.querySelectorAll('[data-close-payment]').forEach(el => el.addEventListener('click', () => {
