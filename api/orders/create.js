@@ -60,6 +60,7 @@ export default async function handler(req, res) {
       deployment_plan: deployment || null,
       addons: pricing.addons,
       total_usd: pricing.total,
+      total_inr: Math.round(pricing.total * Number(process.env.BDAYSTUDIO_USD_TO_INR || 90)),
       status: 'payment_pending',
       payment_status: 'unpaid',
       payment_provider: 'razorpay'
