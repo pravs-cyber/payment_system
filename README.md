@@ -1,32 +1,54 @@
-# bdaystudio – final checkout build
+# BdayStudio Razorpay Payment Patch
 
-## Flow
-1. Choose theme → theme is selected and page moves to Packages.
-2. Choose package → moves to deployment extension.
-3. Choose deployment extension → moves to Add-ons.
-4. Select any add-ons → click **Continue to your details**.
-5. Registration/details are completed before payment.
-6. PayPal checkout is loaded only after details are complete.
-7. PayPal approval is verified server-side by `/api/orders/capture` before the order is marked paid.
-8. Media upload is available after successful payment.
+This patch replaces the old browser-side PayPal checkout flow with Razorpay Standard Checkout.
 
-## PayPal testing
-This build uses PayPal's standard JavaScript SDK checkout flow instead of the previous v6 `start()` session flow. The client ID is safe to expose to the browser; the PayPal secret stays server-side in Vercel.
+## Included changes
 
-Use:
-- `PAYPAL_ENV=sandbox`
-- a Sandbox **Business** account as the seller
-- a separate Sandbox **Personal** account as the buyer
-- `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` from the same Sandbox app
+- Razorpay Standard Checkout on the website.
+- INR and USD displayed together on package/order pricing.
+- INR checkout and USD checkout selection.
+- Server-side Razorpay order creation.
+- Server-side Razorpay signature verification.
+- Payment capture handling when a payment is still `authorized`.
+- Supabase order status changes from `payment_pending/unpaid` to `paid` after verified capture.
+- PayPal sandbox SDK removed from the storefront checkout.
+- Festival section removed from the current storefront page.
 
-The PayPal popup is normal checkout behavior. It is not a separate verification-only flow: the buyer logs in, approves the payment, then the server captures and verifies the payment.
+## Existing files this patch expects
 
-## Vercel environment variables
-- `SUPABASE_URL`
-- `SUPABASE_PUBLISHABLE_KEY` (or `SUPABASE_ANON_KEY`)
-- `SUPABASE_SECRET_KEY` (or `SUPABASE_SERVICE_ROLE_KEY`)
-- `PAYPAL_CLIENT_ID`
-- `PAYPAL_CLIENT_SECRET`
-- `PAYPAL_ENV=sandbox` for testing
+The project already needs these existing files from your current repo:
 
-`SUPABASE_URL` is the project URL, e.g. `https://YOUR_PROJECT_REF.supabase.co` — not the REST API URL.
+- `lib/supabaseAdmin.js`
+- `lib/catalog.js`
+- your existing Supabase setup and upload endpoints
+
+## Vercel Environment Variables
+
+Add these to the same Vercel project:
+
+```text
+RAZORPAY_KEY_ID=rzp_test_...       # use rzp_live_... for production
+RAZORPAY_KEY_SECRET=...
+BDAYSTUDIO_USD_TO_INR=90
+```
+
+`BDAYSTUDIO_USD_TO_INR` controls the storefront conversion used for the INR price. Change it once in Vercel instead of changing every package manually.
+
+Do NOT put `RAZORPAY_KEY_SECRET` in the frontend.
+
+## Current displayed prices at the default rate of ₹90/USD
+
+- Mini: $5 / ₹450
+- Classic: $9 / ₹810
+- Deluxe: $15 / ₹1,350
+- 30-day extension: +$2 / +₹180
+- 90-day extension: +$5 / +₹450
+- 1-year extension: +$10 / +₹900
+
+The add-ons use the same fixed conversion.
+
+## Checkout flow
+
+Theme → Package → Deployment → Add-ons → Customer details → Razorpay Checkout → server verification → media upload.
+
+Razorpay's Checkout receives a server-created `order_id`; the payment response is sent back to `/api/orders/verify`, where the signature is verified using the Razorpay secret before the order is marked paid.

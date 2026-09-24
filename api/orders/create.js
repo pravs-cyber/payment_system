@@ -1,12 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { supabaseAdmin } from '../../lib/supabaseAdmin.js';
-import { paypalRequest } from '../../lib/paypal.js';
 import { calculateOrder } from '../../lib/catalog.js';
+import { razorpayRequest, razorpayKeyId } from '../../lib/razorpay.js';
 
+const USD_TO_INR = Number(process.env.BDAYSTUDIO_USD_TO_INR || 90);
 const ordersTable = () => supabaseAdmin.schema('public').from('orders');
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
     const body = req.body || {};
@@ -18,7 +19,8 @@ export default async function handler(req, res) {
       theme,
       packageName,
       deployment,
-      addons = []
+      addons = [],
+      currency = 'INR'
     } = body;
 
     if (!customerEmail || !/^\S+@\S+\.\S{2,}$/.test(customerEmail.trim())) {
@@ -30,12 +32,21 @@ export default async function handler(req, res) {
     if (!packageName || packageName === 'Custom') {
       return res.status(400).json({ error: 'Custom orders are handled through Instagram' });
     }
+    if (!['INR', 'USD'].includes(currency)) {
+      return res.status(400).json({ error: 'Unsupported checkout currency' });
+    }
 
     const pricing = calculateOrder({ packageName, deployment, addons });
     if (!Number.isFinite(pricing.total) || pricing.total <= 0) {
       return res.status(400).json({ error: 'Could not calculate a valid order total' });
     }
 
+    // INR is displayed/charged using a fixed storefront rate so the amount shown
+    // on the site always matches the amount sent to Razorpay.
+    const amountMajor = currency === 'INR'
+      ? Math.round(pricing.total * USD_TO_INR)
+      : Number(pricing.total.toFixed(2));
+    const amountSubunits = Math.round(amountMajor * 100);
     const localOrderId = randomUUID();
 
     const { error: insertError } = await ordersTable().insert({
@@ -51,56 +62,47 @@ export default async function handler(req, res) {
       total_usd: pricing.total,
       status: 'payment_pending',
       payment_status: 'unpaid',
-      payment_provider: 'paypal'
+      payment_provider: 'razorpay'
     });
 
-    if (insertError) {
-      console.error('Supabase orders insert failed:', insertError);
-      const message = insertError.message || 'Could not save the order';
-      if (/schema cache|public\.orders|relation .*orders/i.test(message)) {
-        return res.status(503).json({
-          error: 'Supabase cannot see public.orders. Make sure the public schema is exposed in Supabase Data API and that SUPABASE_SECRET_KEY belongs to this same project.'
-        });
-      }
-      throw insertError;
-    }
+    if (insertError) throw insertError;
 
-    let paypalOrder;
     try {
-      paypalOrder = await paypalRequest('/v2/checkout/orders', {
+      const razorpayOrder = await razorpayRequest('/orders', {
         method: 'POST',
-        headers: { 'PayPal-Request-Id': `bdaystudio-${localOrderId}` },
         body: JSON.stringify({
-          intent: 'CAPTURE',
-          purchase_units: [{
-            reference_id: localOrderId,
-            custom_id: localOrderId,
-            description: `bdaystudio ${packageName} website`,
-            amount: {
-              currency_code: 'USD',
-              value: pricing.total.toFixed(2)
-            }
-          }]
+          amount: amountSubunits,
+          currency,
+          receipt: `bday-${localOrderId.slice(0, 18)}`,
+          notes: {
+            local_order_id: localOrderId,
+            package: packageName,
+            theme: theme.trim()
+          }
         })
       });
-    } catch (paypalError) {
+
+      const { error: updateError } = await ordersTable()
+        .update({ payment_provider_order_id: razorpayOrder.id })
+        .eq('id', localOrderId);
+
+      if (updateError) throw updateError;
+
+      return res.status(201).json({
+        keyId: razorpayKeyId(),
+        id: razorpayOrder.id,
+        localOrderId,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        displayAmount: amountMajor,
+        displayUsd: pricing.total
+      });
+    } catch (paymentError) {
       await ordersTable().update({ status: 'payment_error' }).eq('id', localOrderId);
-      throw paypalError;
+      throw paymentError;
     }
-
-    const { error: updateError } = await ordersTable()
-      .update({ payment_provider_order_id: paypalOrder.id })
-      .eq('id', localOrderId);
-
-    if (updateError) throw updateError;
-
-    return res.status(201).json({
-      id: paypalOrder.id,
-      localOrderId,
-      total: pricing.total
-    });
   } catch (error) {
-    console.error('Order creation failed:', error);
-    return res.status(500).json({ error: error?.message || 'Could not create checkout order' });
+    console.error('Razorpay order creation failed:', error);
+    return res.status(500).json({ error: error?.message || 'Could not create Razorpay checkout order' });
   }
 }
