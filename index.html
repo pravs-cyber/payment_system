@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/BdayStudio.png">
+  <link rel="apple-touch-icon" href="/BdayStudio.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>bdaystudio - Tiny corners of the internet</title>
   <meta name="description" content="Personalized birthday websites made for someone special.">
@@ -459,6 +461,12 @@ body{
       <label><span>Recipient name *</span><input id="recipientName" type="text" placeholder="Their name"></label>
       <label><span>Birthday message *</span><textarea id="birthdayMessage" rows="5" placeholder="What should the website say?"></textarea></label>
       <div class="upload-after-payment-note"><span>Media comes after payment</span><small>You'll get the private upload step after checkout.</small></div>
+<div class="international-payment-note" style="margin-top:16px;padding:14px 16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;">
+  <strong>🌎 International customers</strong>
+  <p style="margin:6px 0 10px;">Currently, international payments are handled through Ko-fi.</p>
+  <a href="https://ko-fi.com/bdaystudio" target="_blank" rel="noopener noreferrer">Pay via Ko-fi →</a>
+</div>
+
       
       <label><span>Extra notes</span><textarea id="orderNotes" rows="4" placeholder="Colours, inside jokes, sections, anything else..."></textarea></label>
     </div>
@@ -508,7 +516,7 @@ body{
       <button type="button" class="currency-btn selected" data-currency="INR">₹ INR</button>
       <button type="button" class="currency-btn" data-currency="USD">$ USD</button>
     </div>
-    <small class="currency-note">Indian checkout uses INR. International checkout can use USD when enabled on your Razorpay account.</small>
+    <small class="currency-note">🇮🇳 Indian customers can pay securely with Razorpay. 🌎 International customers: please check out through our Ko-fi page.</small>
 
     <div id="razorpayStatus" class="payment-status" aria-live="polite">Your payment will open in Razorpay Checkout.</div>
     <button class="button primary full-btn" id="razorpayStartBtn" type="button">Continue with Razorpay →</button>
@@ -581,7 +589,7 @@ body{
       paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)} / ₹${Math.round(total * usdToInr).toLocaleString('en-IN')}`;
       paymentStatus.textContent = checkoutCurrency === 'INR'
         ? 'Ready for Indian checkout via Razorpay.'
-        : 'Ready for international checkout via Razorpay.';
+        : 'For international payments, please use Ko-fi below.';
     }
   }));
 
@@ -947,7 +955,7 @@ body{
     paymentSummary.textContent = `${selectedTheme.textContent} - ${pkg.dataset.packageName} - $${total.toFixed(2)} / ₹${inr.toLocaleString('en-IN')}`;
     paymentStatus.textContent = currency === 'INR'
       ? 'Ready for Indian checkout via Razorpay.'
-      : 'Ready for international checkout via Razorpay.';
+      : 'For international payments, please use Ko-fi below.';
     razorpayStartBtn.hidden = false;
     razorpayStartBtn.disabled = false;
     postPaymentSection.classList.remove('visible');
