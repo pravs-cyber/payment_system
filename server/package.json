@@ -1,0 +1,16 @@
+{
+  "name": "payflow-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/app.js",
+    "check": "node --check server/app.js && node --check server/providers/internal.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "redis": "^5.8.2"
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PayFlow Merchant Portal</title>
+<style>
+body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-serif}.wrap{max-width:1100px;margin:35px auto;padding:0 20px}h1,h2{letter-spacing:-.04em}.card{background:#fff;border:1px solid #e4e7ef;border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 10px 30px rgba(30,40,70,.05)}label{display:grid;gap:6px;font-size:13px;font-weight:700}input,select{padding:11px;border:1px solid #dfe3eb;border-radius:10px;font:inherit}form{display:grid;gap:12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.button{border:0;border-radius:10px;padding:12px 16px;background:#252838;color:#fff;font-weight:700;cursor:pointer}.muted{color:#72798b;font-size:13px}.hidden{display:none}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border-radius:16px;background:#252838;color:#fff}.stat small{color:#bbc1d1}.stat strong{display:block;font-size:28px;margin-top:8px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:10px;text-align:left;border-bottom:1px solid #edf0f5}.key{word-break:break-all;background:#f1f4f9;padding:12px;border-radius:10px;font-family:monospace}.ok{color:#18794e}.error{color:#b42318}@media(max-width:700px){.grid,.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>PayFlow Merchant Portal</h1><p class="muted">Onboard a merchant, generate credentials, and manage payments/payouts through the same generic API.</p>
+<section id="onboarding" class="card"><h2>1. Create merchant account</h2>
+<form id="signup"><div class="grid">
+<label>Business name<input name="businessName" required placeholder="BdayStudio"></label>
+<label>Owner name<input name="ownerName" required placeholder="Merchant owner"></label>
+<label>Email<input type="email" name="email" required placeholder="merchant@example.com"></label>
+<label>Phone<input name="phone" placeholder="9876543210"></label>
+<label>Business type<select name="businessType"><option value="ecommerce">E-commerce</option><option value="saas">SaaS</option><option value="marketplace">Marketplace</option></select></label>
+<label>Website<input name="website" placeholder="https://example.com"></label>
+</div><label>Webhook URL<input name="webhookUrl" placeholder="https://example.com/webhooks/payflow"></label>
+<button class="button">Create Merchant</button></form><p id="signupMsg" class="muted"></p></section>
+<section id="dashboard" class="hidden">
+<div class="card"><h2 id="merchantName"></h2><p id="merchantMeta" class="muted"></p><div class="key" id="apiKey"></div><p class="muted">This demo shows the API key once after onboarding. In production, store only its hash and provide secure key rotation.</p></div>
+<div class="stats"><div class="stat"><small>Available balance</small><strong id="available">₹0</strong></div><div class="stat"><small>Pending balance</small><strong id="pending">₹0</strong></div><div class="stat"><small>Payments</small><strong id="paymentCount">0</strong></div></div>
+<div class="card"><h2>Test a payment</h2><form id="paymentForm"><div class="grid"><label>Amount (₹)<input name="amount" type="number" min="1" value="999" required></label><label>Simulation<select name="simulation"><option value="success">Success</option><option value="pending">Pending</option><option value="failed">Failed</option><option value="timeout">Timeout</option></select></label></div><button class="button">Create Payment</button></form><p id="paymentMsg" class="muted"></p></div>
+<div class="card"><h2>Recent payments</h2><table><thead><tr><th>ID</th><th>Order</th><th>Amount</th><th>Status</th></tr></thead><tbody id="payments"></tbody></table></div>
+<div class="card"><h2>Recent payouts</h2><table><thead><tr><th>ID</th><th>Amount</th><th>Status</th><th>UTR</th></tr></thead><tbody id="payouts"></tbody></table></div>
+</section></div>
+<script>
+const API=(location.port==='8080'||location.port==='8000')?'http://localhost:8000':'';let key=localStorage.getItem('payflow_api_key');
+const money=n=>'₹'+(Number(n||0)/100).toLocaleString('en-IN');
+async function api(path,options={}){const r=await fetch(API+path,{...options,headers:{'Content-Type':'application/json',Authorization:'Bearer '+key,...(options.headers||{})}});const d=await r.json();if(!r.ok)throw new Error(d.error||'Request failed');return d}
+function showDashboard(d){document.getElementById('onboarding').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');document.getElementById('merchantName').textContent=d.merchant.businessName;document.getElementById('merchantMeta').textContent=`${d.merchant.id} · ${d.merchant.email} · ${d.merchant.status}`;document.getElementById('available').textContent=money(d.wallet.available_paise);document.getElementById('pending').textContent=money(d.wallet.pending_paise);document.getElementById('paymentCount').textContent=d.payments.length;document.getElementById('payments').innerHTML=d.payments.map(p=>`<tr><td>${p.id}</td><td>${p.merchant_order_id}</td><td>${money(p.amount_paise)}</td><td>${p.status}</td></tr>`).join('');document.getElementById('payouts').innerHTML=d.payouts.map(p=>`<tr><td>${p.id}</td><td>${money(p.amount_paise)}</td><td>${p.status}</td><td>${p.utr||'-'}</td></tr>`).join('')}
+async function refresh(){try{showDashboard(await api('/v1/dashboard'))}catch(e){localStorage.removeItem('payflow_api_key');location.reload()}}
+document.getElementById('signup').onsubmit=async e=>{e.preventDefault();const body=Object.fromEntries(new FormData(e.target));try{const d=await fetch(API+'/v1/merchants',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());if(d.error)throw new Error(d.error);key=d.credentials.apiKey;localStorage.setItem('payflow_api_key',key);document.getElementById('apiKey').textContent=key;document.getElementById('signupMsg').textContent='Merchant created.';await refresh()}catch(err){document.getElementById('signupMsg').textContent=err.message;document.getElementById('signupMsg').className='error'}};
+document.getElementById('paymentForm').onsubmit=async e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));try{const d=await api('/v1/payments',{method:'POST',headers:{'Idempotency-Key':'demo-'+Date.now()},body:JSON.stringify({amount:Math.round(Number(f.amount)*100),orderId:'demo-'+Date.now(),simulation:f.simulation})});document.getElementById('paymentMsg').textContent=`${d.paymentId}: ${d.status}`;await refresh()}catch(err){document.getElementById('paymentMsg').textContent=err.message;document.getElementById('paymentMsg').className='error'}};
+if(key){document.getElementById('apiKey').textContent=key;refresh()}
+</script></body></html>

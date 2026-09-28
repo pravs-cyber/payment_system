@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PayFlow Integration</title><style>body{font-family:system-ui;max-width:950px;margin:40px auto;padding:0 20px;color:#202331}pre{background:#111;color:#eee;padding:16px;border-radius:12px;overflow:auto}a{display:inline-block;margin:8px 0;padding:11px 15px;border-radius:10px;background:#252838;color:#fff;text-decoration:none}</style></head><body><h1>PayFlow</h1><p>Provider-agnostic payment infrastructure for e-commerce merchants.</p><a href="/merchant-dashboard.html">Open Merchant Portal</a><h2>Merchant onboarding</h2><pre>POST /v1/merchants
+{
+  "businessName": "Demo Store",
+  "ownerName": "Demo Owner",
+  "email": "merchant@example.com",
+  "businessType": "ecommerce",
+  "website": "https://example.com"
+}</pre><h2>Payment integration</h2><pre>POST /v1/payments
+Authorization: Bearer pk_test_...
+Idempotency-Key: order-1001
+
+{
+  "amount": 99900,
+  "currency": "INR",
+  "orderId": "order-1001",
+  "simulation": "success"
+}</pre><h2>Payout integration</h2><pre>POST /v1/payouts
+Authorization: Bearer pk_test_...
+Idempotency-Key: payout-1001
+
+{
+  "amount": 50000,
+  "mode": "IMPS",
+  "beneficiary": {
+    "name": "Example Beneficiary",
+    "accountNumber": "XXXXXXXXXXXX",
+    "ifsc": "HDFC0000001"
+  }
+}</pre><p>For the hackathon, payments and payouts use internal simulators. A real PSP/bank provider can later be plugged in behind the provider interface without changing merchant APIs.</p></body></html>
