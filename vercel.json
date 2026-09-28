@@ -1,8 +1,27 @@
 {
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/payflow-integration" },
+    { "source": "/health", "destination": "/api" },
+    { "source": "/v1/:path*", "destination": "/api" },
+    { "source": "/merchant-dashboard", "destination": "/public/merchant-dashboard" },
+    { "source": "/payflow-integration", "destination": "/public/payflow-integration" }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/v1/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/health",
       "headers": [
         { "key": "Cache-Control", "value": "no-store" }
       ]

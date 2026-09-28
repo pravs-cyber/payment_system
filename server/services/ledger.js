@@ -1,16 +1,24 @@
-import { query, withTransaction } from '../db.js';
+import { withTransaction } from '../db.js';
 
+// 1% platform fee, kept by PayFlow at capture time.
+export function platformFee(grossPaise) {
+  return Math.floor(grossPaise * 0.01);
+}
+
+// Records a captured payment in the merchant ledger and credits the wallet atomically.
+// Ledger: CREDIT gross, DEBIT platform fee  =>  net ledger movement == wallet credit,
+// which is what /v1/reconciliation checks.
 export async function postPaymentLedger({ merchantId, paymentId, grossPaise }) {
-  const platformFee = Math.floor(grossPaise * 0.01);
-  const merchantCredit = grossPaise - platformFee;
+  const fee = platformFee(grossPaise);
+  const merchantCredit = grossPaise - fee;
 
   return withTransaction(async client => {
     const { rows } = await client.query(
       `INSERT INTO ledger_entries
        (merchant_id, reference_type, reference_id, debit_paise, credit_paise, description)
-       VALUES ($1,'payment',$2,0,$3,'Merchant payment credit'), ($1,'payment',$2,$3,0,'Customer/platform debit')
+       VALUES ($1,'payment',$2,0,$3,'Payment captured (gross)'), ($1,'fee',$2,$4,0,'PayFlow platform fee')
        RETURNING *`,
-      [merchantId, paymentId, merchantCredit]
+      [merchantId, paymentId, grossPaise, fee]
     );
 
     await client.query(
@@ -61,12 +69,7 @@ export async function settlePayout(client, merchantId, amountPaise, success, pay
        WHERE merchant_id = $1`,
       [merchantId, amountPaise]
     );
-    if (payoutId) {
-      await client.query(
-        `INSERT INTO ledger_entries (merchant_id,reference_type,reference_id,debit_paise,credit_paise,description)
-         VALUES ($1,'payout',$2,0,$3,'Failed payout returned to merchant')`,
-        [merchantId, payoutId, amountPaise]
-      );
-    }
+    // No ledger entry: the ledger is only debited when a payout settles successfully,
+    // so releasing the reservation back to available balance needs no reversal.
   }
 }

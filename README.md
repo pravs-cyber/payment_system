@@ -22,8 +22,11 @@ Payments     Ledger          Payouts
   |            |                |
   v            v                v
 Internal     PostgreSQL      Internal
-Simulator      + Redis       Simulator
+Simulator                    Simulator
 ```
+
+All state (including idempotency keys) lives in PostgreSQL, so the same code runs in
+Docker Compose and as a stateless Vercel serverless function.
 
 ## Merchant onboarding
 
@@ -51,6 +54,16 @@ Open:
 - API: `http://localhost:8000`
 - Health: `http://localhost:8080/health`
 
+Containers: `frontend` (nginx, serves `/public` pages and proxies `/health` + `/v1/*`),
+`backend` (Express API), `postgres` (initialised from `db/schema.sql`).
+
+Verify the whole flow end-to-end:
+
+```bash
+./scripts/smoke-test.sh                          # local
+./scripts/smoke-test.sh https://YOUR-APP.vercel.app   # production
+```
+
 `down -v` is used when moving from an older schema because it recreates the PostgreSQL volume with the current merchant tables. Do not use it if you need to preserve old local database data.
 
 ## Main APIs
@@ -67,8 +80,29 @@ POST /v1/payments/:id/refund
 GET  /v1/wallet
 POST /v1/payouts
 GET  /v1/payouts/:id
+GET  /v1/reconciliation
 GET  /v1/reconciliation/payouts/:id
 ```
+
+`GET /v1/reconciliation` checks that the wallet balance (available + pending) equals the
+merchant's ledger net position. `GET /v1/reconciliation/payouts/:id` checks the payout
+row, simulator reference/UTR and ledger debit agree.
+
+Ledger postings: a captured payment credits the gross amount and debits the 1% platform
+fee; a payout debits the paid-out amount; a refund debits the merchant's net credit.
+
+## Deploying on Vercel + Supabase
+
+`api/index.js` wraps the Express app as one serverless function; `vercel.json` rewrites
+`/health` and `/v1/*` to it, so the API URLs are identical to local.
+
+1. In the Supabase SQL editor, run `db/schema.sql` (safe to re-run). It enables Row Level
+   Security on every PayFlow table so they are not reachable through Supabase's public
+   Data API; the backend connects as the table owner and is unaffected.
+2. In Vercel → Project → Settings → Environment Variables set `DATABASE_URL` to the
+   Supabase **transaction pooler** connection string (port 6543). If the Vercel Supabase
+   integration is installed, `POSTGRES_URL` is used automatically instead.
+3. Deploy, then run `./scripts/smoke-test.sh https://YOUR-APP.vercel.app`.
 
 ## Merchant isolation
 

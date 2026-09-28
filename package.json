@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "check": "node --check server/app.js && node --check server/providers/razorpay.js && node --check server/providers/razorpayx.js && node --check api/orders/create.js && node --check api/orders/capture.js && node --check api/orders/verify.js && node --check api/razorpay/webhook.js",
+    "check": "node --check api/index.js && node --check server/app.js && node --check server/providers/razorpay.js && node --check server/providers/razorpayx.js && node --check api/orders/create.js && node --check api/orders/capture.js && node --check api/orders/verify.js && node --check api/razorpay/webhook.js",
     "start": "node server/app.js"
   },
   "dependencies": {

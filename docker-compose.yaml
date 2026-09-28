@@ -7,7 +7,7 @@ services:
       - "8080:80"
     depends_on:
       backend:
-        condition: service_started
+        condition: service_healthy
 
   backend:
     build:
@@ -17,13 +17,15 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://payflow:payflow@postgres:5432/payflow
-      REDIS_URL: redis://redis:6379
       PAYMENT_PROVIDER: simulator
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8000/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   postgres:
     image: postgres:16-alpine
@@ -41,11 +43,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
 
 volumes:
   postgres_data:
