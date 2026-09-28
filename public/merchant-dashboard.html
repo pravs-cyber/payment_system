@@ -89,11 +89,75 @@ $('login').onsubmit = e => { e.preventDefault(); key = new FormData(e.target).ge
 $('signup').onsubmit = async e => { e.preventDefault(); const body = Object.fromEntries(new FormData(e.target)); for (const k of Object.keys(body)) if (body[k] === '') delete body[k];
   try { const d = await request('/v1/merchants', { method: 'POST', body: JSON.stringify(body) }, false); key = d.credentials.apiKey; localStorage.setItem('payflow_api_key', key); $('apiKey').textContent = key; say('signupMsg', 'Merchant created. Save your API key - it is shown only once.', 'ok'); await refresh(); }
   catch (err) { say('signupMsg', err.message, 'error'); } };
-$('paymentForm').onsubmit = async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+let paymentInFlight = false;
+
+$('paymentForm').onsubmit = async e => {
+  e.preventDefault();
+
+  // Prevent double-click / double-submit
+  if (paymentInFlight) return;
+
+  paymentInFlight = true;
+
+  const form = e.target;
+  const button = form.querySelector('button[type="submit"]');
+  const f = Object.fromEntries(new FormData(form));
+
+  // Generate ONE operation ID for this payment attempt
+  const operationId = crypto.randomUUID();
+  const idempotencyKey = 'pay-' + operationId;
+  const orderId = 'order-' + operationId;
+
+  // Open checkout tab only once
   const tab = window.open('about:blank', '_blank');
-  try { const d = await api('/v1/payments', { method: 'POST', headers: { 'Idempotency-Key': idem('pay') }, body: JSON.stringify({ amount: Math.round(Number(f.amount) * 100), orderId: 'order-' + Date.now(), customer: { phone: f.phone, email: f.email || undefined } }) });
-    say('paymentMsg', `${d.paymentId}: ${d.status}. Checkout opened in a new tab; refresh after paying.`); if (tab) tab.location = d.checkout.url; else location.href = d.checkout.url; await refresh(); }
-  catch (err) { if (tab) tab.close(); say('paymentMsg', err.message, 'error'); } };
+
+  button.disabled = true;
+  button.textContent = 'Creating payment...';
+
+  try {
+    const d = await api('/v1/payments', {
+      method: 'POST',
+      headers: {
+        'Idempotency-Key': idempotencyKey
+      },
+      body: JSON.stringify({
+        amount: Math.round(Number(f.amount) * 100),
+        orderId,
+        customer: {
+          phone: f.phone,
+          email: f.email || undefined
+        }
+      })
+    });
+
+    say(
+      'paymentMsg',
+      `${d.paymentId}: ${d.status}. Checkout opened in a new tab; refresh after paying.`
+    );
+
+    if (tab) {
+      tab.location = d.checkout.url;
+    } else {
+      location.href = d.checkout.url;
+    }
+
+    await refresh();
+
+  } catch (err) {
+    if (tab) tab.close();
+
+    say(
+      'paymentMsg',
+      err.message,
+      'error'
+    );
+
+  } finally {
+    paymentInFlight = false;
+    button.disabled = false;
+    button.textContent = 'Create payment & open checkout';
+  }
+};
 $('accountForm').onsubmit = async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
   try { const d = await api('/v1/merchant/payout-account', { method: 'POST', body: JSON.stringify(f) }); say('accountMsg', `Registered beneficiary ${d.payoutAccount.beneficiaryId}`, 'ok'); e.target.reset(); await refresh(); }
   catch (err) { say('accountMsg', err.message, 'error'); } };
