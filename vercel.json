@@ -1,30 +1,28 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/index.js": { "includeFiles": "db/schema.sql", "maxDuration": 30 }
+  },
+  "crons": [
+    { "path": "/api/v1/internal/cron", "schedule": "0 3 * * *" }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/payflow-integration" },
     { "source": "/health", "destination": "/api" },
     { "source": "/v1/:path*", "destination": "/api" },
     { "source": "/merchant-dashboard", "destination": "/public/merchant-dashboard" },
-    { "source": "/payflow-integration", "destination": "/public/payflow-integration" }
+    { "source": "/payflow-integration", "destination": "/public/payflow-integration" },
+    { "source": "/checkout", "destination": "/public/checkout" },
+    { "source": "/admin", "destination": "/public/admin" }
   ],
   "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
-      "source": "/v1/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
-      "source": "/health",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    }
+    { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
+    { "source": "/v1/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
+    { "source": "/health", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" }
+    ] }
   ]
 }

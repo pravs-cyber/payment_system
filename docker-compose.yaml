@@ -17,7 +17,17 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://payflow:payflow@postgres:5432/payflow
-      PAYMENT_PROVIDER: simulator
+      # simulator (default, offline) or cashfree (real PSP sandbox). Values come from your shell or a .env file.
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-simulator}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-local-admin-key}
+      JOBS_INTERVAL_MS: ${JOBS_INTERVAL_MS:-15000}
+      CASHFREE_ENV: ${CASHFREE_ENV:-sandbox}
+      CASHFREE_PG_CLIENT_ID: ${CASHFREE_PG_CLIENT_ID:-}
+      CASHFREE_PG_CLIENT_SECRET: ${CASHFREE_PG_CLIENT_SECRET:-}
+      CASHFREE_PAYOUT_CLIENT_ID: ${CASHFREE_PAYOUT_CLIENT_ID:-}
+      CASHFREE_PAYOUT_CLIENT_SECRET: ${CASHFREE_PAYOUT_CLIENT_SECRET:-}
+      CASHFREE_PAYOUT_PUBLIC_KEY: ${CASHFREE_PAYOUT_PUBLIC_KEY:-}
     depends_on:
       postgres:
         condition: service_healthy

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PayFlow Admin · Reconciliation</title>
+<style>
+body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-serif}.wrap{max-width:1150px;margin:35px auto;padding:0 20px}h1,h2{letter-spacing:-.04em}h2{font-size:19px}.card{background:#fff;border:1px solid #e4e7ef;border-radius:20px;padding:22px;margin:16px 0}input{padding:11px;border:1px solid #dfe3eb;border-radius:10px;font:inherit;min-width:280px}.button{border:0;border-radius:10px;padding:11px 15px;background:#252838;color:#fff;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}.button.light{background:#eef0f5;color:#252838}.muted{color:#72798b;font-size:13px}.error{color:#b42318}.ok{color:#18794e}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:16px;border-radius:14px;background:#252838;color:#fff}.stat small{color:#bbc1d1}.stat strong{display:block;font-size:24px;margin-top:6px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px;text-align:left;border-bottom:1px solid #edf0f5;white-space:nowrap}.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:#eef0f5}.pill.MATCH{background:#e3f6ec;color:#18794e}.pill.MISMATCH,.pill.MISSING_AT_PROVIDER,.pill.PROVIDER_ERROR{background:#fde8e7;color:#b42318}@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>PayFlow Admin · Monitoring &amp; Reconciliation</h1>
+<div class="card"><input id="adminKey" type="password" placeholder="ADMIN_API_KEY"> <button class="button" id="load">Load overview</button><button class="button light" id="recon">Run reconciliation</button><button class="button light" id="jobs">Run retry jobs</button><p id="msg" class="muted"></p></div>
+<div class="stats"><div class="stat"><small>Transactions compared</small><strong id="sTotal">—</strong></div><div class="stat"><small>Matched</small><strong id="sMatch">—</strong></div><div class="stat"><small>Mismatched / missing</small><strong id="sMis">—</strong></div><div class="stat"><small>Manual review queue</small><strong id="sReview">—</strong></div></div>
+<div class="card"><h2>PayFlow vs provider</h2><div class="tablewrap"><table><thead><tr><th>Type</th><th>ID</th><th>Merchant</th><th>PayFlow</th><th>Provider</th><th>Amount</th><th>Result</th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div class="card"><h2>Manual review (dead letters)</h2><div class="tablewrap"><table><thead><tr><th>Type</th><th>ID</th><th>Merchant</th><th>Amount</th><th>Reason</th></tr></thead><tbody id="review"></tbody></table></div></div>
+<div class="card"><h2>Volumes</h2><div id="volumes" class="muted"></div></div>
+</div>
+<script>
+const $ = x => document.getElementById(x);
+const money = n => '₹' + (Number(n || 0) / 100).toLocaleString('en-IN');
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+async function call(method, path) {
+  const r = await fetch(path, { method, headers: { Authorization: 'Bearer ' + $('adminKey').value.trim() } });
+  const d = await r.json().catch(() => null); if (!r.ok || !d) throw new Error(d?.error || `API ${r.status}`); return d;
+}
+const msg = (t, c = 'muted') => { $('msg').textContent = t; $('msg').className = c; };
+async function overview() {
+  const d = await call('GET', '/v1/admin/overview');
+  $('sReview').textContent = d.manualReview.length;
+  $('review').innerHTML = d.manualReview.map(r => `<tr><td>${esc(r.type)}</td><td>${esc(r.id)}</td><td>${esc(r.merchant_id)}</td><td>${money(r.amount_paise)}</td><td>${esc(r.reason || '')}</td></tr>`).join('');
+  const line = (label, rows) => label + ': ' + rows.map(r => `${r.status} ${r.count}${r.amount_paise != null ? ' (' + money(r.amount_paise) + ')' : ''}`).join(' · ');
+  $('volumes').innerHTML = [`Provider: ${esc(d.provider)} · merchants: ${d.merchants}`, line('Payments', d.payments), line('Payouts', d.payouts), line('Webhooks', d.webhooks),
+    `Dead-letter webhooks: ${d.deadLetterWebhooks.length}`].map(esc).join('<br>');
+}
+$('load').onclick = () => overview().then(() => msg('Loaded', 'ok')).catch(e => msg(e.message, 'error'));
+$('recon').onclick = async () => { msg('Comparing every recent transaction with the provider…');
+  try { const d = await call('GET', '/v1/admin/reconciliation'); const s = d.summary;
+    $('sTotal').textContent = s.total; $('sMatch').textContent = s.matched; $('sMis').textContent = s.mismatched + s.missingAtProvider + s.providerErrors;
+    $('rows').innerHTML = d.items.map(i => `<tr><td>${esc(i.type)}</td><td>${esc(i.id)}</td><td>${esc(i.merchantId)}</td><td>${esc(i.internalStatus)}</td><td>${esc(i.providerStatus || '-')}${i.providerRaw ? ' <span class="muted">(' + esc(i.providerRaw) + ')</span>' : ''}</td><td>${money(i.internalAmount)}</td><td><span class="pill ${esc(i.result)}">${esc(i.result === 'MATCH' ? 'MATCH' : 'REVIEW')}</span></td></tr>`).join('');
+    msg('Reconciliation complete at ' + new Date(d.generatedAt).toLocaleTimeString(), 'ok'); await overview(); } catch (e) { msg(e.message, 'error'); } };
+$('jobs').onclick = async () => { try { const d = await call('POST', '/v1/admin/jobs/run'); msg('Jobs: ' + JSON.stringify(d), 'ok'); await overview(); } catch (e) { msg(e.message, 'error'); } };
+</script></body></html>

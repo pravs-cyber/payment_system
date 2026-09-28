@@ -1,29 +1,31 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PayFlow Integration</title><style>body{font-family:system-ui;max-width:950px;margin:40px auto;padding:0 20px;color:#202331}pre{background:#111;color:#eee;padding:16px;border-radius:12px;overflow:auto}a{display:inline-block;margin:8px 0;padding:11px 15px;border-radius:10px;background:#252838;color:#fff;text-decoration:none}</style></head><body><h1>PayFlow</h1><p>Provider-agnostic payment infrastructure for e-commerce merchants.</p><a href="/merchant-dashboard.html">Open Merchant Portal</a><h2>Merchant onboarding</h2><pre>POST /v1/merchants
-{
-  "businessName": "Demo Store",
-  "ownerName": "Demo Owner",
-  "email": "merchant@example.com",
-  "businessType": "ecommerce",
-  "website": "https://example.com"
-}</pre><h2>Payment integration</h2><pre>POST /v1/payments
-Authorization: Bearer pk_test_...
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PayFlow Integration</title>
+<style>body{font-family:system-ui;max-width:950px;margin:40px auto;padding:0 20px;color:#202331;line-height:1.55}pre{background:#111;color:#eee;padding:16px;border-radius:12px;overflow:auto;font-size:13px}a.btn{display:inline-block;margin:8px 8px 8px 0;padding:11px 15px;border-radius:10px;background:#252838;color:#fff;text-decoration:none}code{background:#eef0f5;padding:1px 5px;border-radius:5px}</style></head>
+<body><h1>PayFlow</h1><p>Provider-agnostic, multi-tenant payment infrastructure for e-commerce merchants: pay-in through a PSP (Cashfree), a double-entry ledger, merchant wallets, pay-outs to merchant bank accounts, webhooks, retries and reconciliation.</p>
+<a class="btn" href="/merchant-dashboard">Merchant Portal</a><a class="btn" href="/admin">Admin &amp; Reconciliation</a>
+<h2>1. Onboard</h2><pre>POST /v1/merchants
+{ "businessName": "Demo Store", "ownerName": "Demo Owner", "email": "merchant@example.com" }
+-> { "credentials": { "merchantId": "mer_…", "apiKey": "pk_test_…" } }   (shown once; only its hash is stored)</pre>
+<h2>2. Collect a payment</h2><pre>POST /v1/payments
+Authorization: Bearer pk_test_…
 Idempotency-Key: order-1001
 
-{
-  "amount": 99900,
-  "currency": "INR",
-  "orderId": "order-1001",
-  "simulation": "success"
-}</pre><h2>Payout integration</h2><pre>POST /v1/payouts
-Authorization: Bearer pk_test_...
-Idempotency-Key: payout-1001
+{ "amount": 99900, "orderId": "order-1001",
+  "customer": { "phone": "9876543210", "email": "buyer@example.com" } }
 
-{
-  "amount": 50000,
-  "mode": "IMPS",
-  "beneficiary": {
-    "name": "Example Beneficiary",
-    "accountNumber": "XXXXXXXXXXXX",
-    "ifsc": "HDFC0000001"
-  }
-}</pre><p>For the hackathon, payments and payouts use internal simulators. A real PSP/bank provider can later be plugged in behind the provider interface without changing merchant APIs.</p></body></html>
+-> 201 { "paymentId": "pay_…", "status": "PENDING",
+         "checkout": { "url": "https://…/checkout?payment=pay_…", "type": "cashfree", "paymentSessionId": "session_…" } }</pre>
+<p>Send the customer to <code>checkout.url</code> (or open Cashfree's JS SDK with <code>paymentSessionId</code>). Card/UPI details are entered on the PSP's page only. The payment becomes <code>SUCCESS</code> when the PSP's signed webhook arrives. Only then are the ledger and wallet updated. Poll <code>GET /v1/payments/:id</code> or rely on your own flow. Amounts are integer paise.</p>
+<p>States: <code>CREATED → PENDING → SUCCESS | FAILED | CANCELLED | EXPIRED</code>; a customer may retry a failed attempt on the same order (<code>FAILED → SUCCESS</code>); <code>SUCCESS → REFUNDED</code>; amount mismatches go to <code>MANUAL_REVIEW</code>.</p>
+<h2>3. Register a payout account, then withdraw</h2><pre>POST /v1/merchant/payout-account
+{ "name": "Demo Owner", "accountNumber": "026291800001191", "ifsc": "YESB0000262" }
+
+POST /v1/payouts
+Idempotency-Key: payout-1001
+{ "amount": 50000, "mode": "IMPS" }
+-> 201 { "payoutId": "po_…", "status": "PROCESSING" }   → SUCCESS (with UTR) via the payout provider's webhook</pre>
+<p>States: <code>CREATED → PROCESSING → SUCCESS | FAILED</code>, <code>SUCCESS → REVERSED</code>; unconfirmable transfers go to <code>MANUAL_REVIEW</code> with funds kept reserved.</p>
+<h2>4. Balances, ledger, reconciliation</h2><pre>GET /v1/wallet                    available / pending (paise)
+GET /v1/ledger                    double-entry entries
+GET /v1/reconciliation            wallet vs ledger accounts, all transactions balanced
+GET /v1/reconciliation/provider   every payment/payout vs the PSP's own record</pre>
+<p>With <code>PAYMENT_PROVIDER=simulator</code> the same API runs offline against a built-in PSP simulator that emits signed webhooks; no real money moves.</p></body></html>

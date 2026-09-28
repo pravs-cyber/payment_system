@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PayFlow Checkout</title>
+<style>
+body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-serif}.wrap{max-width:460px;margin:48px auto;padding:0 18px}
+.card{background:#fff;border:1px solid #e4e7ef;border-radius:20px;padding:26px;box-shadow:0 10px 30px rgba(30,40,70,.06)}
+h1{font-size:20px;margin:0 0 4px}.muted{color:#72798b;font-size:13px}.amount{font-size:40px;font-weight:800;letter-spacing:-.03em;margin:18px 0}
+.button{width:100%;border:0;border-radius:12px;padding:14px;background:#252838;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
+.button.secondary{background:#eef0f5;color:#252838}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.status{margin-top:16px;padding:12px;border-radius:12px;background:#f1f4f9;font-weight:700;text-align:center}
+.ok{color:#18794e}.error{color:#b42318}.hidden{display:none}.badge{display:inline-block;font-size:11px;padding:3px 8px;border-radius:99px;background:#eef0f5;color:#555c70;margin-top:10px}
+</style>
+</head>
+<body><div class="wrap"><div class="card">
+<p class="muted" id="merchant">Loading…</p><h1 id="title">Complete your payment</h1>
+<div class="amount" id="amount">—</div>
+<div id="cashfree" class="hidden"><button class="button" id="payCashfree">Pay securely</button></div>
+<div id="simulator" class="hidden">
+  <button class="button" data-outcome="success">Pay (simulated success)</button>
+  <div class="row"><button class="button secondary" data-outcome="failed">Bank declines</button><button class="button secondary" data-outcome="cancelled">Cancel</button></div>
+  <button class="button secondary" data-outcome="timeout">Pay, but lose the webhook</button>
+</div>
+<div class="status" id="status">Checking payment…</div>
+<span class="badge" id="badge"></span>
+</div><p class="muted" style="text-align:center;margin-top:14px">Card and UPI details are entered only on the provider's page. PayFlow never sees them.</p></div>
+<script>
+const id = new URLSearchParams(location.search).get('payment');
+const $ = x => document.getElementById(x);
+const money = p => '₹' + (Number(p || 0) / 100).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+const done = ['SUCCESS', 'REFUNDED', 'EXPIRED', 'MANUAL_REVIEW'];
+async function load() {
+  const r = await fetch('/v1/checkout/' + encodeURIComponent(id || ''));
+  const d = await r.json().catch(() => ({ error: 'Invalid response (' + r.status + ')' }));
+  if (!r.ok) throw new Error(d.error || 'Payment not found');
+  return d;
+}
+function render(d) {
+  $('merchant').textContent = d.merchantName + ' · order ' + d.orderId;
+  $('amount').textContent = money(d.amount);
+  $('badge').textContent = d.provider === 'cashfree' ? 'Cashfree ' + (d.checkout?.mode || '') : 'PayFlow simulator (test)';
+  const labels = { SUCCESS: 'Payment successful', PENDING: 'Awaiting payment', FAILED: 'Payment failed, you can try again',
+    CANCELLED: 'Payment cancelled, you can try again', EXPIRED: 'This payment link has expired', REFUNDED: 'Payment refunded',
+    MANUAL_REVIEW: 'Payment received, under review', CREATED: 'Preparing payment…' };
+  $('status').textContent = labels[d.status] || d.status;
+  $('status').className = 'status ' + (d.status === 'SUCCESS' ? 'ok' : ['FAILED', 'EXPIRED'].includes(d.status) ? 'error' : '');
+  const payable = !done.includes(d.status);
+  $('cashfree').classList.toggle('hidden', !(payable && d.provider === 'cashfree'));
+  $('simulator').classList.toggle('hidden', !(payable && d.provider === 'internal_simulator'));
+}
+async function refresh(pollUntilFinal) {
+  try {
+    let d = await load(); render(d);
+    // After returning from the provider page the webhook may still be in flight: poll briefly.
+    for (let i = 0; pollUntilFinal && i < 20 && !['SUCCESS', 'FAILED', 'CANCELLED', ...done].includes(d.status); i++) {
+      await new Promise(r => setTimeout(r, 2000)); d = await load(); render(d);
+    }
+    return d;
+  } catch (e) { $('status').textContent = e.message; $('status').className = 'status error'; }
+}
+function loadScript(src) { return new Promise((ok, bad) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => bad(new Error('Could not load payment SDK')); document.head.appendChild(s); }); }
+$('payCashfree').onclick = async () => {
+  try {
+    const d = await load();
+    await loadScript('https://sdk.cashfree.com/js/v3/cashfree.js');
+    const cashfree = Cashfree({ mode: d.checkout.mode === 'production' ? 'production' : 'sandbox' });
+    await cashfree.checkout({ paymentSessionId: d.checkout.paymentSessionId, redirectTarget: '_self' });
+  } catch (e) { $('status').textContent = e.message; $('status').className = 'status error'; }
+};
+document.querySelectorAll('#simulator [data-outcome]').forEach(b => b.onclick = async () => {
+  $('status').textContent = 'Processing…';
+  const r = await fetch('/v1/checkout/' + encodeURIComponent(id) + '/simulate', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ outcome: b.dataset.outcome }) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { $('status').textContent = d.error || 'Failed'; $('status').className = 'status error'; return; }
+  refresh(false);
+});
+refresh(true);
+</script></body></html>

@@ -1,13 +1,24 @@
 import { config } from '../config.js';
-import { InternalPaymentProvider } from './internal.js';
-import { PayoutSimulator } from './payout-simulator.js';
+import { cashfreeProvider } from './cashfree.js';
+import { simulatorProvider } from './internal.js';
 
-// PayFlow is provider-agnostic. For the hackathon we use the built-in
-// simulator so no external payment account is required.
-export function getPaymentProvider() {
-  return new InternalPaymentProvider();
+// PayFlow is provider-agnostic: every provider implements the same interface
+// (createPayment, fetchPayment, refundPayment, verify*/parse* webhooks,
+// createBeneficiary, createPayout, fetchPayout). PAYMENT_PROVIDER selects the
+// one used for NEW payments/payouts; existing records keep the provider they
+// were created with, so webhooks, polling and reconciliation always use the right one.
+const providers = {
+  cashfree: cashfreeProvider,
+  internal_simulator: simulatorProvider,
+  simulator: simulatorProvider
+};
+
+export function getProvider(name = config.paymentProvider) {
+  const provider = providers[name];
+  if (!provider) throw new Error(`Unknown payment provider: ${name}`);
+  return provider;
 }
 
-export function getPayoutProvider() {
-  return new PayoutSimulator();
+export function activeProviderName() {
+  return getProvider().name;
 }

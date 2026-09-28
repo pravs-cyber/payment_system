@@ -4,11 +4,11 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PayFlow Merchant Portal</title>
 <style>
-body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-serif}.wrap{max-width:1100px;margin:35px auto;padding:0 20px}h1,h2{letter-spacing:-.04em}.card{background:#fff;border:1px solid #e4e7ef;border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 10px 30px rgba(30,40,70,.05)}label{display:grid;gap:6px;font-size:13px;font-weight:700}input,select{padding:11px;border:1px solid #dfe3eb;border-radius:10px;font:inherit}form{display:grid;gap:12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.button{border:0;border-radius:10px;padding:12px 16px;background:#252838;color:#fff;font-weight:700;cursor:pointer}.muted{color:#72798b;font-size:13px}.hidden{display:none}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border-radius:16px;background:#252838;color:#fff}.stat small{color:#bbc1d1}.stat strong{display:block;font-size:28px;margin-top:8px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:10px;text-align:left;border-bottom:1px solid #edf0f5}.key{word-break:break-all;background:#f1f4f9;padding:12px;border-radius:10px;font-family:monospace}.ok{color:#18794e}.error{color:#b42318}@media(max-width:700px){.grid,.stats{grid-template-columns:1fr}}
+body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-serif}.wrap{max-width:1100px;margin:35px auto;padding:0 20px}h1,h2{letter-spacing:-.04em}h2{font-size:19px}.card{background:#fff;border:1px solid #e4e7ef;border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 10px 30px rgba(30,40,70,.05)}label{display:grid;gap:6px;font-size:13px;font-weight:700}input,select{padding:11px;border:1px solid #dfe3eb;border-radius:10px;font:inherit}form{display:grid;gap:12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.button{border:0;border-radius:10px;padding:12px 16px;background:#252838;color:#fff;font-weight:700;cursor:pointer}.button.light{background:#eef0f5;color:#252838}.muted{color:#72798b;font-size:13px}.hidden{display:none}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{padding:18px;border-radius:16px;background:#252838;color:#fff}.stat small{color:#bbc1d1}.stat strong{display:block;font-size:26px;margin-top:8px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:9px;text-align:left;border-bottom:1px solid #edf0f5;white-space:nowrap}.key{word-break:break-all;background:#f1f4f9;padding:12px;border-radius:10px;font-family:monospace}.ok{color:#18794e}.error{color:#b42318}.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:#eef0f5}.pill.SUCCESS,.pill.MATCH{background:#e3f6ec;color:#18794e}.pill.FAILED,.pill.MISMATCH,.pill.REVERSED{background:#fde8e7;color:#b42318}.pill.PENDING,.pill.PROCESSING,.pill.MANUAL_REVIEW{background:#fff4d6;color:#8a5a00}@media(max-width:800px){.grid,.grid3,.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body><div class="wrap">
-<h1>PayFlow Merchant Portal</h1><p class="muted">Onboard a merchant, generate credentials, and manage payments/payouts through the same generic API.</p>
+<h1>PayFlow Merchant Portal</h1><p class="muted">Onboard a merchant, generate credentials, and manage payments, payouts and reconciliation through the same generic API. Provider: <b id="providerName">…</b></p>
 <p id="globalError" class="error hidden"></p>
 <section id="onboarding" class="card"><h2>1. Create merchant account</h2>
 <form id="signup"><div class="grid">
@@ -19,37 +19,93 @@ body{margin:0;background:#f6f7fb;color:#202331;font-family:Inter,system-ui,sans-
 <label>Business type<select name="businessType"><option value="ecommerce">E-commerce</option><option value="saas">SaaS</option><option value="marketplace">Marketplace</option></select></label>
 <label>Website<input name="website" placeholder="https://example.com"></label>
 </div><label>Webhook URL<input name="webhookUrl" placeholder="https://example.com/webhooks/payflow"></label>
-<button class="button">Create Merchant</button></form><p id="signupMsg" class="muted"></p></section>
+<button class="button">Create Merchant</button></form><p id="signupMsg" class="muted"></p>
+<details style="margin-top:12px"><summary class="muted">Already have an API key?</summary><form id="login" style="margin-top:10px"><label>API key<input name="key" required placeholder="pk_test_…"></label><button class="button light">Open dashboard</button></form></details>
+</section>
 <section id="dashboard" class="hidden">
-<div class="card"><button id="signOut" class="button" style="float:right">Sign out</button><h2 id="merchantName"></h2><p id="merchantMeta" class="muted"></p><div class="key" id="apiKey"></div><p class="muted">This demo shows the API key once after onboarding. In production, store only its hash and provide secure key rotation.</p></div>
-<div class="stats"><div class="stat"><small>Available balance</small><strong id="available">₹0</strong></div><div class="stat"><small>Pending balance</small><strong id="pending">₹0</strong></div><div class="stat"><small>Payments</small><strong id="paymentCount">0</strong></div></div>
-<div class="card"><h2>Test a payment</h2><form id="paymentForm"><div class="grid"><label>Amount (₹)<input name="amount" type="number" min="1" value="999" required></label><label>Simulation<select name="simulation"><option value="success">Success</option><option value="pending">Pending</option><option value="failed">Failed</option><option value="timeout">Timeout</option></select></label></div><button class="button">Create Payment</button></form><p id="paymentMsg" class="muted"></p></div>
-<div class="card"><h2>Recent payments</h2><table><thead><tr><th>ID</th><th>Order</th><th>Amount</th><th>Status</th></tr></thead><tbody id="payments"></tbody></table></div>
-<div class="card"><h2>Recent payouts</h2><table><thead><tr><th>ID</th><th>Amount</th><th>Status</th><th>UTR</th></tr></thead><tbody id="payouts"></tbody></table></div>
+<div class="card"><button id="signOut" class="button light" style="float:right">Sign out</button><h2 id="merchantName"></h2><p id="merchantMeta" class="muted"></p><div class="key" id="apiKey"></div><p class="muted">Shown once after onboarding. PayFlow stores only its SHA-256 hash.</p></div>
+<div class="stats"><div class="stat"><small>Available balance</small><strong id="available">₹0</strong></div><div class="stat"><small>Pending (payouts in transit)</small><strong id="pending">₹0</strong></div><div class="stat"><small>Payments</small><strong id="paymentCount">0</strong></div><div class="stat"><small>Ledger vs wallet</small><strong id="reconState">—</strong></div></div>
+
+<div class="card"><h2>Collect a payment</h2><p class="muted">Creates an order with the payment provider and opens the hosted checkout for the customer. The wallet is credited only when the provider's signed webhook confirms payment.</p>
+<form id="paymentForm"><div class="grid3"><label>Amount (₹)<input name="amount" type="number" min="1" step="0.01" value="999" required></label><label>Customer phone<input name="phone" value="9876543210" pattern="\d{10}" required></label><label>Customer email<input name="email" type="email" value="buyer@example.com"></label></div>
+<button class="button">Create payment &amp; open checkout</button></form><p id="paymentMsg" class="muted"></p></div>
+
+<div class="card"><h2>Payout bank account</h2><p class="muted" id="payoutAccountInfo">Not registered.</p>
+<form id="accountForm"><div class="grid3"><label>Account holder<input name="name" required placeholder="BdayStudio Owner"></label><label>Account number<input name="accountNumber" required pattern="\d{6,18}" placeholder="026291800001191"></label><label>IFSC<input name="ifsc" required placeholder="YESB0000262"></label></div>
+<button class="button light">Register with payout provider</button></form><p id="accountMsg" class="muted"></p></div>
+
+<div class="card"><h2>Withdraw to bank</h2><form id="payoutForm"><div class="grid"><label>Amount (₹)<input name="amount" type="number" min="1" step="0.01" value="500" required></label><label>Mode<select name="mode"><option>IMPS</option><option>NEFT</option><option>UPI</option></select></label></div>
+<button class="button">Request payout</button></form><p id="payoutMsg" class="muted"></p></div>
+
+<div class="card"><h2>Recent payments</h2><div class="tablewrap"><table><thead><tr><th>ID</th><th>Order</th><th>Amount</th><th>Status</th><th>Note</th><th></th></tr></thead><tbody id="payments"></tbody></table></div></div>
+<div class="card"><h2>Recent payouts</h2><div class="tablewrap"><table><thead><tr><th>ID</th><th>Amount</th><th>Status</th><th>Code</th><th>UTR</th><th>Note</th></tr></thead><tbody id="payouts"></tbody></table></div></div>
+<div class="card"><h2>Reconciliation</h2><p class="muted">Internal: wallet balances vs double-entry ledger accounts. External: every payment and payout vs the provider's own records.</p>
+<button id="runRecon" class="button light">Compare with provider</button><p id="reconSummary" class="muted"></p>
+<div class="tablewrap"><table><thead><tr><th>Type</th><th>ID</th><th>PayFlow</th><th>Provider</th><th>Amount</th><th>Result</th></tr></thead><tbody id="reconRows"></tbody></table></div></div>
 </section></div>
 <script>
 // Same-origin by default: nginx (Docker) and vercel.json both route /v1/* and /health to the API.
-const API=window.PAYFLOW_API_BASE||'';let key=localStorage.getItem('payflow_api_key');
-const money=n=>'₹'+(Number(n||0)/100).toLocaleString('en-IN');
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function showError(msg){const el=document.getElementById('globalError');el.textContent=msg;el.classList.toggle('hidden',!msg)}
+const API = window.PAYFLOW_API_BASE || ''; let key = localStorage.getItem('payflow_api_key');
+const money = n => '₹' + (Number(n || 0) / 100).toLocaleString('en-IN');
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pill = s => `<span class="pill ${esc(s)}">${esc(s)}</span>`;
+const $ = x => document.getElementById(x);
+function showError(msg) { $('globalError').textContent = msg; $('globalError').classList.toggle('hidden', !msg); }
+function say(el, msg, cls = 'muted') { $(el).textContent = msg; $(el).className = cls; }
 // Parses JSON safely and surfaces the real HTTP status, so routing problems (e.g. an HTML 404 page)
 // show up as a readable error instead of a JSON parse failure.
-async function request(path,options={},auth=true){
-  const headers={'Content-Type':'application/json',...(auth&&key?{Authorization:'Bearer '+key}:{}),...(options.headers||{})};
-  let r;try{r=await fetch(API+path,{...options,headers})}catch(e){throw Object.assign(new Error('Network error: could not reach the PayFlow API ('+e.message+')'),{status:0})}
-  const text=await r.text();let d=null;try{d=text?JSON.parse(text):{}}catch{}
-  if(!r.ok||d===null){const msg=d?.error||`API ${r.status} ${r.statusText} on ${path}`+(d===null?' (non-JSON response - check API routing)':'');throw Object.assign(new Error(msg),{status:r.status})}
-  return d}
-const api=(path,options={})=>request(path,options,true);
-function showDashboard(d){document.getElementById('onboarding').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');document.getElementById('merchantName').textContent=d.merchant.businessName;document.getElementById('merchantMeta').textContent=`${d.merchant.id} · ${d.merchant.email} · ${d.merchant.status}`;document.getElementById('available').textContent=money(d.wallet.available_paise);document.getElementById('pending').textContent=money(d.wallet.pending_paise);document.getElementById('paymentCount').textContent=d.payments.length;document.getElementById('payments').innerHTML=d.payments.map(p=>`<tr><td>${esc(p.id)}</td><td>${esc(p.merchant_order_id)}</td><td>${money(p.amount_paise)}</td><td>${esc(p.status)}</td></tr>`).join('');document.getElementById('payouts').innerHTML=d.payouts.map(p=>`<tr><td>${esc(p.id)}</td><td>${money(p.amount_paise)}</td><td>${esc(p.status)}</td><td>${esc(p.utr||'-')}</td></tr>`).join('')}
-function signOut(){localStorage.removeItem('payflow_api_key');key=null;location.reload()}
-async function refresh(){try{showDashboard(await api('/v1/dashboard'));showError('')}catch(e){
-  // Only discard the stored key when the API explicitly rejects it; any other failure is shown, not hidden.
-  if(e.status===401){showError('Stored API key was rejected: '+e.message);localStorage.removeItem('payflow_api_key');key=null;document.getElementById('dashboard').classList.add('hidden');document.getElementById('onboarding').classList.remove('hidden')}
-  else showError('Could not load dashboard: '+e.message)}}
-document.getElementById('signOut').onclick=signOut;
-document.getElementById('signup').onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('signupMsg');const body=Object.fromEntries(new FormData(e.target));for(const k of Object.keys(body))if(body[k]==='')delete body[k];try{const d=await request('/v1/merchants',{method:'POST',body:JSON.stringify(body)},false);key=d.credentials.apiKey;localStorage.setItem('payflow_api_key',key);document.getElementById('apiKey').textContent=key;msg.textContent='Merchant created. Save your API key - it is shown only once.';msg.className='ok';await refresh()}catch(err){msg.textContent=err.message;msg.className='error'}};
-document.getElementById('paymentForm').onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('paymentMsg');const f=Object.fromEntries(new FormData(e.target));try{const d=await api('/v1/payments',{method:'POST',headers:{'Idempotency-Key':'demo-'+Date.now()},body:JSON.stringify({amount:Math.round(Number(f.amount)*100),orderId:'demo-'+Date.now(),simulation:f.simulation})});msg.textContent=`${d.paymentId}: ${d.status}`;msg.className='muted';await refresh()}catch(err){msg.textContent=err.message;msg.className='error'}};
-if(key){document.getElementById('apiKey').textContent=key;refresh()}
+async function request(path, options = {}, auth = true) {
+  const headers = { 'Content-Type': 'application/json', ...(auth && key ? { Authorization: 'Bearer ' + key } : {}), ...(options.headers || {}) };
+  let r; try { r = await fetch(API + path, { ...options, headers }); } catch (e) { throw Object.assign(new Error('Network error: could not reach the PayFlow API (' + e.message + ')'), { status: 0 }); }
+  const text = await r.text(); let d = null; try { d = text ? JSON.parse(text) : {}; } catch {}
+  if (!r.ok || d === null) { const msg = d?.error || `API ${r.status} ${r.statusText} on ${path}` + (d === null ? ' (non-JSON response - check API routing)' : ''); throw Object.assign(new Error(msg), { status: r.status }); }
+  return d;
+}
+const api = (path, options = {}) => request(path, options, true);
+const idem = p => p + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+function showDashboard(d) {
+  $('onboarding').classList.add('hidden'); $('dashboard').classList.remove('hidden');
+  $('merchantName').textContent = d.merchant.businessName;
+  $('merchantMeta').textContent = `${d.merchant.id} · ${d.merchant.email} · ${d.merchant.status}`;
+  $('providerName').textContent = d.merchant.paymentProvider;
+  $('available').textContent = money(d.wallet.available_paise); $('pending').textContent = money(d.wallet.pending_paise);
+  $('paymentCount').textContent = d.payments.length;
+  $('reconState').textContent = d.reconciliation.matched ? 'Balanced' : 'Mismatch';
+  const pa = d.merchant.payoutAccount;
+  $('payoutAccountInfo').textContent = pa ? `${pa.name} · ••••${pa.accountLast4} · ${pa.ifsc} · beneficiary ${pa.beneficiaryId}` : 'Not registered. Register a bank account before requesting payouts.';
+  $('payments').innerHTML = d.payments.map(p => `<tr><td>${esc(p.id)}</td><td>${esc(p.merchant_order_id)}</td><td>${money(p.amount_paise)}</td><td>${pill(p.status)}</td><td class="muted">${esc(p.failure_reason || '')}</td><td>${['PENDING', 'FAILED', 'CANCELLED'].includes(p.status) ? `<a href="/checkout?payment=${encodeURIComponent(p.id)}" target="_blank">checkout</a>` : ''}</td></tr>`).join('');
+  $('payouts').innerHTML = d.payouts.map(p => `<tr><td>${esc(p.id)}</td><td>${money(p.amount_paise)}</td><td>${pill(p.status)}</td><td>${esc(p.status_code || '')}</td><td>${esc(p.utr || '-')}</td><td class="muted">${esc(p.failure_reason || '')}</td></tr>`).join('');
+}
+function signOut() { localStorage.removeItem('payflow_api_key'); key = null; location.reload(); }
+async function refresh() {
+  try { showDashboard(await api('/v1/dashboard')); showError(''); } catch (e) {
+    // Only discard the stored key when the API explicitly rejects it; any other failure is shown, not hidden.
+    if (e.status === 401) { showError('Stored API key was rejected: ' + e.message); localStorage.removeItem('payflow_api_key'); key = null; $('dashboard').classList.add('hidden'); $('onboarding').classList.remove('hidden'); }
+    else showError('Could not load dashboard: ' + e.message);
+  }
+}
+$('signOut').onclick = signOut;
+$('login').onsubmit = e => { e.preventDefault(); key = new FormData(e.target).get('key').trim(); localStorage.setItem('payflow_api_key', key); $('apiKey').textContent = key; refresh(); };
+$('signup').onsubmit = async e => { e.preventDefault(); const body = Object.fromEntries(new FormData(e.target)); for (const k of Object.keys(body)) if (body[k] === '') delete body[k];
+  try { const d = await request('/v1/merchants', { method: 'POST', body: JSON.stringify(body) }, false); key = d.credentials.apiKey; localStorage.setItem('payflow_api_key', key); $('apiKey').textContent = key; say('signupMsg', 'Merchant created. Save your API key - it is shown only once.', 'ok'); await refresh(); }
+  catch (err) { say('signupMsg', err.message, 'error'); } };
+$('paymentForm').onsubmit = async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+  const tab = window.open('about:blank', '_blank');
+  try { const d = await api('/v1/payments', { method: 'POST', headers: { 'Idempotency-Key': idem('pay') }, body: JSON.stringify({ amount: Math.round(Number(f.amount) * 100), orderId: 'order-' + Date.now(), customer: { phone: f.phone, email: f.email || undefined } }) });
+    say('paymentMsg', `${d.paymentId}: ${d.status}. Checkout opened in a new tab; refresh after paying.`); if (tab) tab.location = d.checkout.url; else location.href = d.checkout.url; await refresh(); }
+  catch (err) { if (tab) tab.close(); say('paymentMsg', err.message, 'error'); } };
+$('accountForm').onsubmit = async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+  try { const d = await api('/v1/merchant/payout-account', { method: 'POST', body: JSON.stringify(f) }); say('accountMsg', `Registered beneficiary ${d.payoutAccount.beneficiaryId}`, 'ok'); e.target.reset(); await refresh(); }
+  catch (err) { say('accountMsg', err.message, 'error'); } };
+$('payoutForm').onsubmit = async e => { e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
+  try { const d = await api('/v1/payouts', { method: 'POST', headers: { 'Idempotency-Key': idem('po') }, body: JSON.stringify({ amount: Math.round(Number(f.amount) * 100), mode: f.mode }) });
+    say('payoutMsg', `${d.payoutId}: ${d.status}${d.utr ? ' · UTR ' + d.utr : ''}${d.failureReason ? ' · ' + d.failureReason : ''}`, d.status === 'FAILED' ? 'error' : 'muted'); await refresh(); }
+  catch (err) { say('payoutMsg', err.message, 'error'); } };
+$('runRecon').onclick = async () => { say('reconSummary', 'Comparing with provider…');
+  try { const d = await api('/v1/reconciliation/provider'); const s = d.summary;
+    say('reconSummary', `Total ${s.total} · matched ${s.matched} · mismatched ${s.mismatched} · missing at provider ${s.missingAtProvider} · errors ${s.providerErrors}`, s.total === s.matched ? 'ok' : 'error');
+    $('reconRows').innerHTML = d.items.map(i => `<tr><td>${esc(i.type)}</td><td>${esc(i.id)}</td><td>${pill(i.internalStatus)}</td><td>${esc(i.providerStatus || '-')}</td><td>${money(i.internalAmount)}</td><td>${pill(i.result)}</td></tr>`).join(''); }
+  catch (err) { say('reconSummary', err.message, 'error'); } };
+request('/health', {}, false).then(h => $('providerName').textContent = h.provider).catch(() => {});
+if (key) { $('apiKey').textContent = key; refresh(); }
 </script></body></html>

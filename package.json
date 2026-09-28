@@ -4,15 +4,16 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "check": "node --check api/index.js && node --check server/app.js && node --check server/providers/razorpay.js && node --check server/providers/razorpayx.js && node --check api/orders/create.js && node --check api/orders/capture.js && node --check api/orders/verify.js && node --check api/razorpay/webhook.js",
-    "start": "node server/app.js"
+    "check": "node --check api/index.js && for f in server/*.js server/*/*.js tests/*.mjs; do node --check $f || exit 1; done",
+    "start": "node server/app.js",
+    "test:smoke": "bash scripts/smoke-test.sh",
+    "test:cashfree": "node tests/cashfree-integration.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "pg": "^8.16.3",
-    "redis": "^5.8.2"
+    "pg": "^8.16.3"
   }
 }

@@ -1,75 +1,41 @@
-import { withTransaction } from '../db.js';
+import crypto from 'node:crypto';
+import { config } from '../config.js';
 
-// 1% platform fee, kept by PayFlow at capture time.
+// Chart of accounts. Balances are tracked per merchant (merchant_id on every row).
+//   psp_clearing          money held for us at the payment provider (pay-ins)
+//   platform_fee_revenue  PayFlow's fee
+//   merchant_payable      what PayFlow owes the merchant  == wallet.available
+//   payout_in_transit     payouts sent to the provider, not yet final == wallet.pending
+//   payout_funding        PayFlow's payout account at the provider
+export const ACCOUNTS = Object.freeze({
+  PSP_CLEARING: 'psp_clearing',
+  FEE_REVENUE: 'platform_fee_revenue',
+  MERCHANT_PAYABLE: 'merchant_payable',
+  PAYOUT_IN_TRANSIT: 'payout_in_transit',
+  PAYOUT_FUNDING: 'payout_funding'
+});
+
 export function platformFee(grossPaise) {
-  return Math.floor(grossPaise * 0.01);
+  return Math.floor((grossPaise * config.platformFeeBps) / 10000);
 }
 
-// Records a captured payment in the merchant ledger and credits the wallet atomically.
-// Ledger: CREDIT gross, DEBIT platform fee  =>  net ledger movement == wallet credit,
-// which is what /v1/reconciliation checks.
-export async function postPaymentLedger({ merchantId, paymentId, grossPaise }) {
-  const fee = platformFee(grossPaise);
-  const merchantCredit = grossPaise - fee;
-
-  return withTransaction(async client => {
-    const { rows } = await client.query(
-      `INSERT INTO ledger_entries
-       (merchant_id, reference_type, reference_id, debit_paise, credit_paise, description)
-       VALUES ($1,'payment',$2,0,$3,'Payment captured (gross)'), ($1,'fee',$2,$4,0,'PayFlow platform fee')
-       RETURNING *`,
-      [merchantId, paymentId, grossPaise, fee]
-    );
-
-    await client.query(
-      `INSERT INTO wallets (merchant_id, available_paise)
-       VALUES ($1,$2)
-       ON CONFLICT (merchant_id)
-       DO UPDATE SET available_paise = wallets.available_paise + EXCLUDED.available_paise,
-                     updated_at = now()`,
-      [merchantId, merchantCredit]
-    );
-
-    return rows;
-  });
-}
-
-export async function reserveForPayout(client, merchantId, amountPaise) {
-  const result = await client.query(
-    `UPDATE wallets
-     SET available_paise = available_paise - $2,
-         pending_paise = pending_paise + $2,
-         updated_at = now()
-     WHERE merchant_id = $1 AND available_paise >= $2
-     RETURNING *`,
-    [merchantId, amountPaise]
-  );
-  if (!result.rowCount) throw new Error('Insufficient merchant balance');
-  return result.rows[0];
-}
-
-export async function settlePayout(client, merchantId, amountPaise, success, payoutId = null) {
-  if (success) {
-    await client.query(
-      `UPDATE wallets SET pending_paise = pending_paise - $2, updated_at = now()
-       WHERE merchant_id = $1`,
-      [merchantId, amountPaise]
-    );
-    if (payoutId) {
-      await client.query(
-        `INSERT INTO ledger_entries (merchant_id,reference_type,reference_id,debit_paise,credit_paise,description)
-         VALUES ($1,'payout',$2,$3,0,'Merchant payout completed')`,
-        [merchantId, payoutId, amountPaise]
-      );
-    }
-  } else {
-    await client.query(
-      `UPDATE wallets SET pending_paise = pending_paise - $2,
-       available_paise = available_paise + $2, updated_at = now()
-       WHERE merchant_id = $1`,
-      [merchantId, amountPaise]
-    );
-    // No ledger entry: the ledger is only debited when a payout settles successfully,
-    // so releasing the reservation back to available balance needs no reversal.
+// Writes one balanced double-entry transaction inside the caller's DB transaction.
+// entries: [{ account, debit } | { account, credit }]
+export async function postTransaction(client, { merchantId, referenceType, referenceId, description, entries }) {
+  const lines = entries.filter(e => (e.debit || 0) > 0 || (e.credit || 0) > 0);
+  const debits = lines.reduce((s, e) => s + (e.debit || 0), 0);
+  const credits = lines.reduce((s, e) => s + (e.credit || 0), 0);
+  if (!lines.length || debits !== credits) {
+    throw new Error(`Unbalanced ledger transaction for ${referenceType} ${referenceId}: ${debits} != ${credits}`);
   }
+  const txnId = `txn_${crypto.randomUUID().replaceAll('-', '').slice(0, 20)}`;
+  for (const line of lines) {
+    await client.query(
+      `INSERT INTO ledger_entries
+         (merchant_id, txn_id, account, reference_type, reference_id, debit_paise, credit_paise, description)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+      [merchantId, txnId, line.account, referenceType, referenceId, line.debit || 0, line.credit || 0, description]
+    );
+  }
+  return txnId;
 }
